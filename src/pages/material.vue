@@ -22,14 +22,21 @@
           }"
           @click="selectMaterial(mat)"
         >
-          <v-img :src="`./material/${mat}.png`" class="cursor-pointer" />
+          <v-img
+            :src="`./material/${mat}.png`"
+            class="cursor-pointer"
+          />
         </div>
       </div>
       <div
         ref="droplineRef"
         class="d-flex flex-column overflow-auto material-list-content"
       >
-        <div v-for="log in logList" :key="log.id" class="d-flex">
+        <div
+          v-for="log in logList"
+          :key="log.id"
+          class="d-flex"
+        >
           <div
             class="material-list-name-col border border-primary d-flex flex-column"
             :class="{
@@ -73,8 +80,8 @@
               class="cursor-pointer"
             />
             <div
-              class="material-list-infinity-material position-absolute top-0 right-0"
               v-if="log.infinity && log.infinity.includes(mat)"
+              class="material-list-infinity-material position-absolute top-0 right-0"
             >
               <v-img :src="`./material/${mat}.png`" />
             </div>
@@ -85,7 +92,7 @@
   </v-sheet>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import dayjs from 'dayjs'
 import logs from '@/data/logs.json'
 

@@ -31,6 +31,14 @@ export default [
         },
       ],
       'vue/multi-word-component-names': 'off',
+      "vue/block-lang": [
+        "error",
+        {
+          "script": {
+            allowNoLang: true
+          }
+        }
+      ]
     }
   }
 ]
