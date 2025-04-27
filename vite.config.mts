@@ -6,6 +6,7 @@ import Layouts from 'vite-plugin-vue-layouts'
 import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import UnoCSS from 'unocss/vite'
 
 // Utilities
 import { defineConfig } from 'vite'
@@ -38,6 +39,7 @@ export default defineConfig({
     Vue({
       template: { transformAssetUrls },
     }),
+    UnoCSS(),
     // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
     Vuetify({
       autoImport: true,
@@ -71,6 +73,13 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    proxy: {
+      '/mh/': {
+        target: 'https://terra-historicus.hypergryph.com/api/comic/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/\/mh/, '')
+      }
+    }
   },
   css: {
     preprocessorOptions: {

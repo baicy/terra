@@ -1,7 +1,7 @@
 <template>
-  Log...
+  <timeline-inventory />
 </template>
 
-<script lang="ts" setup>
+<script setup>
   //
 </script>

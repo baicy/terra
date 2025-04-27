@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "@mdi/font": "7.4.47",
+    "axios": "^1.9.0",
     "core-js": "^3.37.1",
     "dayjs": "^1.11.13",
+    "js-md5": "^0.8.3",
     "roboto-fontface": "*",
     "vue": "^3.4.31",
     "vuetify": "^3.6.14"
@@ -35,6 +37,7 @@
     "sass": "1.77.8",
     "sass-embedded": "^1.77.8",
     "typescript": "~5.6.3",
+    "unocss": "66.1.0-beta.12",
     "unplugin-auto-import": "^0.17.6",
     "unplugin-fonts": "^1.1.1",
     "unplugin-vue-components": "^0.27.2",

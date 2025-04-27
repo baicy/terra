@@ -12,13 +12,13 @@
       "id": "char_4177_brigid"
     },
     "drop": ["zhuan", "rongji", "fibre"],
-    "infinity": ["chun"],
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
     "fake": true,
     "id": "act40sre",
-    "name": "相见欢",
+    "name": "相见欢·复刻",
     "type": "SIDESTORY",
     "color": ["#ff302e"],
     "start": "2026-01-22 16:00",
@@ -28,7 +28,7 @@
       "id": "char_4172_xingzh"
     },
     "drop": ["device", "hejin", "salt"],
-    "infinity": ["chun"],
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
@@ -44,6 +44,7 @@
       "id": "char_4163_rosesa"
     },
     "drop": ["suger", "tong", "zhuan"],
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
@@ -54,6 +55,7 @@
     "fake": true,
     "start": "2025-12-04 16:00",
     "days": 14,
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
@@ -69,17 +71,28 @@
       "id": "char_1502_crosly"
     },
     "drop": ["meng", "rma", "ye"],
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
     "id": "act11yueside",
-    "name": "11月ss",
+    "name": "谢拉格ss",
     "type": "SIDESTORY",
-    "color": ["#1526f1", "#dbd3c8"],
+    "color": ["#1526f1"],
     "fake": true,
     "start": "2025-11-01 16:00",
     "days": 21,
+    "infinity": ["meng", "chun"],
     "timeline": 0
+  },
+  {
+    "id": "live20254",
+    "desp": "2025感谢庆典特别直播",
+    "type": "LIVE",
+    "color": ["#ababab"],
+    "start": "2025-10-25 20:00",
+    "days": 1,
+    "timeline": 1
   },
   {
     "id": "act37sre",
@@ -87,28 +100,43 @@
     "type": "BRANCHLINE",
     "color": ["#fa9101"],
     "fake": true,
-    "start": "2025-10-09 16:00",
+    "start": "2025-10-16 16:00",
     "days": 10,
     "reward": {
       "type": "char",
       "id": "char_4162_cathy"
     },
     "drop": ["stone", "jiao", "rongji"],
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
-    "id": "act5bossrush",
-    "fake": true,
-    "name": "引航者试炼#05",
-    "type": "BOSSRUSH",
-    "color": ["#f4c430"],
-    "start": "2025-05-13 16:00",
+    "id": "act2main16",
+    "name": "EP16 XXXX",
+    "type": "MAINLINE",
+    "color": ["#d51c47"],
+    "start": "2025-10-02 16:00",
     "days": 14,
     "reward": {
       "type": "skin",
-      "id": "不知道"
+      "id": "希腊奶"
     },
-    "timeline": 3
+    "timeline": 0
+  },
+  {
+    "id": "act9yueside",
+    "name": "9月ss",
+    "type": "SIDESTORY",
+    "color": [],
+    "fake": true,
+    "start": "2025-09-01 16:00",
+    "days": 14,
+    "reward": {
+      "type": "char",
+      "id": "希腊奶"
+    },
+    "infinity": ["meng", "chun"],
+    "timeline": 0
   },
   {
     "id": "act35sre",
@@ -123,11 +151,12 @@
       "id": "char_4139_papyrs"
     },
     "drop": ["iron", "zhuan", "ting"],
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
     "id": "actsummerside",
-    "name": "夏活",
+    "name": "东国夏活",
     "type": "SIDESTORY",
     "color": ["#8f45d6"],
     "fake": true,
@@ -135,8 +164,19 @@
     "days": 21,
     "reward": {
       "type": "char",
-      "id": "char_4139_papyrs"
+      "id": "希腊奶"
     },
+    "infinity": ["meng", "chun"],
+    "timeline": 0
+  },
+  {
+    "fake": true,
+    "id": "live20253",
+    "desp": "2025夏日嘉年华特别通讯",
+    "type": "LIVE",
+    "color": ["#8f45d6"],
+    "start": "2025-07-26 19:30",
+    "days": 1,
     "timeline": 0
   },
   {
@@ -151,19 +191,30 @@
       "type": "skin",
       "id": "希腊奶"
     },
-    "infinity": ["chun"],
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
-    "id": "act6yueside",
-    "name": "深海SS",
-    "type": "SIDESTORY",
-    "color": [],
-    "fake": true,
-    "start": "2025-06-12 16:00",
+    "id": "act5bossrush",
+    "name": "引航者试炼#04",
+    "type": "BOSSRUSH",
+    "color": ["#f4c430"],
+    "start": "2025-07-05 16:00",
     "days": 14,
-    "infinity": ["chun"],
-    "timeline": 0
+    "reward": {
+      "type": "skin",
+      "id": "希腊奶"
+    },
+    "timeline": 2
+  },
+  {
+    "id": "actanime3login",
+    "name": "《明日方舟：焰烬曙明》开播纪念",
+    "type": "LOGIN",
+    "color": [],
+    "start": "2025-07-04 04:00",
+    "days": 20,
+    "timeline": 4
   },
   {
     "id": "act34sre",
@@ -171,26 +222,88 @@
     "type": "SIDESTORY",
     "color": ["#4d7b7d"],
     "fake": true,
-    "start": "2025-05-28 16:00",
+    "start": "2025-06-19 16:00",
     "days": 10,
     "reward": {
       "type": "char",
       "id": "char_4137_udflow"
     },
     "drop": ["unit", "suger", "chun"],
-    "infinity": ["chun"],
+    "infinity": ["meng", "chun"],
     "timeline": 0
   },
   {
-    "id": "act5yueside",
-    "name": "周年拉特兰SS",
+    "id": "act6yueside",
+    "name": "6月SS",
     "type": "SIDESTORY",
-    "color": ["#1526f1", "#dbd3c8"],
+    "color": [],
     "fake": true,
+    "start": "2025-06-05 16:00",
+    "days": 14,
+    "infinity": ["meng", "chun"],
+    "timeline": 0
+  },
+  {
+    "id": "act2vecb",
+    "name": "矢量突破",
+    "type": "OTHER",
+    "color": ["#9250f6"],
+    "start": "2025-05-15 16:00",
+    "days": 14,
+    "reward": {
+      "type": "skin",
+      "id": "火神"
+    },
+    "timeline": 2
+  },
+  {
+    "id": "act6ysign",
+    "name": "「六周年庆典」限时签到",
+    "type": "CHECKIN",
+    "color": ["#78c5e0"],
+    "start": "2025-05-01 16:00",
+    "days": 14,
+    "reward": {
+      "type": "skin",
+      "id": "PhonoR-0"
+    },
+    "timeline": 4
+  },
+  {
+    "id": "act5yueside",
+    "name": "众生行记",
+    "type": "SIDESTORY",
+    "color": ["#1526f1"],
     "start": "2025-05-01 16:00",
     "days": 21,
-    "infinity": ["chun"],
+    "reward": {
+      "type": "char",
+      "id": "feiyayeye"
+    },
+    "infinity": ["meng", "chun"],
     "timeline": 0
+  },
+  {
+    "id": "live20252",
+    "desp": "6周年庆典特别直播",
+    "type": "LIVE",
+    "color": ["#0027ff"],
+    "start": "2025-04-26 19:30",
+    "days": 1,
+    "timeline": 1
+  },
+  {
+    "id": "act1enemyduel",
+    "name": "争锋频道：青草城",
+    "type": "ENEMY_DUEL",
+    "color": ["#f4e83a"],
+    "start": "2025-04-26 21:30",
+    "days": 16,
+    "reward": {
+      "type": "avatar",
+      "id": "还我！"
+    },
+    "timeline": 3
   },
   {
     "id": "act33sre",
@@ -208,10 +321,19 @@
     "timeline": 0
   },
   {
-    "id": "actmain15",
+    "id": "dev52",
+    "type": "DEV",
+    "color": ["#313131"],
+    "number": "52",
+    "start": "2025-04-19 17:00",
+    "days": 1,
+    "timeline": 2
+  },
+  {
+    "id": "act2mainss",
     "name": "EP15 离解复合",
     "type": "MAINLINE",
-    "color": ["#cd1e3f"],
+    "color": ["#d51c47"],
     "start": "2025-04-07 16:00",
     "days": 14,
     "reward": {
@@ -231,7 +353,16 @@
     "timeline": 4
   },
   {
-    "id": "act2vmulti2",
+    "id": "dev51",
+    "type": "DEV",
+    "color": ["#313131"],
+    "number": "51",
+    "start": "2025-03-24 17:00",
+    "days": 1,
+    "timeline": 0
+  },
+  {
+    "id": "act1multi",
     "name": "促融共竞#1",
     "type": "OTHER",
     "color": ["#30a9ba", "#e92e4d"],
@@ -281,6 +412,15 @@
     },
     "drop": ["stone", "chun", "rma"],
     "infinity": ["chun"],
+    "timeline": 0
+  },
+  {
+    "id": "dev50",
+    "type": "DEV",
+    "color": ["#313131"],
+    "number": "50",
+    "start": "2025-02-21 17:00",
+    "days": 1,
     "timeline": 0
   },
   {
@@ -341,6 +481,15 @@
     },
     "drop": ["device", "hejin", "salt"],
     "infinity": ["chun"],
+    "timeline": 0
+  },
+  {
+    "id": "live20251",
+    "desp": "2025新春前瞻特辑",
+    "type": "LIVE",
+    "color": ["#ce2425"],
+    "start": "2025-01-18 19:30",
+    "days": 1,
     "timeline": 0
   },
   {
@@ -497,6 +646,15 @@
     "timeline": 0
   },
   {
+    "id": "live20244",
+    "desp": "2024感谢庆典特别直播",
+    "type": "LIVE",
+    "color": ["#9b1736"],
+    "start": "2024-10-26 20:00",
+    "days": 1,
+    "timeline": 0
+  },
+  {
     "id": "rogue4ex1",
     "name": "集成战略#5 萨卡兹的无终奇语",
     "title": "内容拓展·一[结局四]",
@@ -603,6 +761,15 @@
     "timeline": 0
   },
   {
+    "id": "live20243",
+    "desp": "2024夏日嘉年华特别通讯",
+    "type": "LIVE",
+    "color": ["#785adb"],
+    "start": "2024-07-27 19:30",
+    "days": 1,
+    "timeline": 0
+  },
+  {
     "id": "rogue4",
     "name": "集成战略#5 萨卡兹的无终奇语",
     "type": "ROGUELIKE",
@@ -694,7 +861,7 @@
   },
   {
     "id": "act39sign",
-    "name": "五周年庆典限时签到",
+    "name": "「五周年庆典」限时签到",
     "type": "CHECKIN",
     "color": ["#ff6d37"],
     "start": "2024-05-01 16:00",
