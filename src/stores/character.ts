@@ -12,7 +12,7 @@ export const useCharacterStore = defineStore('character', () => {
   const chars = characters.filter((c) => c.type != 'rogue') as Character[]
 
   const load123 = async () => {
-    const { episodes } = await (await axios.get('/mh/6253')).data.data
+    const { episodes } = await (await axios.get('https://terra-historicus.hypergryph.com/api/comic/6253')).data.data
     for (const i in episodes) {
       const { cid, title } = episodes[i]
       // 官漫给U的名字的大小写写错了
