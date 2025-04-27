@@ -15,12 +15,17 @@
   </v-footer>
 </template>
 
-<script setup lang="ts">
+<script setup>
   const items = [
     {
       id: 'log',
       title: '事务',
       href: '/log',
+    },
+    {
+      id: 'operator',
+      title: '干员',
+      href: '/operator',
     },
     {
       id: 'material',

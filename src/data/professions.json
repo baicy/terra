@@ -121,8 +121,10 @@
       },
       "librator": {
         "name": "解放者",
-        "code": "",
-        "equiped": {}
+        "code": "lib",
+        "equiped": {
+          "x": "red"
+        }
       },
       "crusher": {
         "name": "重剑手",
@@ -137,6 +139,11 @@
         "equiped": {
           "x": "red"
         }
+      },
+      "primwarrior": {
+        "name": "本源近卫",
+        "code": "",
+        "equiped": {}
       }
     }
   },
