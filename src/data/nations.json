@@ -1,0 +1,134 @@
+[
+  {
+    "id": "rhodes",
+    "name": "罗德岛",
+    "code": "Rhodes Island",
+    "color": "#0098dc"
+  },
+  {
+    "id": "yan",
+    "name": "炎",
+    "code": "Yan",
+    "color": "#b01e22"
+  },
+  {
+    "id": "lungmen",
+    "name": "炎-龙门",
+    "code": "Yan-Lungmen",
+    "color": "#ff4a33"
+  },
+  {
+    "id": "egir",
+    "name": "阿戈尔",
+    "code": "Ægir",
+    "color": "#412471"
+  },
+  {
+    "id": "bolivar",
+    "name": "玻利瓦尔",
+    "code": "Bolívar",
+    "color": "#03f0f0"
+  },
+  {
+    "id": "columbia",
+    "name": "哥伦比亚",
+    "code": "Columbia",
+    "color": "#ffffff"
+  },
+  {
+    "id": "siesta",
+    "name": "汐斯塔",
+    "code": "Siesta",
+    "color": "#ffffff"
+  },
+  {
+    "id": "higashi",
+    "name": "东",
+    "code": "Higashi",
+    "color": "#00dbe9"
+  },
+  {
+    "id": "iberia",
+    "name": "伊比利亚",
+    "code": "Iberia",
+    "color": "#903d19"
+  },
+  {
+    "id": "kazimierz",
+    "name": "卡西米尔",
+    "code": "Kazimierz",
+    "color": "#1ae4b2"
+  },
+  {
+    "id": "kjerag",
+    "name": "谢拉格",
+    "code": "kjerag",
+    "color": "#cbf5fd"
+  },
+  {
+    "id": "laterano",
+    "name": "拉特兰",
+    "code": "Laterano",
+    "color": "#fff9c7"
+  },
+  {
+    "id": "leithanien",
+    "name": "莱塔尼亚",
+    "code": "Leithanien",
+    "color": "#d5b1cc"
+  },
+  {
+    "id": "minos",
+    "name": "米诺斯",
+    "code": "Minos",
+    "color": "#fd8f00"
+  },
+  {
+    "id": "rim",
+    "name": "雷姆必拓",
+    "code": "Rim Billiton",
+    "color": "#524eff"
+  },
+  {
+    "id": "sami",
+    "name": "萨米",
+    "code": "Sami",
+    "color": "#8eb1ff"
+  },
+  {
+    "id": "sargon",
+    "name": "萨尔贡",
+    "code": "Sargon",
+    "color": "#9cb567"
+  },
+  {
+    "id": "siracusa",
+    "name": "叙拉古",
+    "code": "Siracusa",
+    "color": "#536177"
+  },
+  {
+    "id": "ursus",
+    "name": "乌萨斯",
+    "code": "Ursus",
+    "color": "#ab2121"
+  },
+  {
+    "id": "victoria",
+    "name": "维多利亚",
+    "code": "Victoria",
+    "color": "#ffd75c"
+  },
+  {
+    "id": "tara",
+    "name": "维多利亚-塔拉",
+    "code": "Tara",
+    "color": "#ffbe6a"
+  },
+  {
+    "id": "kazdel",
+    "name": "卡兹戴尔",
+    "code": "Kazdel",
+    "color": "#bfbfbf"
+  }
+]

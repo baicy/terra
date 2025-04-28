@@ -6,20 +6,29 @@
 
 import pluginVue from 'eslint-plugin-vue'
 import vueTsEslintConfig from '@vue/eslint-config-typescript'
+import prettierPlugin from 'eslint-plugin-prettier'
+import eslintConfigPrettier from 'eslint-config-prettier/flat'
 
 export default [
   {
     name: 'app/files-to-lint',
-    files: ['**/*.{ts,mts,tsx,vue}'],
+    files: ['**/*.{ts,mts,tsx,vue}']
   },
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**']
   },
 
   ...pluginVue.configs['flat/recommended'],
   ...vueTsEslintConfig(),
+  eslintConfigPrettier,
+
+  {
+    plugins: {
+      prettier: prettierPlugin
+    }
+  },
 
   {
     rules: {
@@ -27,14 +36,14 @@ export default [
         'error',
         {
           allowShortCircuit: true,
-          allowTernary: true,
-        },
+          allowTernary: true
+        }
       ],
       'vue/multi-word-component-names': 'off',
-      "vue/block-lang": [
-        "error",
+      'vue/block-lang': [
+        'error',
         {
-          "script": {
+          script: {
             allowNoLang: true
           }
         }
