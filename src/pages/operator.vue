@@ -106,11 +106,6 @@ const tab = ref(route.hash.substring(1) || "list");
       color="primary"
       direction="vertical"
     >
-      <v-btn
-        prepend-icon="mdi-home"
-        color="secondary"
-        to="/"
-      />
       <v-tab
         prepend-icon="mdi-chess-knight"
         text="干员列表"

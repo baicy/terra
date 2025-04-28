@@ -18,6 +18,11 @@
 <script setup>
   const items = [
     {
+      id: 'home',
+      title: '首页',
+      href: '/',
+    },
+    {
       id: 'log',
       title: '事务',
       href: '/log',

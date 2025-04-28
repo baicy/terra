@@ -23,7 +23,7 @@ export const useCharacterStore = defineStore('character', () => {
       }
     }
   }
-  load123()
+  import.meta.env.DEV && load123()
 
   const list = reactive(ato(chars, 'id') as Record<string, Character>)
 
