@@ -11,9 +11,6 @@ importers:
       '@mdi/font':
         specifier: 7.4.47
         version: 7.4.47
-      axios:
-        specifier: ^1.9.0
-        version: 1.9.0
       core-js:
         specifier: ^3.37.1
         version: 3.41.0
@@ -51,6 +48,9 @@ importers:
       '@vue/tsconfig':
         specifier: ^0.5.1
         version: 0.5.1
+      axios:
+        specifier: ^1.9.0
+        version: 1.9.0
       eslint:
         specifier: ^9.14.0
         version: 9.24.0(jiti@2.4.2)

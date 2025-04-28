@@ -6,6 +6,8 @@ import dayjs from "dayjs";
 import { useCharacterStore } from "@/stores/character";
 import { useSystemStore } from "@/stores/system";
 
+const dev = import.meta.env.DEV
+
 const operators = useCharacterStore().list;
 const system = useSystemStore();
 
@@ -45,6 +47,9 @@ const charlist = computed(() => {
   chars = chars.filter((v) => rarities.value.includes(v.rarity));
   if (infoType.value.includes("skin")) {
     chars = chars.filter((v) => !v.skins.length);
+  }
+  if (infoType.value.includes('comic')) {
+    chars = chars.filter((v) => !v.comic)
   }
   if (infoType.value.includes("passport")) {
     chars = chars.filter(
@@ -214,6 +219,12 @@ const tab = ref(route.hash.substring(1) || "list");
               v-model="infoType"
               label="无时装"
               value="skin"
+            />
+            <v-checkbox
+              v-if="dev"
+              v-model="infoType"
+              label="无123罗德岛!?"
+              value="comic"
             />
             <v-checkbox
               v-model="infoType"

@@ -5,6 +5,8 @@ import { useCharacterStore } from '@/stores/character'
 import dayjs from 'dayjs'
 import professions from '@/data/professions'
 
+const dev = import.meta.env.DEV
+
 // eslint-disable-next-line vue/require-default-prop
 const { char } = defineProps({ char: Object })
 const typeLabel = {
@@ -91,7 +93,10 @@ watch(
           {{ char.recruitTime.substring(0, 10) }}
         </span>
       </div>
-      <div class="d-flex align-center">
+      <div
+        v-if="dev"
+        class="d-flex align-center"
+      >
         <span class="w120">罗德岛123!?</span>
         <v-btn
           v-if="char.comic"
