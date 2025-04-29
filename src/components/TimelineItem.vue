@@ -49,26 +49,18 @@ const affairType = [
   ? 'pool'
   : 'activity'
 
-if (isActive.value && drop) {
-  system.activities.unshift(affair)
-}
-
 const router = useRouter()
 const viewMaterialList = (material) => {
   router.push({
-    name: 'activityStat',
-    params: {
-      module: 'material',
-      item: material
-    }
+    path: '/material'
   })
+  system.selectedMaterial = material
 }
 
 const showOperator = (char) => {
   if (operators[char]) {
-    system.infoDialog.open = true
-    system.infoDialog.type = 'char'
-    system.infoDialog.item = operators[char]
+    system.operatorDialog.open = true
+    system.operatorDialog.char = operators[char]
   }
 }
 const showPool = (pool) => {
@@ -161,7 +153,11 @@ const showPool = (pool) => {
         </span>
       </div>
       <div v-else-if="reward" class="d-flex ga-2">
-        <div v-if="reward.type === 'char'">
+        <div
+          v-if="reward.type === 'char'"
+          :class="{ 'linked-tag': operators[reward.id] }"
+          @click="showOperator(reward.id)"
+        >
           {{ operators[reward.id] ? operators[reward.id].name : reward.id }}
         </div>
         <div v-else-if="reward.type === 'skin'">

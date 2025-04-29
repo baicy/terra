@@ -27,40 +27,34 @@ const system = useSystemStore()
 
 const operators = useCharacterStore().list
 const switchOperator = (char) => {
-  system.infoDialog.item = char
+  system.operatorDialog.char = char
 }
 watch(
-  system.infoDialog,
-  (cur) => {
-    if (cur.type === 'char') {
-      lastUp.value = (
-        (char.pools || []).find((p) => ['shop', 'up'].includes(p.status)) || { start: '' }
-      ).start.substring(0, 10)
-      lastShop.value = (
-        (char.pools || []).find((p) => ['shop'].includes(p.status)) || { start: '' }
-      ).start.substring(0, 10)
-    }
+  system.operatorDialog,
+  () => {
+    lastUp.value = (
+      (char.pools || []).find((p) => ['shop', 'up'].includes(p.status)) || {
+        start: ''
+      }
+    ).start.substring(0, 10)
+    lastShop.value = (
+      (char.pools || []).find((p) => ['shop'].includes(p.status)) || {
+        start: ''
+      }
+    ).start.substring(0, 10)
   },
   { immediate: true, deep: true }
 )
 </script>
 <template>
   <div class="w-100 h-100 d-flex justify-space-between">
-    <div class="d-flex flex-column ga-1 text-button">
+    <div class="d-flex flex-column ga-1 text-button position-relative">
       <div>
-        <v-icon
-          v-for="i in char.rarity"
-          :key="i"
-          icon="mdi-star"
-        />
+        <v-icon v-for="i in char.rarity" :key="i" icon="mdi-star" />
       </div>
       <div class="d-flex ga-2 align-baseline">
         <span class="text-h6">{{ char.name }}</span>
-        <v-chip
-          v-if="typeLabel[char.type]"
-          color="error"
-          variant="flat"
-        >
+        <v-chip v-if="typeLabel[char.type]" color="error" variant="flat">
           {{ typeLabel[char.type] }}
         </v-chip>
       </div>
@@ -75,28 +69,19 @@ watch(
           ({{ dayjs().diff(dayjs(char.onlineTime), 'day') }}天前)
         </span>
       </div>
-      <div
-        v-if="char.classicTime"
-        class="d-flex"
-      >
+      <div v-if="char.classicTime" class="d-flex">
         <span class="w120">转入中坚</span>
         <span>
           {{ char.classicTime.substring(0, 10) }}
         </span>
       </div>
-      <div
-        v-if="char.recruitTime"
-        class="d-flex"
-      >
+      <div v-if="char.recruitTime" class="d-flex">
         <span class="w120">加入公招</span>
         <span>
           {{ char.recruitTime.substring(0, 10) }}
         </span>
       </div>
-      <div
-        v-if="dev"
-        class="d-flex align-center"
-      >
+      <div v-if="dev" class="d-flex align-center">
         <span class="w120">罗德岛123!?</span>
         <v-btn
           v-if="char.comic"
@@ -105,83 +90,48 @@ watch(
         >
           阅读
         </v-btn>
-        <v-btn
-          v-else
-          variant="text"
-          readonly
-        >
-          暂无
-        </v-btn>
+        <v-btn v-else variant="text" readonly> 暂无 </v-btn>
       </div>
       <div
-        v-if="!['linkage', 'linkageActivity'].includes(char.type) && !/_amiya\d/.test(char.id)"
+        v-if="
+          !['linkage', 'linkageActivity'].includes(char.type) &&
+          !/_amiya\d/.test(char.id)
+        "
         class="d-flex align-center"
       >
         <span class="w120">通行证系列</span>
-        <v-btn
-          v-if="char.passport"
-          variant="text"
-          readonly
-        >
+        <v-btn v-if="char.passport" variant="text" readonly>
           {{ char.passport }}
         </v-btn>
-        <v-btn
-          v-else
-          variant="text"
-          readonly
-        >
-          暂无
-        </v-btn>
+        <v-btn v-else variant="text" readonly> 暂无 </v-btn>
       </div>
     </div>
     <v-divider vertical />
     <div class="h-100">
-      <div
-        class="d-flex ga-1"
-        style="height: 35px"
-      >
-        <v-chip
-          v-if="char.type === 'activity'"
-          color="primary"
-        >
+      <div class="d-flex ga-1" style="height: 35px">
+        <v-chip v-if="char.type === 'activity'" color="primary">
           活动奖励
         </v-chip>
-        <v-chip
-          v-if="char.type === 'linkageActivity'"
-          color="error"
-        >
+        <v-chip v-if="char.type === 'linkageActivity'" color="error">
           联动活动奖励
         </v-chip>
-        <v-chip
-          v-if="char.type === 'linkage'"
-          color="error"
-        >
+        <v-chip v-if="char.type === 'linkage'" color="error">
           联动限时寻访
         </v-chip>
-        <v-chip
-          v-if="char.type === 'limited'"
-          color="error"
-        >
+        <v-chip v-if="char.type === 'limited'" color="error">
           限定寻访·{{ limitedLabel[char.source] }}
         </v-chip>
         <v-chip
-          v-if="char.type === '' && ((char.rarity > 4 && !char.classicTime) || char.rarity === 4)"
+          v-if="
+            char.type === '' &&
+            ((char.rarity > 4 && !char.classicTime) || char.rarity === 4)
+          "
           color="primary"
         >
           标准寻访
         </v-chip>
-        <v-chip
-          v-if="char.classicTime"
-          color="primary"
-        >
-          中坚寻访
-        </v-chip>
-        <v-chip
-          v-if="char.recruitTime"
-          color="primary"
-        >
-          公开招募
-        </v-chip>
+        <v-chip v-if="char.classicTime" color="primary"> 中坚寻访 </v-chip>
+        <v-chip v-if="char.recruitTime" color="primary"> 公开招募 </v-chip>
       </div>
       <div
         v-if="char.pools.length"
@@ -192,16 +142,19 @@ watch(
           <div class="d-flex">
             <span>最近概率提升日期</span>
             <v-spacer />
-            <span>{{ lastUp }}({{ dayjs().diff(dayjs(lastUp), 'day') }}天前)</span>
+            <span>
+              {{ lastUp }}({{ dayjs().diff(dayjs(lastUp), 'day') }}天前)
+            </span>
           </div>
-          <div
-            v-if="char.rarity > 4 && !char.type"
-            class="d-flex"
-          >
+          <div v-if="char.rarity > 4 && !char.type" class="d-flex">
             <span>最近进店日期</span>
             <v-spacer />
             <span>
-              {{ lastShop ? `${lastShop}(${dayjs().diff(dayjs(lastShop), 'day')}天前)` : '暂无' }}
+              {{
+                lastShop
+                  ? `${lastShop}(${dayjs().diff(dayjs(lastShop), 'day')}天前)`
+                  : '暂无'
+              }}
             </span>
           </div>
         </div>
@@ -214,13 +167,9 @@ watch(
           <v-timeline-item
             v-for="pool in char.pools"
             :key="pool.id"
-            :dot-color="
-              pool.status === 'shop' ? '#ffd800' : '#0098dc'
-            "
+            :dot-color="pool.status === 'shop' ? '#ffd800' : '#0098dc'"
             :icon="
-              pool.status === 'shop'
-                ? 'mdi-cart'
-                : 'mdi-chevron-double-up'
+              pool.status === 'shop' ? 'mdi-cart' : 'mdi-chevron-double-up'
             "
             fill-dot
           >
@@ -228,14 +177,14 @@ watch(
               <div class="d-flex">
                 <span class="w100">{{ pool.start.substring(0, 10) }}</span>
                 <span class="w180">
-                  {{ pool.name || (pool.type === 'standard' ? '标准寻访' : '中坚寻访') }}
+                  {{
+                    pool.name ||
+                    (pool.type === 'standard' ? '标准寻访' : '中坚寻访')
+                  }}
                 </span>
               </div>
             </template>
-            <div
-              v-if="pool.duration"
-              class="d-flex"
-            >
+            <div v-if="pool.duration" class="d-flex">
               <span>{{ pool.duration }} 天</span>
             </div>
           </v-timeline-item>
@@ -263,15 +212,10 @@ watch(
             :key="skin.id"
             class="d-flex align-center ga-2"
           >
-            <v-chip
-              v-if="skin.tag"
-              color="#0224ff"
-              variant="flat"
-              size="small"
-            >
+            <v-chip v-if="skin.tag" color="#0224ff" variant="flat" size="small">
               {{ skin.tag }}
             </v-chip>
-            <span>{{ skin.name }} / {{ skin.groupName }}</span>
+            <span>{{ skin.name }} / {{ skin.group }}</span>
             <v-chip
               v-if="skin.dynamic"
               color="#ffd800"
@@ -291,12 +235,7 @@ watch(
             <v-spacer />
             <span>{{ skin.online.substring(0, 10) }}</span>
           </div>
-          <div
-            v-if="!char.skins.length"
-            class="text-center"
-          >
-            暂无
-          </div>
+          <div v-if="!char.skins.length" class="text-center">暂无</div>
         </div>
       </v-sheet>
       <v-sheet
@@ -320,10 +259,7 @@ watch(
             :key="c.id"
             class="d-flex"
           >
-            <span
-              class="cursor-pointer"
-              @click="switchOperator(c)"
-            >
+            <span class="cursor-pointer" @click="switchOperator(c)">
               {{ c.name }}
             </span>
             <v-spacer />

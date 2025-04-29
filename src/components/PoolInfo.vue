@@ -1,5 +1,6 @@
 <script setup>
 import { useCharacterStore } from '@/stores/character'
+import { useSystemStore } from '@/stores/system'
 import dayjs from 'dayjs'
 
 // eslint-disable-next-line vue/require-default-prop
@@ -18,7 +19,9 @@ for (const i in pool.pickup) {
       info.chance = 35
       poolInfo.push(info)
       const limits = operatorArray.filter(
-        (c) => c.source === type && dayjs(start).diff(dayjs(c.onlineTime), 'month') > 8
+        (c) =>
+          c.source === type &&
+          dayjs(start).diff(dayjs(c.onlineTime), 'month') > 8
       )
       const weightLimits = limits.splice(0, 3)
       const normals = operatorArray.filter(
@@ -31,14 +34,24 @@ for (const i in pool.pickup) {
       // console.log(weightLimits.map((v) => v.name))
       // console.log(limits.map((v) => v.name))
       // console.log(normals.map((v) => v.name))
-      const chance = 30 / (5 * weightLimits.length + limits.length + normals.length)
-      poolInfo.push({ rarity: 6, chars: weightLimits.map((c) => c.id), chance: 5 * chance })
+      const chance =
+        30 / (5 * weightLimits.length + limits.length + normals.length)
+      poolInfo.push({
+        rarity: 6,
+        chars: weightLimits.map((c) => c.id),
+        chance: 5 * chance
+      })
       poolInfo.push({ rarity: 6, chars: limits.map((c) => c.id), chance })
     } else {
       if (['joint', 'mainline'].includes(type)) {
         info.chance = 100 / chars.length
       } else if (['special'].includes(type)) {
         info.chance = 100 / 3
+      } else if (
+        ['classic'].includes(type) &&
+        pool.pickup[i].chars.length > 2
+      ) {
+        info.chance = 50 / 2
       } else {
         info.chance = 50 / chars.length
       }
@@ -63,6 +76,8 @@ for (const i in pool.pickup) {
       info.chance = 100 / chars.length
     } else if (['special'].includes(type)) {
       info.chance = 50 / 3
+    } else if (['classic'].includes(type) && pool.pickup[i].chars.length > 2) {
+      info.chance = 50 / 3
     } else {
       info.chance = 50 / chars.length
     }
@@ -85,7 +100,12 @@ for (const i in pool.pickup) {
     info.chance = 50 / chars.length
     poolInfo.push(info)
     const others = operatorArray
-      .filter((c) => c.rarity === 4 && c.type === '' && dayjs(c.onlineTime).isBefore(dayjs(start)))
+      .filter(
+        (c) =>
+          c.rarity === 4 &&
+          c.type === '' &&
+          dayjs(c.onlineTime).isBefore(dayjs(start))
+      )
       .map((v) => v.id)
     puInfo.r4 = [
       { chars, chance: 50 },
@@ -95,15 +115,33 @@ for (const i in pool.pickup) {
 }
 if (!puInfo.r4.length) {
   const alls = operatorArray
-    .filter((c) => c.rarity === 4 && c.type === '' && dayjs(c.onlineTime).isBefore(dayjs(start)))
+    .filter(
+      (c) =>
+        c.rarity === 4 &&
+        c.type === '' &&
+        dayjs(c.onlineTime).isBefore(dayjs(start))
+    )
     .map((v) => v.id)
   puInfo.r4 = [{ chars: alls, chance: 100 }]
 }
 if (!puInfo.r3.length) {
   const alls = operatorArray
-    .filter((c) => c.rarity === 3 && c.type === '' && dayjs(c.onlineTime).isBefore(dayjs(start)))
+    .filter(
+      (c) =>
+        c.rarity === 3 &&
+        c.type === '' &&
+        dayjs(c.onlineTime).isBefore(dayjs(start))
+    )
     .map((v) => v.id)
   puInfo.r3 = [{ chars: alls, chance: 100 }]
+}
+
+const system = useSystemStore()
+const showOperator = (char) => {
+  if (operators[char]) {
+    system.operatorDialog.open = true
+    system.operatorDialog.char = operators[char]
+  }
 }
 </script>
 <template>
@@ -116,7 +154,12 @@ if (!puInfo.r3.length) {
         <span>{{ pool.start }}</span>
         <span>~</span>
         <span>
-          {{ dayjs(pool.start).add(pool.days, 'day').hour(4).format('YYYY-MM-DD HH:mm') }}
+          {{
+            dayjs(pool.start)
+              .add(pool.days, 'day')
+              .hour(4)
+              .format('YYYY-MM-DD HH:mm')
+          }}
         </span>
       </div>
       <div
@@ -125,11 +168,7 @@ if (!puInfo.r3.length) {
       >
         <div>首次获得的6星干员必定为以下干员之一（仅限一次）</div>
         <div class="d-flex flex-wrap ga-1">
-          <span
-            v-for="char in pool.pickup[0].chars"
-            :key="char"
-            class="w120"
-          >
+          <span v-for="char in pool.pickup[0].chars" :key="char" class="w120">
             {{ operators[char].name }}
           </span>
         </div>
@@ -154,6 +193,8 @@ if (!puInfo.r3.length) {
               <span
                 v-for="char in up.chars"
                 :key="char"
+                :class="{ 'linked-tag': operators[char] }"
+                @click="showOperator(char)"
               >
                 {{ operators[char] ? operators[char].name : char }}
               </span>
@@ -164,3 +205,9 @@ if (!puInfo.r3.length) {
     </div>
   </div>
 </template>
+<style scoped>
+.linked-tag:hover {
+  cursor: pointer;
+  color: rgb(var(--v-theme-primary));
+}
+</style>

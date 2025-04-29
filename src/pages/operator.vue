@@ -1,168 +1,135 @@
 <script setup>
-import { ref, computed } from "vue";
-import professions from "@/data/professions.json";
-import { useRoute } from "vue-router";
-import dayjs from "dayjs";
-import { useCharacterStore } from "@/stores/character";
-import { useSystemStore } from "@/stores/system";
+import { ref, computed } from 'vue'
+import professions from '@/data/professions.json'
+import { useRoute } from 'vue-router'
+import dayjs from 'dayjs'
+import { useCharacterStore } from '@/stores/character'
+import { useSystemStore } from '@/stores/system'
 
 const dev = import.meta.env.DEV
 
-const operators = useCharacterStore().list;
-const system = useSystemStore();
+const operators = useCharacterStore().list
+const system = useSystemStore()
 
-const types = ref(["activity", "normal", "classic", "limited", "linkage"]);
-const rarities = ref([1, 2, 3, 4, 5, 6]);
-const infoType = ref([]);
+const types = ref(['activity', 'normal', 'classic', 'limited', 'linkage'])
+const rarities = ref([1, 2, 3, 4, 5, 6])
+const infoType = ref([])
 const charlist = computed(() => {
-  const list = {};
-  let chars = Object.values(operators);
+  const list = {}
+  let chars = Object.values(operators)
   if (!types.value.length) {
-    return list;
+    return list
   }
-  if (!types.value.includes("activity")) {
-    chars = chars.filter((v) => !["activity", "recruit"].includes(v.type));
+  if (!types.value.includes('activity')) {
+    chars = chars.filter((v) => !['activity', 'recruit'].includes(v.type))
   }
-  if (!types.value.includes("normal")) {
+  if (!types.value.includes('normal')) {
     chars = chars.filter(
       (v) =>
         !(
-          v.type === "" &&
+          v.type === '' &&
           (([6, 5].includes(v.rarity) && !v.classicTime) ||
             [4, 3].includes(v.rarity))
         )
-    );
+    )
   }
-  if (!types.value.includes("classic")) {
-    chars = chars.filter((v) => !([6, 5].includes(v.rarity) && v.classicTime));
+  if (!types.value.includes('classic')) {
+    chars = chars.filter((v) => !([6, 5].includes(v.rarity) && v.classicTime))
   }
-  if (!types.value.includes("limited")) {
-    chars = chars.filter((v) => !["limited"].includes(v.type));
+  if (!types.value.includes('limited')) {
+    chars = chars.filter((v) => !['limited'].includes(v.type))
   }
-  if (!types.value.includes("linkage")) {
+  if (!types.value.includes('linkage')) {
     chars = chars.filter(
-      (v) => !["linkage", "linkageActivity"].includes(v.type)
-    );
+      (v) => !['linkage', 'linkageActivity'].includes(v.type)
+    )
   }
-  chars = chars.filter((v) => rarities.value.includes(v.rarity));
-  if (infoType.value.includes("skin")) {
-    chars = chars.filter((v) => !v.skins.length);
+  chars = chars.filter((v) => rarities.value.includes(v.rarity))
+  if (infoType.value.includes('skin')) {
+    chars = chars.filter((v) => !v.skins.length)
   }
   if (infoType.value.includes('comic')) {
     chars = chars.filter((v) => !v.comic)
   }
-  if (infoType.value.includes("passport")) {
+  if (infoType.value.includes('passport')) {
     chars = chars.filter(
       (v) =>
         !v.passport &&
-        !["linkage", "linkageActivity"].includes(v.type) &&
+        !['linkage', 'linkageActivity'].includes(v.type) &&
         !/_amiya\d/.test(v.id)
-    );
+    )
   }
   for (const i in chars) {
-    const char = chars[i];
-    const time = dayjs(char.onlineTime);
-    if (time.isAfter("2019-05-02")) {
+    const char = chars[i]
+    const time = dayjs(char.onlineTime)
+    if (time.isAfter('2019-05-02')) {
       if (list[`${time.year()}年`]) {
         if (list[`${time.year()}年`][`${time.month() + 1}月`]) {
-          list[`${time.year()}年`][`${time.month() + 1}月`].push(char);
+          list[`${time.year()}年`][`${time.month() + 1}月`].push(char)
         } else {
-          list[`${time.year()}年`][`${time.month() + 1}月`] = [char];
+          list[`${time.year()}年`][`${time.month() + 1}月`] = [char]
         }
       } else {
-        list[`${time.year()}年`] = { [`${time.month() + 1}月`]: [char] };
+        list[`${time.year()}年`] = { [`${time.month() + 1}月`]: [char] }
       }
     } else {
-      if (list["2019年"]) {
-        if (list["2019年"]["开服"]) {
-          list["2019年"]["开服"].push(char);
+      if (list['2019年']) {
+        if (list['2019年']['开服']) {
+          list['2019年']['开服'].push(char)
         } else {
-          list["2019年"]["开服"] = [char];
+          list['2019年']['开服'] = [char]
         }
       } else {
-        list["2019年"] = { 开服: [char] };
+        list['2019年'] = { 开服: [char] }
       }
     }
   }
-  return list;
-});
+  return list
+})
 
 const showOperator = (char) => {
-  system.infoDialog.open = true;
-  system.infoDialog.type = "char";
-  system.infoDialog.item = char;
-};
+  system.operatorDialog.open = true
+  system.operatorDialog.char = char
+}
 
-const route = useRoute();
-const tab = ref(route.hash.substring(1) || "list");
+const route = useRoute()
+const tab = ref(route.hash.substring(1) || 'list')
 </script>
 <template>
-  <v-sheet
-    class="d-flex flex-row pl-1"
-    height="100%"
-  >
-    <v-tabs
-      v-model="tab"
-      color="primary"
-      direction="vertical"
-    >
-      <v-tab
-        prepend-icon="mdi-chess-knight"
-        text="干员列表"
-        value="list"
-      />
+  <v-sheet class="d-flex flex-row pl-1" height="100%">
+    <v-tabs v-model="tab" color="primary" direction="vertical">
+      <v-tab prepend-icon="mdi-chess-knight" text="干员列表" value="list" />
       <v-tab
         prepend-icon="mdi-square-outline"
         text="职业列表"
         value="uniequip"
       />
     </v-tabs>
-    <v-tabs-window
-      v-model="tab"
-      class="h-100 w-100"
-    >
-      <v-tabs-window-item
-        value="list"
-        class="h-100 w-100"
-      >
+    <v-tabs-window v-model="tab" class="h-100 w-100">
+      <v-tabs-window-item value="list" class="h-100 w-100">
         <div class="text-body-1 text-secondary d-flex flex-column h150">
           <div class="d-flex h40">
-            <v-checkbox
-              v-model="types"
-              value="activity"
-            >
+            <v-checkbox v-model="types" value="activity">
               <template #label>
                 <span class="text-success">赠送(包含公招/不含联动)</span>
               </template>
             </v-checkbox>
-            <v-checkbox
-              v-model="types"
-              value="normal"
-            >
+            <v-checkbox v-model="types" value="normal">
               <template #label>
                 <span>标准(包含4星)</span>
               </template>
             </v-checkbox>
-            <v-checkbox
-              v-model="types"
-              value="classic"
-            >
+            <v-checkbox v-model="types" value="classic">
               <template #label>
                 <span class="text-info">中坚(仅6/5星)</span>
               </template>
             </v-checkbox>
-            <v-checkbox
-              v-model="types"
-              value="limited"
-            >
+            <v-checkbox v-model="types" value="limited">
               <template #label>
                 <span class="text-error">限定</span>
               </template>
             </v-checkbox>
-            <v-checkbox
-              v-model="types"
-              value="linkage"
-            >
+            <v-checkbox v-model="types" value="linkage">
               <template #label>
                 <span class="text-error">联动(包含赠送)</span>
               </template>
@@ -210,11 +177,7 @@ const tab = ref(route.hash.substring(1) || "list");
             </v-btn>
           </div>
           <div class="d-flex h40">
-            <v-checkbox
-              v-model="infoType"
-              label="无时装"
-              value="skin"
-            />
+            <v-checkbox v-model="infoType" label="无时装" value="skin" />
             <v-checkbox
               v-if="dev"
               v-model="infoType"
@@ -255,10 +218,7 @@ const tab = ref(route.hash.substring(1) || "list");
                   :cols="3"
                   class="d-flex justify-space-between"
                 >
-                  <span
-                    class="cursor-pointer"
-                    @click="showOperator(char)"
-                  >
+                  <span class="cursor-pointer" @click="showOperator(char)">
                     {{ char.name }}
                   </span>
                 </v-col>
@@ -267,10 +227,7 @@ const tab = ref(route.hash.substring(1) || "list");
           </div>
         </div>
       </v-tabs-window-item>
-      <v-tabs-window-item
-        value="uniequip"
-        class="h-100 w-100"
-      >
+      <v-tabs-window-item value="uniequip" class="h-100 w-100">
         <div class="text-body-1 text-secondary list-header">
           主要展示通用模组
         </div>
@@ -283,11 +240,7 @@ const tab = ref(route.hash.substring(1) || "list");
             :key="profession.id"
             class="d-flex ga-0 w-100"
           >
-            <v-btn
-              readonly
-              variant="tonal"
-              width="100px"
-            >
+            <v-btn readonly variant="tonal" width="100px">
               {{ profession.name }}
             </v-btn>
             <div class="d-flex flex-wrap ga-1 w-100">
@@ -300,8 +253,8 @@ const tab = ref(route.hash.substring(1) || "list");
                 {{ sub.name }}
                 {{
                   Object.keys(sub.equiped).length
-                    ? `: ${Object.keys(sub.equiped).join(", ")}`
-                    : ""
+                    ? `: ${Object.keys(sub.equiped).join(', ')}`
+                    : ''
                 }}
               </v-btn>
             </div>

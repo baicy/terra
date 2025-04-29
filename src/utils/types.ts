@@ -119,11 +119,8 @@ export interface Character {
 export interface Skin {
   id: string
   char: string
-  img: string
   name: string
-  colors: string[]
-  groupId: string
-  groupName: string
+  group: string
   tag: string
   online: string
 }

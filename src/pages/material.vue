@@ -18,30 +18,23 @@
           class="material-list-material-col border border-primary"
           :class="{
             'material-list-cell-active': currentLog.drop.includes(mat),
-            'material-list-cell-selection': selectedMaterial.has(mat),
+            'material-list-cell-selection': selectedMaterial.has(mat)
           }"
           @click="selectMaterial(mat)"
         >
-          <v-img
-            :src="`./material/${mat}.png`"
-            class="cursor-pointer"
-          />
+          <v-img :src="`./material/${mat}.png`" class="cursor-pointer" />
         </div>
       </div>
       <div
         ref="droplineRef"
         class="d-flex flex-column overflow-auto material-list-content"
       >
-        <div
-          v-for="log in logList"
-          :key="log.id"
-          class="d-flex"
-        >
+        <div v-for="log in logList" :key="log.id" class="d-flex">
           <div
             class="material-list-name-col border border-primary d-flex flex-column"
             :class="{
               'material-list-cell-active': log.id === currentLog.id,
-              'material-list-cell-selection': selectedActivity === log.id,
+              'material-list-cell-selection': selectedActivity === log.id
             }"
             @click="selectActivity(log)"
           >
@@ -58,8 +51,8 @@
             <span class="text-caption">
               {{
                 log.fake
-                  ? `预计 ${dayjs(log.start).format("YYYY-MM")}`
-                  : dayjs(log.start).format("YYYY-MM-DD")
+                  ? `预计 ${dayjs(log.start).format('YYYY-MM')}`
+                  : dayjs(log.start).format('YYYY-MM-DD')
               }}
             </span>
           </div>
@@ -70,7 +63,7 @@
             :class="{
               'material-list-cell-active': log.id === currentLog.id,
               'material-list-cell-selection':
-                selectedMaterial.has(mat) || selectedActivity === log.id,
+                selectedMaterial.has(mat) || selectedActivity === log.id
             }"
             @click="selectMaterial(mat)"
           >
@@ -95,6 +88,7 @@
 <script setup>
 import dayjs from 'dayjs'
 import logs from '@/data/logs.json'
+import { useSystemStore } from '@/stores/system'
 
 const tabHeaderHeight = 60
 const materialCellSize = 50
@@ -136,6 +130,9 @@ const selectMaterial = (mat) => {
     selectedMaterial.add(mat)
   }
 }
+const system = useSystemStore()
+selectedMaterial.add(system.selectedMaterial)
+
 const selectedActivity = ref('')
 const selectActivity = (act) => {
   if (selectedActivity.value === act.id) {
@@ -150,29 +147,32 @@ const selectActivity = (act) => {
 
 const droplineRef = ref()
 onMounted(() => {
-  nextTick(() => (droplineRef.value.scrollTop = materialCellSize * (currentLog.index - 1)))
+  nextTick(
+    () =>
+      (droplineRef.value.scrollTop = materialCellSize * (currentLog.index - 1))
+  )
 })
 </script>
 <style scoped lang="sass">
-  .material-list
-    height: calc(100% - var(--header-height))
-    &-header
-      height: var(--cell-size);
-    &-content
-      height: calc(100% - var(--cell-size))
-    &-cell-active
-      background: rgba(var(--v-theme-success), 0.35)
-    &-cell-selection
-      background: rgba(var(--v-theme-primary), 0.35) !important
-    &-name-col
-      width: 220px
-      height: var(--cell-size)
-      cursor: pointer
-    &-material-col
-      width: var(--cell-size)
-      height: var(--cell-size)
-    &-infinity-material
-      --infinity-material-size: 24px
-      width: var(--infinity-material-size)
-      height: var(--infinity-material-size)
+.material-list
+  height: calc(100% - var(--header-height))
+  &-header
+    height: var(--cell-size);
+  &-content
+    height: calc(100% - var(--cell-size))
+  &-cell-active
+    background: rgba(var(--v-theme-success), 0.35)
+  &-cell-selection
+    background: rgba(var(--v-theme-primary), 0.35) !important
+  &-name-col
+    width: 220px
+    height: var(--cell-size)
+    cursor: pointer
+  &-material-col
+    width: var(--cell-size)
+    height: var(--cell-size)
+  &-infinity-material
+    --infinity-material-size: 24px
+    width: var(--infinity-material-size)
+    height: var(--infinity-material-size)
 </style>

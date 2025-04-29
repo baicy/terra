@@ -186,6 +186,15 @@
     "timeline": 0
   },
   {
+    "id": "rogue5",
+    "name": "集成战略#6 岁的界园志异",
+    "type": "ROGUELIKE",
+    "color": ["#e9b0d0"],
+    "start": "2025-07-16 16:00",
+    "days": 14,
+    "timeline": 3
+  },
+  {
     "fake": true,
     "id": "act19mini",
     "name": "大炎肉鸽故事集",
@@ -238,6 +247,15 @@
     "drop": ["unit", "suger", "chun"],
     "infinity": ["meng", "chun"],
     "timeline": 0
+  },
+  {
+    "id": "kuiyingcollection",
+    "name": "傀影与猩红孤钻 N15",
+    "type": "COLLECTION",
+    "color": ["#b4382f"],
+    "start": "2025-06-05 16:00",
+    "days": 14,
+    "timeline": 2
   },
   {
     "id": "act6yueside",

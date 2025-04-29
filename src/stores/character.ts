@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import type { Character, Skin, Pool } from '@/utils/types'
 import characters from '@/data/characters.json'
-import { skins } from '@/data/skins.json'
+import skins from '@/data/skins.json'
 import pools from '@/data/pools.json'
 import { ato } from '@/utils/utils'
 import axios from 'axios'
@@ -81,7 +81,8 @@ export const useCharacterStore = defineStore('character', () => {
     for (let i = pools.length - 1; i >= 0; i--) {
       const { status, start } = pools[i]
       if (status === 'shop') {
-        pools[i].duration = `${lastShop?`${dayjs(start).diff(dayjs(lastShop), 'day')}/`:''}${dayjs(start).diff(dayjs(lastUp), 'day')}`
+        pools[i].duration =
+          `${lastShop ? `${dayjs(start).diff(dayjs(lastShop), 'day')}/` : ''}${dayjs(start).diff(dayjs(lastUp), 'day')}`
         lastShop = start
         lastUp = start
       }
