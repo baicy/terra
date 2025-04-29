@@ -6,6 +6,7 @@
     "type": "SIDESTORY",
     "color": ["#9b4df4"],
     "start": "2026-03-07 16:00",
+    "retro": "act41side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -22,6 +23,7 @@
     "type": "SIDESTORY",
     "color": ["#ff302e"],
     "start": "2026-01-22 16:00",
+    "retro": "act40side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -38,6 +40,7 @@
     "color": ["#b8a47f"],
     "fake": true,
     "start": "2025-12-18 16:00",
+    "retro": "act39side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -65,6 +68,7 @@
     "color": ["#7463d6", "#a41836"],
     "fake": true,
     "start": "2025-11-24 16:00",
+    "retro": "act38side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -101,6 +105,7 @@
     "color": ["#fa9101"],
     "fake": true,
     "start": "2025-10-16 16:00",
+    "retro": "act37side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -145,6 +150,7 @@
     "type": "SIDESTORY",
     "color": ["#8f45d6"],
     "start": "2025-08-22 16:00",
+    "retro": "act35side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -223,6 +229,7 @@
     "color": ["#4d7b7d"],
     "fake": true,
     "start": "2025-06-19 16:00",
+    "retro": "act34side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -273,7 +280,7 @@
     "id": "act5yueside",
     "name": "众生行记",
     "type": "SIDESTORY",
-    "color": ["#1526f1"],
+    "color": ["#004fd4"],
     "start": "2025-05-01 16:00",
     "days": 21,
     "reward": {
@@ -311,6 +318,7 @@
     "type": "BRANCHLINE",
     "color": ["#932426"],
     "start": "2025-04-21 16:00",
+    "retro": "act33side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -390,6 +398,7 @@
     "type": "SIDESTORY",
     "color": ["#dac698", "#9b4df4"],
     "start": "2025-03-07 16:00",
+    "retro": "act41side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -405,6 +414,7 @@
     "type": "SIDESTORY",
     "color": ["#a9b94b"],
     "start": "2025-02-24 16:00",
+    "retro": "act31side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -438,6 +448,7 @@
     "type": "MINISTORY",
     "color": ["#a41a1a"],
     "start": "2025-02-14 16:00",
+    "retro": "act18mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -474,6 +485,7 @@
     "type": "SIDESTORY",
     "color": ["#ff302e"],
     "start": "2025-01-22 16:00",
+    "retro": "act40side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -556,6 +568,7 @@
     "type": "SIDESTORY",
     "color": ["#46637d", "#4bb1cf"],
     "start": "2024-12-19 16:00",
+    "retro": "act30side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -580,6 +593,7 @@
     "type": "SIDESTORY",
     "color": ["#b8a47f", "#1c2cf1", "#fe1631"],
     "start": "2024-12-05 16:00",
+    "retro": "act39side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -595,6 +609,7 @@
     "type": "SIDESTORY",
     "color": ["#9b816d", "#ff6801", "#ac4725"],
     "start": "2024-11-25 16:00",
+    "retro": "act29side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -636,6 +651,7 @@
     "type": "SIDESTORY",
     "color": ["#7463d6", "#a41836"],
     "start": "2024-11-01 16:00",
+    "retro": "act38side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -670,6 +686,7 @@
     "type": "BRANCHLINE",
     "color": ["#fa9101"],
     "start": "2024-10-09 16:00",
+    "retro": "act37side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -697,6 +714,7 @@
     "type": "SIDESTORY",
     "color": ["#98985e"],
     "start": "2024-09-19 16:00",
+    "retro": "act28side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -711,6 +729,7 @@
     "type": "SIDESTORY",
     "color": ["#a49271"],
     "start": "2024-09-02 16:00",
+    "linkage": true,
     "days": 10,
     "reward": {
       "type": "char",
@@ -738,6 +757,7 @@
     "type": "SIDESTORY",
     "color": ["#fb7595"],
     "start": "2024-08-22 16:00",
+    "retro": "act27side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -752,6 +772,7 @@
     "type": "SIDESTORY",
     "color": ["#8f45d6"],
     "start": "2024-08-01 16:00",
+    "retro": "act35side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -784,6 +805,7 @@
     "type": "MINISTORY",
     "color": ["#b73553"],
     "start": "2024-07-09 16:00",
+    "retro": "act17mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -810,6 +832,7 @@
     "type": "SIDESTORY",
     "color": ["#8b9ba5"],
     "start": "2024-06-25 16:00",
+    "retro": "act26side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -824,6 +847,7 @@
     "type": "SIDESTORY",
     "color": ["#4d7b7d"],
     "start": "2024-06-05 16:00",
+    "retro": "act34side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -838,6 +862,7 @@
     "type": "BRANCHLINE",
     "color": ["#f5eedb"],
     "start": "2024-05-24 16:00",
+    "retro": "act25side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -892,6 +917,7 @@
     "type": "BRANCHLINE",
     "color": ["#932426"],
     "start": "2024-04-11 16:00",
+    "retro": "act33side",
     "days": 22,
     "reward": {
       "type": "char",
@@ -928,6 +954,8 @@
     "type": "SIDESTORY",
     "color": ["#fb9f00"],
     "start": "2024-03-21 16:00",
+    "linkage": true,
+    "retro": "act17d0",
     "days": 10,
     "reward": {
       "type": "char",
@@ -942,6 +970,7 @@
     "type": "SIDESTORY",
     "color": ["#8eaf8a"],
     "start": "2024-03-07 16:00",
+    "linkage": true,
     "days": 14,
     "reward": {
       "type": "char",
@@ -969,6 +998,7 @@
     "type": "SIDESTORY",
     "color": ["#a9b94b"],
     "start": "2024-02-01 16:00",
+    "retro": "act31side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -983,6 +1013,7 @@
     "type": "SIDESTORY",
     "color": ["#d9a47f"],
     "start": "2024-01-18 16:00",
+    "retro": "act23side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -997,6 +1028,7 @@
     "type": "MINISTORY",
     "color": ["#ab5421"],
     "start": "2024-01-09 16:00",
+    "retro": "act16mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -1023,6 +1055,7 @@
     "type": "SIDESTORY",
     "color": ["#8d6eca"],
     "start": "2023-12-22 16:00",
+    "retro": "act22side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1037,6 +1070,7 @@
     "type": "SIDESTORY",
     "color": ["#46637d", "#4bb1cf"],
     "start": "2023-12-05 16:00",
+    "retro": "act30side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1064,6 +1098,7 @@
     "type": "SIDESTORY",
     "color": ["#9b816d"],
     "start": "2023-11-01 16:00",
+    "retro": "act29side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -1091,6 +1126,7 @@
     "type": "SIDESTORY",
     "color": ["#5e49c8"],
     "start": "2023-10-22 16:00",
+    "retro": "act21side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1162,6 +1198,7 @@
     "type": "SIDESTORY",
     "color": ["#98985e"],
     "start": "2023-09-05 16:00",
+    "retro": "act28side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1185,6 +1222,7 @@
     "type": "SIDESTORY",
     "color": ["#45c0ff"],
     "start": "2023-08-31 16:00",
+    "retro": "act20side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1212,6 +1250,7 @@
     "type": "SIDESTORY",
     "color": ["#fb7595"],
     "start": "2023-08-01 16:00",
+    "retro": "act27side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -1239,6 +1278,7 @@
     "type": "SIDESTORY",
     "color": ["#a1d82b"],
     "start": "2023-07-18 16:00",
+    "retro": "act19side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1262,6 +1302,7 @@
     "type": "MINISTORY",
     "color": ["#54788d"],
     "start": "2023-07-06 12:00",
+    "retro": "act15mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -1293,6 +1334,7 @@
     "type": "SIDESTORY",
     "color": ["#aa2e1e"],
     "start": "2023-06-20 16:00",
+    "retro": "act18side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1307,6 +1349,7 @@
     "type": "SIDESTORY",
     "color": ["#8b9ba5"],
     "start": "2023-06-08 16:00",
+    "retro": "act26side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1347,6 +1390,7 @@
     "type": "BRANCHLINE",
     "color": ["#f5eedb"],
     "start": "2023-05-01 16:00",
+    "retro": "act25side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -1361,6 +1405,7 @@
     "type": "BRANCHLINE",
     "color": ["#55aed3"],
     "start": "2023-04-20 16:00",
+    "retro": "act17side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1414,6 +1459,7 @@
     "type": "SIDESTORY",
     "color": ["#c70607"],
     "start": "2023-03-07 16:00",
+    "linkage": true,
     "days": 14,
     "reward": {
       "type": "char",
@@ -1428,6 +1474,7 @@
     "type": "SIDESTORY",
     "color": ["#fcbb4c"],
     "start": "2023-02-21 16:00",
+    "retro": "act16side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1442,6 +1489,7 @@
     "type": "MINISTORY",
     "color": ["#626157"],
     "start": "2023-02-14 16:00",
+    "retro": "act14mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -1468,6 +1516,7 @@
     "type": "SIDESTORY",
     "color": ["#d9a47f"],
     "start": "2023-01-17 16:00",
+    "retro": "act23side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1495,6 +1544,7 @@
     "type": "SIDESTORY",
     "color": ["#d0a468"],
     "start": "2023-01-01 16:00",
+    "retro": "act15side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1522,6 +1572,7 @@
     "type": "SIDESTORY",
     "color": ["#8d6eca"],
     "start": "2022-12-15 16:00",
+    "retro": "act22side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1536,6 +1587,7 @@
     "type": "SIDESTORY",
     "color": ["#91c1e0"],
     "start": "2022-12-01 16:00",
+    "retro": "act14side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1563,6 +1615,7 @@
     "type": "SIDESTORY",
     "color": ["#5e49c8"],
     "start": "2022-11-01 16:00",
+    "retro": "act21side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -1634,6 +1687,7 @@
     "type": "SIDESTORY",
     "color": ["#bd3136"],
     "start": "2022-09-22 16:00",
+    "retro": "act13side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1648,6 +1702,7 @@
     "type": "MINISTORY",
     "color": ["#83C01B"],
     "start": "2022-09-15 16:00",
+    "linkage": true,
     "days": 7,
     "reward": {
       "type": "char",
@@ -1661,6 +1716,7 @@
     "type": "MINISTORY",
     "color": ["#8B7A51"],
     "start": "2022-09-08 12:00",
+    "retro": "act12mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -1709,6 +1765,7 @@
     "type": "SIDESTORY",
     "color": ["#45c0ff"],
     "start": "2022-08-11 16:00",
+    "retro": "act20side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -1723,6 +1780,7 @@
     "type": "SIDESTORY",
     "color": ["#067ef9"],
     "start": "2022-07-26 16:00",
+    "retro": "act12side",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1737,6 +1795,7 @@
     "type": "MINISTORY",
     "color": ["#b9501f"],
     "start": "2022-07-19 16:00",
+    "retro": "act11mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -1750,6 +1809,7 @@
     "type": "SIDESTORY",
     "color": ["#a1d82b"],
     "start": "2022-07-05 16:00",
+    "retro": "act19side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1764,6 +1824,7 @@
     "type": "SIDESTORY",
     "color": ["#aa2e1e"],
     "start": "2022-06-09 16:00",
+    "retro": "act18side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1787,6 +1848,7 @@
     "type": "BRANCHLINE",
     "color": ["#1fc0a4"],
     "start": "2022-05-30 16:00",
+    "retro": "act18d3",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1814,6 +1876,7 @@
     "type": "BRANCHLINE",
     "color": ["#55aed3"],
     "start": "2022-05-01 16:00",
+    "retro": "act17side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -1838,7 +1901,7 @@
   {
     "id": "actmain10",
     "name": "EP10 破碎日冕",
-    "type": "BRANCHLINE",
+    "type": "MAINLINE",
     "color": ["#4b5c66"],
     "start": "2022-04-14 16:00",
     "days": 14,
@@ -1867,6 +1930,7 @@
     "type": "BRANCHLINE",
     "color": ["#e7ec62"],
     "start": "2022-03-29 16:00",
+    "retro": "act18d0",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1881,6 +1945,7 @@
     "type": "SIDESTORY",
     "color": ["#fcbb4c"],
     "start": "2022-03-15 16:00",
+    "retro": "act16side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1908,6 +1973,7 @@
     "type": "MINISTORY",
     "color": ["#2c2d35"],
     "start": "2022-02-15 16:00",
+    "retro": "act10mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -1934,6 +2000,7 @@
     "type": "SIDESTORY",
     "color": ["#d0a468"],
     "start": "2022-01-25 16:00",
+    "retro": "act15side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -1961,6 +2028,7 @@
     "type": "SIDESTORY",
     "color": ["#cdefe2"],
     "start": "2022-01-10 16:00",
+    "retro": "act16d5",
     "days": 10,
     "reward": {
       "type": "char",
@@ -1997,6 +2065,7 @@
     "type": "SIDESTORY",
     "color": ["#91c1e0"],
     "start": "2021-12-21 16:00",
+    "retro": "act14side",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2011,6 +2080,7 @@
     "type": "SIDESTORY",
     "color": ["#bb3115"],
     "start": "2021-12-07 16:00",
+    "retro": "act15d0",
     "days": 10,
     "reward": {
       "type": "char",
@@ -2051,6 +2121,7 @@
     "type": "SIDESTORY",
     "color": ["#bd3136"],
     "start": "2021-11-01 16:00",
+    "retro": "act13side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -2065,6 +2136,7 @@
     "type": "MINISTORY",
     "color": ["#521717"],
     "start": "2021-10-15 16:00",
+    "retro": "act9mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -2078,6 +2150,7 @@
     "type": "SIDESTORY",
     "color": ["#bb9b67"],
     "start": "2021-10-01 16:00",
+    "retro": "act13d5",
     "days": 10,
     "reward": {
       "type": "char",
@@ -2140,6 +2213,7 @@
     "type": "SIDESTORY",
     "color": ["#067ef9"],
     "start": "2021-08-03 16:00",
+    "retro": "act12side",
     "days": 21,
     "reward": {
       "type": "char",
@@ -2154,6 +2228,7 @@
     "type": "SIDESTORY",
     "color": ["#00ffba"],
     "start": "2021-07-20 16:00",
+    "retro": "act12d0",
     "days": 10,
     "reward": {
       "type": "char",
@@ -2168,6 +2243,7 @@
     "type": "MINISTORY",
     "color": ["#730303"],
     "start": "2021-07-13 16:00",
+    "retro": "act8mini",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -2194,6 +2270,7 @@
     "type": "SIDESTORY",
     "color": ["#99834E"],
     "start": "2021-06-17 16:00",
+    "retro": "act11d0",
     "days": 10,
     "reward": {
       "type": "char",
@@ -2217,6 +2294,7 @@
     "type": "MINISTORY",
     "color": ["#b52714"],
     "start": "2021-06-01 12:00",
+    "retro": "act7mini",
     "days": 7,
     "reward": {
       "type": "char",
@@ -2256,6 +2334,7 @@
     "type": "BRANCHLINE",
     "color": ["#1fc0a4"],
     "start": "2021-05-01 15:00",
+    "retro": "act18d3",
     "days": 21,
     "reward": {
       "type": "char",
@@ -2270,6 +2349,7 @@
     "type": "BRANCHLINE",
     "color": ["#e7ec62"],
     "start": "2021-04-15 16:00",
+    "retro": "act18d0",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2293,6 +2373,7 @@
     "type": "BRANCHLINE",
     "color": ["#a5a5a5"],
     "start": "2021-03-30 16:00",
+    "retro": "act9d0",
     "days": 10,
     "reward": {
       "type": "char",
@@ -2307,6 +2388,8 @@
     "type": "SIDESTORY",
     "color": ["#fb9f00"],
     "start": "2021-03-09 16:00",
+    "linkage": true,
+    "retro": "act17d0",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2343,6 +2426,7 @@
     "type": "SIDESTORY",
     "color": ["#cdefe2"],
     "start": "2021-02-05 16:00",
+    "retro": "act16d5",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2370,6 +2454,7 @@
     "type": "MINISTORY",
     "color": ["#fb951a"],
     "start": "2021-01-05 16:00",
+    "retro": "act15d5",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -2396,6 +2481,7 @@
     "type": "SIDESTORY",
     "color": ["#bb3115"],
     "start": "2020-12-17 16:00",
+    "retro": "act15d0",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2410,6 +2496,7 @@
     "type": "SIDESTORY",
     "color": ["#2679e9"],
     "start": "2020-12-01 16:00",
+    "retro": "act5d0",
     "days": 10,
     "reward": {
       "type": "char",
@@ -2458,6 +2545,7 @@
     "type": "SIDESTORY",
     "color": ["#bb9b67"],
     "start": "2020-10-15 16:00",
+    "retro": "act13d5",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2472,6 +2560,7 @@
     "type": "SIDESTORY",
     "color": ["#c99550"],
     "start": "2020-10-01 16:00",
+    "retro": "1stact",
     "days": 10,
     "reward": {
       "type": "char",
@@ -2495,6 +2584,7 @@
     "type": "MINISTORY",
     "color": ["#fe3d11"],
     "start": "2020-09-24 12:00",
+    "retro": "act13d0",
     "days": 7,
     "reward": {
       "type": "char",
@@ -2521,6 +2611,7 @@
     "type": "SIDESTORY",
     "color": ["#00ffba"],
     "start": "2020-08-25 16:00",
+    "retro": "act12d0",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2535,6 +2626,7 @@
     "type": "SIDESTORY",
     "color": ["#9cd7c9"],
     "start": "2020-08-11 16:00",
+    "retro": "act3d0",
     "days": 10,
     "reward": {
       "type": "char",
@@ -2562,6 +2654,7 @@
     "type": "SIDESTORY",
     "color": ["#99834E"],
     "start": "2020-07-09 16:00",
+    "retro": "act11d0",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2589,6 +2682,7 @@
     "type": "MINISTORY",
     "color": ["#ff8902"],
     "start": "2020-06-18 16:00",
+    "retro": "act10d5",
     "days": 7,
     "reward": {
       "type": "char",
@@ -2650,6 +2744,7 @@
     "type": "BRANCHLINE",
     "color": ["#a5a5a5"],
     "start": "2020-04-21 16:00",
+    "retro": "act9d0",
     "days": 24,
     "reward": {
       "type": "char",
@@ -2703,6 +2798,7 @@
     "type": "MINISTORY",
     "color": ["#0071e5"],
     "start": "2020-02-25 16:00",
+    "retro": "act7d5",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -2742,6 +2838,7 @@
     "type": "MINISTORY",
     "color": ["#a40109"],
     "start": "2020-01-09 04:00",
+    "retro": "act6d5",
     "days": 7,
     "reward": {
       "type": "char",
@@ -2777,6 +2874,7 @@
     "type": "SIDESTORY",
     "color": ["#2679e9"],
     "start": "2019-11-19 16:00",
+    "retro": "act5d0",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2829,6 +2927,7 @@
     "type": "MINISTORY",
     "color": ["#ffdd00"],
     "start": "2019-10-15 16:00",
+    "retro": "act4d0",
     "days": 7,
     "reward": {
       "type": "char",
@@ -2882,6 +2981,7 @@
     "type": "SIDESTORY",
     "color": ["#9cd7c9"],
     "start": "2019-08-27 16:00",
+    "retro": "act3d0",
     "days": 14,
     "reward": {
       "type": "char",
@@ -2940,6 +3040,7 @@
     "type": "SIDESTORY",
     "color": ["#c99550"],
     "start": "2019-05-30 10:00",
+    "retro": "1stact",
     "days": 14,
     "reward": {
       "type": "char",

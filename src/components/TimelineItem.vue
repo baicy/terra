@@ -4,9 +4,12 @@ import dayjs from 'dayjs'
 import { useRouter } from 'vue-router'
 import { useCharacterStore } from '@/stores/character'
 import { useSystemStore } from '@/stores/system'
+import _retros from '@/data/retros.json'
+import { ato } from '@/utils/utils'
+
 const operators = useCharacterStore().list
-// const operators = {}
 const system = useSystemStore()
+const retros = ato(_retros, 'id')
 
 // eslint-disable-next-line vue/require-default-prop
 const { affair } = defineProps({ affair: Object })
@@ -24,8 +27,9 @@ const {
   fake
 } = affair
 const isActive = ref(
-  dayjs().isBefore(dayjs(start).add(days, 'day').hour(4).minute(0).second(0).millisecond(0)) &&
-    dayjs().isAfter(dayjs(start))
+  dayjs().isBefore(
+    dayjs(start).add(days, 'day').hour(4).minute(0).second(0).millisecond(0)
+  ) && dayjs().isAfter(dayjs(start))
 )
 const affairType = [
   'single',
@@ -93,41 +97,25 @@ const showPool = (pool) => {
         v-if="type === 'LIVE'"
         class="h-100 d-flex flex-column align-center justify-center"
       >
-        <span
-          class="text-white"
-          style="font-size: 10px; font-weight: bold"
-        >LIVE</span>
-        <a
-          href="https://live.bilibili.com/5555734"
-          target="_blank"
-        >
-          <v-icon
-            icon="mdi-arrow-right"
-            color="#ffffff"
-          />
+        <span class="text-white" style="font-size: 10px; font-weight: bold">
+          LIVE
+        </span>
+        <a href="https://live.bilibili.com/5555734" target="_blank">
+          <v-icon icon="mdi-arrow-right" color="#ffffff" />
         </a>
       </div>
       <div
         v-if="type === 'DEV'"
         class="h-100 d-flex flex-column align-center justify-center"
       >
-        <div
-          class="text-white"
-          style="font-size: 10px; font-weight: bold"
-        >
+        <div class="text-white" style="font-size: 10px; font-weight: bold">
           DEV
         </div>
-        <div
-          class="text-white"
-          style="font-size: 13px"
-        >
+        <div class="text-white" style="font-size: 13px">
           #{{ affair.number }}
         </div>
       </div>
-      <div
-        v-if="name"
-        class="d-flex"
-      >
+      <div v-if="name" class="d-flex">
         <span v-if="fake">(疑)</span>
         <span
           :class="{ 'linked-tag': affairType === 'pool' }"
@@ -135,6 +123,29 @@ const showPool = (pool) => {
         >
           {{ name }}{{ rerun ? '·复刻' : '' }}
         </span>
+        <v-chip
+          v-if="affair.linkage"
+          size="small"
+          class="ml-2"
+          variant="flat"
+          color="error"
+        >
+          联动
+        </v-chip>
+        <v-chip
+          v-if="
+            !isActive &&
+            affair.retro &&
+            (retros[affair.retro].trail || retros[affair.retro].rerun)
+          "
+          size="small"
+          class="ml-2"
+          variant="flat"
+          :color="retros[affair.retro].trail ? 'success' : 'warning'"
+        >
+          <span v-if="retros[affair.retro].trail">已修复</span>
+          <span v-else-if="retros[affair.retro].rerun">已复刻</span>
+        </v-chip>
       </div>
       <div
         v-if="affairType === 'pool' && pickup[0].chars.length < 7"
@@ -149,10 +160,7 @@ const showPool = (pool) => {
           {{ operators[char] ? operators[char].name : char }}
         </span>
       </div>
-      <div
-        v-else-if="reward"
-        class="d-flex ga-2"
-      >
+      <div v-else-if="reward" class="d-flex ga-2">
         <div v-if="reward.type === 'char'">
           {{ operators[reward.id] ? operators[reward.id].name : reward.id }}
         </div>
@@ -166,9 +174,7 @@ const showPool = (pool) => {
         <div v-else>
           {{ reward.id }}
         </div>
-        <div v-if="drop">
-          /
-        </div>
+        <div v-if="drop">/</div>
         <div class="d-flex">
           <div
             v-for="mat in drop"
@@ -176,7 +182,7 @@ const showPool = (pool) => {
             class="thumb"
             @click="viewMaterialList(mat)"
           >
-            <img :src="`material/${mat}.png`">
+            <img :src="`material/${mat}.png`" />
           </div>
         </div>
       </div>
