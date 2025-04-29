@@ -394,7 +394,7 @@
     "time": "1101冬",
     "location": "谢拉格 - 图里卡姆",
     "type": "sidestory",
-    "year": 1099,
+    "year": 1101,
     "half": 0,
     "row": 6,
     "nation": "kjerag"
@@ -525,6 +525,16 @@
     "location": "拉特兰",
     "type": "sidestory",
     "year": 1099,
+    "half": 1,
+    "row": 8,
+    "nation": "laterano"
+  },
+  {
+    "title": "众生行记",
+    "time": "1101.10",
+    "location": "拉特兰",
+    "type": "sidestory",
+    "year": 1101,
     "half": 1,
     "row": 8,
     "nation": "laterano"
