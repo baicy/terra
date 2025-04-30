@@ -1,4 +1,58 @@
 {
+  "DOUBLE_63_0_5": {
+    "fake": true,
+    "id": "DOUBLE_59_0_4",
+    "name": "",
+    "type": "standard",
+    "start": "2025-07-17 04:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": ["char_1033_swire2"]
+      },
+      {
+        "rarity": 5,
+        "chars": []
+      }
+    ],
+    "color": []
+  },
+  "DOUBLE_62_0_5": {
+    "fake": true,
+    "id": "DOUBLE_59_0_4",
+    "name": "",
+    "type": "standard",
+    "start": "2025-07-03 04:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": []
+      },
+      {
+        "rarity": 5,
+        "chars": []
+      }
+    ],
+    "color": []
+  },
+  "SINGLE_61_0_1": {
+    "fake": true,
+    "id": "SINGLE_51_0_1",
+    "name": "沉向深渊的锚",
+    "type": "rerun",
+    "start": "2025-06-19 16:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": ["char_4145_ulpia"]
+      },
+      {
+        "rarity": 5,
+        "chars": ["char_4079_haini"]
+      }
+    ],
+    "color": ["#bb0f47"]
+  },
   "DOUBLE_61_0_5": {
     "fake": true,
     "id": "DOUBLE_59_0_4",
@@ -26,7 +80,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4055_bgsnow", "char_4065_judge"]
+        "chars": ["char_4055_bgsnow", "char_300_phenxi"]
       },
       {
         "rarity": 5,
@@ -532,7 +586,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_479_sleach", "char_4087_ines", "char_003_kalts", "char_4121_zuole"]
+        "chars": [
+          "char_479_sleach",
+          "char_4087_ines",
+          "char_003_kalts",
+          "char_4121_zuole"
+        ]
       },
       {
         "rarity": 5,
@@ -868,7 +927,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4132_ascln", "char_4048_doroth", "char_4055_bgsnow", "char_4064_mlynar"]
+        "chars": [
+          "char_4132_ascln",
+          "char_4048_doroth",
+          "char_4055_bgsnow",
+          "char_4064_mlynar"
+        ]
       },
       {
         "rarity": 5,
@@ -1354,7 +1418,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4065_judge", "char_4082_qiubai", "char_4116_blkkgt", "char_4132_ascln"]
+        "chars": [
+          "char_4065_judge",
+          "char_4082_qiubai",
+          "char_4116_blkkgt",
+          "char_4132_ascln"
+        ]
       }
     ],
     "color": ["#c93650"]
@@ -1595,7 +1664,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_2012_typhon", "char_4082_qiubai", "char_003_kalts", "char_1020_reed2"]
+        "chars": [
+          "char_2012_typhon",
+          "char_4082_qiubai",
+          "char_003_kalts",
+          "char_1020_reed2"
+        ]
       }
     ],
     "color": ["#dbb07b"]
@@ -1741,7 +1815,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4055_bgsnow", "char_1034_jesca2", "char_311_mudrok", "char_472_pasngr"]
+        "chars": [
+          "char_4055_bgsnow",
+          "char_1034_jesca2",
+          "char_311_mudrok",
+          "char_472_pasngr"
+        ]
       }
     ],
     "color": ["#f1812d"]
@@ -1856,7 +1935,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4064_mlynar", "char_4082_qiubai", "char_1033_swire2", "char_264_f12yin"]
+        "chars": [
+          "char_4064_mlynar",
+          "char_4082_qiubai",
+          "char_1033_swire2",
+          "char_264_f12yin"
+        ]
       }
     ],
     "color": ["#967b5e"]
@@ -2232,7 +2316,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_358_lisa", "char_350_surtr", "char_437_mizuki", "char_4055_bgsnow"]
+        "chars": [
+          "char_358_lisa",
+          "char_350_surtr",
+          "char_437_mizuki",
+          "char_4055_bgsnow"
+        ]
       }
     ],
     "color": ["#3778dc"]
@@ -2569,7 +2658,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4055_bgsnow", "char_4065_judge", "char_4064_mlynar", "char_322_lmlee"]
+        "chars": [
+          "char_4055_bgsnow",
+          "char_4065_judge",
+          "char_4064_mlynar",
+          "char_322_lmlee"
+        ]
       }
     ]
   },
@@ -2852,7 +2946,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_362_saga", "char_264_f12yin", "char_311_mudrok", "char_377_gdglow"]
+        "chars": [
+          "char_362_saga",
+          "char_264_f12yin",
+          "char_311_mudrok",
+          "char_377_gdglow"
+        ]
       }
     ],
     "color": ["#ff6221"]
@@ -3067,7 +3166,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_322_lmlee", "char_293_thorns", "char_4009_irene", "char_4048_doroth"]
+        "chars": [
+          "char_322_lmlee",
+          "char_293_thorns",
+          "char_4009_irene",
+          "char_4048_doroth"
+        ]
       }
     ],
     "color": ["#ffbe00"]
@@ -3351,7 +3455,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_416_zumama", "char_430_fartth", "char_358_lisa", "char_377_gdglow"]
+        "chars": [
+          "char_416_zumama",
+          "char_430_fartth",
+          "char_358_lisa",
+          "char_377_gdglow"
+        ]
       }
     ],
     "color": ["#9d98f6"]
@@ -3512,7 +3621,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_222_bpipe", "char_426_billro", "char_248_mgllan", "char_472_pasngr"]
+        "chars": [
+          "char_222_bpipe",
+          "char_426_billro",
+          "char_248_mgllan",
+          "char_472_pasngr"
+        ]
       }
     ],
     "color": ["#eeb100"]
@@ -3660,7 +3774,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_103_angel", "char_263_skadi", "char_264_f12yin", "char_003_kalts"]
+        "chars": [
+          "char_103_angel",
+          "char_263_skadi",
+          "char_264_f12yin",
+          "char_003_kalts"
+        ]
       }
     ],
     "color": ["#bac24b"]
@@ -4018,7 +4137,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_362_saga", "char_340_shwaz", "char_250_phatom", "char_350_surtr"]
+        "chars": [
+          "char_362_saga",
+          "char_340_shwaz",
+          "char_250_phatom",
+          "char_350_surtr"
+        ]
       }
     ],
     "color": ["#c43635"]
@@ -4378,7 +4502,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_293_thorns", "char_179_cgbird", "char_358_lisa", "char_400_weedy"]
+        "chars": [
+          "char_293_thorns",
+          "char_179_cgbird",
+          "char_358_lisa",
+          "char_400_weedy"
+        ]
       }
     ],
     "color": ["#e85c77"]
@@ -4708,7 +4837,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_225_haak", "char_136_hsguma", "char_2013_cerber", "char_222_bpipe"]
+        "chars": [
+          "char_225_haak",
+          "char_136_hsguma",
+          "char_2013_cerber",
+          "char_222_bpipe"
+        ]
       }
     ],
     "color": ["#f4b764"]
@@ -5111,7 +5245,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_017_huang", "char_202_demkni", "char_213_mostma", "char_188_helage"]
+        "chars": [
+          "char_017_huang",
+          "char_202_demkni",
+          "char_213_mostma",
+          "char_188_helage"
+        ]
       }
     ],
     "color": ["#f6bf03"]
@@ -5449,7 +5588,12 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_010_chen", "char_172_svrash", "char_180_amgoat", "char_291_aglina"]
+        "chars": [
+          "char_010_chen",
+          "char_172_svrash",
+          "char_180_amgoat",
+          "char_291_aglina"
+        ]
       }
     ],
     "color": ["#f4d11f"]
