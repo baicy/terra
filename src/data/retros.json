@@ -1,5 +1,18 @@
 [
   {
+    "id": "act44side",
+    "name": "众生行记",
+    "type": "SIDESTORY",
+    "first": "2025-05-01 16:00",
+    "rerun": "",
+    "reid": "",
+    "trail": "",
+    "reward": {
+      "type": "char",
+      "id": "feiyayeye"
+    }
+  },
+  {
     "id": "act41side",
     "name": "挽歌燃烧殆尽",
     "type": "SIDESTORY",
@@ -82,6 +95,7 @@
     "id": "act36side",
     "name": "泰拉饭",
     "type": "SIDESTORY",
+    "linkage": true,
     "first": "2024-09-02 16:00",
     "rerun": "",
     "trail": "",
@@ -145,6 +159,7 @@
     "id": "act32side",
     "name": "水晶箭行动",
     "type": "SIDESTORY",
+    "linkage": true,
     "first": "2024-03-07 16:00",
     "rerun": "",
     "trail": "",
@@ -272,6 +287,7 @@
     "id": "act24side",
     "name": "落叶逐火",
     "type": "SIDESTORY",
+    "linkage": true,
     "first": "2023-03-07 16:00",
     "rerun": "",
     "trail": "",
@@ -576,6 +592,7 @@
     "id": "act17d0",
     "name": "源石尘行动",
     "type": "SIDESTORY",
+    "linkage": true,
     "first": "2021-03-09 16:00",
     "rerun": "2024-03-21 16:00",
     "trail": "",

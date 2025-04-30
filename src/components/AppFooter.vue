@@ -1,9 +1,5 @@
 <template>
-  <v-footer
-    height="40"
-    color="secondary"
-    app
-  >
+  <v-footer height="40" color="secondary" app>
     <v-btn
       v-for="item in items"
       :key="item.id"
@@ -16,41 +12,46 @@
 </template>
 
 <script setup>
-  const items = [
-    {
-      id: 'home',
-      title: '首页',
-      href: '/',
-    },
-    {
-      id: 'log',
-      title: '事务',
-      href: '/log',
-    },
-    {
-      id: 'operator',
-      title: '干员',
-      href: '/operator',
-    },
-    {
-      id: 'material',
-      title: '资源',
-      href: '/material',
-    },
-    {
-      id: 'story',
-      title: '故事',
-      href: '/story',
-    },
-  ]
+const items = [
+  {
+    id: 'home',
+    title: '首页',
+    href: '/'
+  },
+  {
+    id: 'log',
+    title: '事务',
+    href: '/log'
+  },
+  {
+    id: 'operator',
+    title: '干员',
+    href: '/operator'
+  },
+  {
+    id: 'material',
+    title: '资源',
+    href: '/material'
+  },
+  {
+    id: 'story',
+    title: '故事',
+    href: '/story'
+  },
+  {
+    id: 'furniture',
+    title: '家具',
+    href: '/furniture'
+  }
+]
 </script>
 
 <style scoped lang="sass">
-  .social-link :deep(.v-icon)
-    color: rgba(var(--v-theme-on-background), var(--v-disabled-opacity))
-    text-decoration: none
-    transition: .2s ease-in-out
+.social-link :deep(.v-icon)
+  color: rgba(var(--v-theme-on-background), var(--v-disabled-opacity))
+  text-decoration: none
+  transition: .2s ease-in-out
 
-    &:hover
-      color: rgba(25, 118, 210, 1)
+  &:hover
+    color: rgba(25, 118, 210, 1)
 </style>

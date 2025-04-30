@@ -300,6 +300,7 @@
     "type": "SIDESTORY",
     "color": ["#004fd4"],
     "start": "2025-05-01 16:00",
+    "retro": "act44side",
     "days": 21,
     "reward": {
       "type": "char",
