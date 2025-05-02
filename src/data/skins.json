@@ -8,7 +8,7 @@
     "online": "2025-05-15 16:00"
   },
   {
-    "id": "char_1035_wisdel@",
+    "id": "char_1035_wisdel@sale#14",
     "char": "char_1035_wisdel",
     "name": "超新星",
     "dynamic": true,
@@ -18,7 +18,7 @@
     "online": "2025-05-01 16:00"
   },
   {
-    "id": "char_332_archet@",
+    "id": "char_332_archet@sale#14",
     "char": "char_332_archet",
     "name": "至虔者荣光",
     "dynamic": true,
@@ -27,7 +27,7 @@
     "online": "2025-05-01 16:00"
   },
   {
-    "id": "char_4064_mlynar@",
+    "id": "char_4064_mlynar@iteration#3",
     "char": "char_4064_mlynar",
     "name": "苍茫怒号",
     "group": "命途迭代",
@@ -35,7 +35,7 @@
     "online": "2025-05-01 16:00"
   },
   {
-    "id": "char_300_phenxi@",
+    "id": "char_300_phenxi@boc#9",
     "char": "char_300_phenxi",
     "name": "审判日",
     "group": "斗争血脉",
@@ -43,7 +43,7 @@
     "online": "2025-05-01 16:00"
   },
   {
-    "id": "char_497_ctable",
+    "id": "char_497_ctable@epoque#44",
     "char": "char_497_ctable",
     "name": "湖畔歌者",
     "dynamic": true,
@@ -52,7 +52,7 @@
     "online": "2025-05-01 16:00"
   },
   {
-    "id": "char_437_mizuki@",
+    "id": "char_437_mizuki@game#6",
     "char": "char_437_mizuki",
     "name": "永恒玩家",
     "group": "成就之星",
@@ -60,7 +60,7 @@
     "online": "2025-05-01 16:00"
   },
   {
-    "id": "char_4136_phonor@",
+    "id": "char_4136_phonor@boc#9",
     "char": "char_4136_phonor",
     "name": "最初的颂歌",
     "group": "斗争血脉",
@@ -68,7 +68,7 @@
     "online": "2025-05-01 16:00"
   },
   {
-    "id": "char_230_savage@",
+    "id": "char_230_savage@kitchen#3",
     "char": "char_230_savage",
     "name": "家传秘方",
     "group": "罗德厨房",

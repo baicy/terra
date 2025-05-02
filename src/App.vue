@@ -19,6 +19,10 @@
             v-if="infoDialog.type === 'pool'"
             :pool="infoDialog.item"
           />
+          <activity-info
+            v-if="infoDialog.type === 'activity'"
+            :activity="infoDialog.item"
+          />
         </v-sheet>
       </v-sheet>
     </v-dialog>

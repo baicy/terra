@@ -11,8 +11,14 @@ const operators = useCharacterStore().list
 const system = useSystemStore()
 const retros = ato(_retros, 'id')
 
-// eslint-disable-next-line vue/require-default-prop
-const { affair } = defineProps({ affair: Object })
+const { affair } = defineProps({
+  affair: {
+    type: Object,
+    default() {
+      return {}
+    }
+  }
+})
 const {
   name,
   title,
@@ -63,11 +69,18 @@ const showOperator = (char) => {
     system.operatorDialog.char = operators[char]
   }
 }
-const showPool = (pool) => {
+const showInfo = (pool) => {
   if (affairType === 'pool') {
     system.infoDialog.open = true
     system.infoDialog.type = 'pool'
     system.infoDialog.item = pool
+  } else if (affair.retro && ['SIDESTORY', 'BRANCHLINE'].includes(type)) {
+    system.infoDialog.open = true
+    system.infoDialog.type = 'activity'
+    system.infoDialog.item = {
+      id: affair.retro,
+      type: 'sidestory'
+    }
   }
 }
 </script>
@@ -110,8 +123,12 @@ const showPool = (pool) => {
       <div v-if="name" class="d-flex">
         <span v-if="fake">(疑)</span>
         <span
-          :class="{ 'linked-tag': affairType === 'pool' }"
-          @click="showPool(affair)"
+          :class="{
+            'linked-tag':
+              affairType === 'pool' ||
+              (affair.retro && ['SIDESTORY', 'BRANCHLINE'].includes(type))
+          }"
+          @click="showInfo(affair)"
         >
           {{ name }}{{ rerun ? '·复刻' : '' }}
         </span>

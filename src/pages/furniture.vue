@@ -2,9 +2,17 @@
 import { sets, drops } from '@/data/furnitures.json'
 import _retros from '@/data/retros.json'
 import { ato } from '@/utils/utils'
+import { useSystemStore } from '@/stores/system'
 
 const retros = ato(_retros, 'id')
 const tab = ref('history')
+
+const system = useSystemStore()
+const showAct = (act) => {
+  system.infoDialog.open = true
+  system.infoDialog.type = 'activity'
+  system.infoDialog.item = { id: act, type: 'sidestory' }
+}
 </script>
 <template>
   <v-sheet class="h-100 d-flex ga-2">
@@ -70,13 +78,14 @@ const tab = ref('history')
               </div>
               <div class="d-flex flex-wrap ga-2">
                 <v-btn
-                  v-for="s in set.ss"
-                  :key="s"
-                  :color="retros[s].linkage ? 'error' : 'primary'"
-                  :variant="retros[s].rerun ? 'text' : 'flat'"
+                  v-for="ss in set.ss"
+                  :key="ss"
+                  :color="retros[ss].linkage ? 'error' : 'primary'"
+                  :variant="retros[ss].rerun ? 'text' : 'flat'"
                   size="small"
+                  @click="showAct(ss)"
                 >
-                  {{ retros[s].name }}
+                  {{ retros[ss].name }}
                 </v-btn>
               </div>
             </v-sheet>

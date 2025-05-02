@@ -1,6 +1,6 @@
 [
   {
-    "id": "act44side",
+    "id": "act42side",
     "name": "众生行记",
     "type": "SIDESTORY",
     "first": "2025-05-01 16:00",
@@ -9,7 +9,7 @@
     "trail": "",
     "reward": {
       "type": "char",
-      "id": "feiyayeye"
+      "id": "char_4194_rmixer"
     }
   },
   {
@@ -199,7 +199,7 @@
     "type": "SIDESTORY",
     "first": "2023-12-05 16:00",
     "rerun": "2024-12-19 16:00",
-    "reid": "",
+    "reid": "act30sre",
     "trail": "",
     "reward": {
       "type": "char",
@@ -595,6 +595,7 @@
     "linkage": true,
     "first": "2021-03-09 16:00",
     "rerun": "2024-03-21 16:00",
+    "reid": "act1r6sre",
     "trail": "",
     "reward": {
       "type": "char",

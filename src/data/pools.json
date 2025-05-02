@@ -183,7 +183,7 @@
   },
   "DOUBLE_61_0_2": {
     "fake": true,
-    "id": "DOUBLE_59_0_4",
+    "id": "DOUBLE_61_0_2",
     "name": "",
     "type": "standard",
     "start": "2025-05-08 04:00",
@@ -200,21 +200,21 @@
     "color": []
   },
   "LIMITED_61_0_1": {
-    "id": "LIMITED_47_0_1",
+    "id": "LIMITED_61_0_1",
     "name": "布道自由",
     "type": "fes",
     "start": "2025-05-01 16:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_exia2", "anjie"]
+        "chars": ["char_1041_angel2", "char_4193_lemuen"]
       },
       {
         "rarity": 5,
-        "chars": ["lingyin"]
+        "chars": ["char_4187_graceb"]
       }
     ],
-    "color": ["#df0446", "#446cdb"]
+    "color": ["#d42a56", "#b52041"]
   },
   "CLASSIC_DOUBLE_60_0_2": {
     "id": "CLASSIC_DOUBLE_60_0_2",

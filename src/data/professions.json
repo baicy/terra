@@ -123,7 +123,7 @@
         "name": "解放者",
         "code": "lib",
         "equiped": {
-          "x": "red"
+          "x": "grey"
         }
       },
       "crusher": {
@@ -140,7 +140,7 @@
           "x": "red"
         }
       },
-      "primwarrior": {
+      "primguard": {
         "name": "本源近卫",
         "code": "",
         "equiped": {}

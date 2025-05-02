@@ -1,6 +1,23 @@
 [
   {
     "fake": true,
+    "id": "act42sre",
+    "name": "众生行记",
+    "type": "SIDESTORY",
+    "color": ["#004fd4"],
+    "start": "2026-05-22 16:00",
+    "retro": "act42side",
+    "days": 10,
+    "reward": {
+      "type": "char",
+      "id": "char_4194_rmixer"
+    },
+    "drop": ["tong", "zhuan", "ye"],
+    "infinity": ["meng", "chun"],
+    "timeline": 0
+  },
+  {
+    "fake": true,
     "id": "act41sre",
     "name": "挽歌燃烧殆尽·复刻",
     "type": "SIDESTORY",
@@ -285,7 +302,7 @@
     "id": "act6ysign",
     "name": "「六周年庆典」限时签到",
     "type": "CHECKIN",
-    "color": ["#78c5e0"],
+    "color": ["#519ba4"],
     "start": "2025-05-01 16:00",
     "days": 14,
     "reward": {
@@ -295,17 +312,18 @@
     "timeline": 4
   },
   {
-    "id": "act5yueside",
+    "id": "act42side",
     "name": "众生行记",
     "type": "SIDESTORY",
     "color": ["#004fd4"],
     "start": "2025-05-01 16:00",
-    "retro": "act44side",
+    "retro": "act42side",
     "days": 21,
     "reward": {
       "type": "char",
-      "id": "feiyayeye"
+      "id": "char_4194_rmixer"
     },
+    "drop": ["tong", "zhuan", "ye"],
     "infinity": ["meng", "chun"],
     "timeline": 0
   },
@@ -454,7 +472,7 @@
   },
   {
     "id": "act3collection",
-    "name": "水月与深蓝之树 潮起潮又起",
+    "name": "集成回顾 水月与深蓝之树 潮起潮又起",
     "type": "COLLECTION",
     "color": ["#715aff"],
     "start": "2025-02-20 16:00",
