@@ -53,3 +53,7 @@ const system = useSystemStore()
 const infoDialog = computed(() => system.infoDialog)
 const operatorDialog = computed(() => system.operatorDialog)
 </script>
+<style lang="sass">
+html
+  overflow: auto
+</style>
