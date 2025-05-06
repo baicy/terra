@@ -1,5 +1,5 @@
 <template>
-  <v-footer height="40" color="secondary" app>
+  <v-footer v-if="route.name !== '/txt'" height="40" color="secondary" app>
     <v-btn
       v-for="item in items"
       :key="item.id"
@@ -12,6 +12,7 @@
 </template>
 
 <script setup>
+const route = useRoute()
 const items = [
   {
     id: 'home',
@@ -42,6 +43,11 @@ const items = [
     id: 'furniture',
     title: '家具',
     href: '/furniture'
+  },
+  {
+    id: 'txt',
+    title: '剧情',
+    href: '/txt'
   }
 ]
 </script>
