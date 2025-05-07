@@ -44,7 +44,7 @@
         <v-btn class="w100" @click="stay()">stay</v-btn>
       </div>
       <div>
-        <div>{{ player.event }}</div>
+        <div>{{ player.action }}</div>
       </div>
     </div>
   </v-sheet>
@@ -110,36 +110,36 @@ const player = reactive({
   diceLimit: 6,
   point: 0,
   location: 0,
-  event: ''
+  action: ''
 })
 function roll() {
   player.point = Math.ceil(Math.random() * player.diceLimit)
   player.dice--
   player.location += player.point
   if (player.location > total - 1) player.location = total - player.location
-  event()
+  action()
 }
 function stay() {
   player.dice++
-  event()
+  action()
 }
-function event() {
+function action() {
   const act = Math.ceil(Math.random() * 100)
   if (act < 5) {
     player.sanity += 10
     player.gold += 1
-    player.event = '找到收藏品，理智+10，源石锭+1'
+    player.action = '找到收藏品，理智+10，源石锭+1'
   } else if (act < 20) {
     player.sanity -= 8
     player.gold += 3
-    player.event = '遭遇敌人并战斗胜利，理智-8，源石锭+3'
+    player.action = '遭遇敌人并战斗胜利，理智-8，源石锭+3'
   } else if (act < 50) {
     player.sanity -= 6
     player.gold += 1
-    player.event = '发现固源岩，理智-6，源石锭+1'
+    player.action = '发现固源岩，理智-6，源石锭+1'
   } else {
     player.sanity -= 5
-    player.event = '什么也没有找到，理智-5'
+    player.action = '什么也没有找到，理智-5'
   }
 }
 </script>

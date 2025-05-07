@@ -7,7 +7,7 @@ export const useSystemStore = defineStore('system', () => {
   const selectedMaterial = ref('')
   const terraReader = reactive({ nickname: '{@nickname}' })
 
-  const btrData = localStorage.getItem('btr') || ''
+  const btrData = localStorage.getItem('btr') || JSON.stringify(terraReader)
   terraReader.nickname = JSON.parse(btrData).nickname
 
   return { infoDialog, operatorDialog, selectedMaterial, terraReader }
