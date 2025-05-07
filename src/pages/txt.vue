@@ -76,7 +76,7 @@
           <template #title="{ item, index }">
             <div v-if="index === 0" class="cursor-pointer">
               {{ item.title }}
-              <v-menu activator="parent" open-on-hover>
+              <v-menu activator="parent" open-on-hover open-on-click>
                 <v-list
                   v-model:selected="selection[0].value"
                   active-color="primary"
@@ -95,7 +95,7 @@
             </div>
             <div v-else-if="index === 1">
               {{ item.title }}
-              <v-menu activator="parent" open-on-hover>
+              <v-menu activator="parent" open-on-hover open-on-click>
                 <v-list
                   v-model:selected="selection[1].value"
                   active-color="primary"
@@ -114,7 +114,7 @@
             </div>
             <div v-else>
               {{ story.title || item.title }}
-              <v-menu activator="parent" open-on-hover>
+              <v-menu activator="parent" open-on-hover open-on-click>
                 <v-list
                   v-model:selected="selection[2].value"
                   active-color="primary"
