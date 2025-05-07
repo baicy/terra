@@ -146,8 +146,16 @@
           @click="hideText = !hideText"
         ></v-btn>
         <!-- <v-btn icon="mdi-volume-high" :size="36"></v-btn> -->
-        <!-- <v-btn icon="mdi-cog" :size="36"></v-btn> -->
+        <v-btn id="setting-btn" icon="mdi-cog" :size="36"></v-btn>
         <v-btn to="/" icon="mdi-home" :size="36"></v-btn>
+        <v-dialog activator="#setting-btn" max-width="400px">
+          <v-sheet class="pa-4">
+            <div>
+              <div>ID信息</div>
+              <v-text-field v-model="terraReader.nickname"></v-text-field>
+            </div>
+          </v-sheet>
+        </v-dialog>
       </div>
       <div class="position-absolute d-flex">
         <!-- <v-btn v-if="selection[0].type === 'main'">上一章</v-btn>
@@ -190,6 +198,17 @@
 </template>
 <script setup>
 import { getJSON, getTEXT } from '@/utils/utils'
+import { useSystemStore } from '@/stores/system'
+const system = useSystemStore()
+const terraReader = computed(() => system.terraReader)
+system.$subscribe((mutation) => {
+  if (mutation.events.key === 'nickname') {
+    localStorage.setItem(
+      'btr',
+      JSON.stringify({ nickname: mutation.events.newValue.trim() })
+    )
+  }
+})
 const page = ref(0)
 const LANG = 'zh_CN'
 const DATA_SOURCE =
@@ -375,8 +394,6 @@ async function formatStory(stage) {
     }
     function addText(text, speaker = '') {
       let rid = 0
-      // text = text.replace('{@nickname}', '少年海豹')
-      // console.log(text)
       text = text.replace(/\\n/g, '\n')
       if (story.contents[index - 1]) {
         rid = story.contents[index - 1].texts.length
