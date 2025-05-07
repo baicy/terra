@@ -3,9 +3,10 @@
     <router-view />
   </v-main>
 
-  <AppFooter />
+  <AppFooter v-if="!independents.includes(route.name)" />
 </template>
 
-<script lang="ts" setup>
-  //
+<script setup>
+const route = useRoute()
+const independents = ['/txt', '/run']
 </script>
