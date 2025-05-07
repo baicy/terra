@@ -201,13 +201,11 @@ import { getJSON, getTEXT } from '@/utils/utils'
 import { useSystemStore } from '@/stores/system'
 const system = useSystemStore()
 const terraReader = computed(() => system.terraReader)
-system.$subscribe((mutation) => {
-  if (mutation.events.key === 'nickname') {
-    localStorage.setItem(
-      'btr',
-      JSON.stringify({ nickname: mutation.events.newValue.trim() })
-    )
-  }
+system.$subscribe(() => {
+  localStorage.setItem(
+    'btr',
+    JSON.stringify({ nickname: terraReader.value.nickname.trim() })
+  )
 })
 const page = ref(0)
 const LANG = 'zh_CN'
