@@ -26,7 +26,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": []
+        "chars": ["char_4064_mlynar"]
       },
       {
         "rarity": 5,
@@ -80,7 +80,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4055_bgsnow", "char_300_phenxi"]
+        "chars": ["char_4055_bgsnow"]
       },
       {
         "rarity": 5,
@@ -98,7 +98,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_1032_excu2", "char_4064_mlynar"]
+        "chars": ["char_1032_excu2", "char_4026_vulpis"]
       },
       {
         "rarity": 5,
@@ -182,22 +182,20 @@
     "color": ["#ff8a00"]
   },
   "DOUBLE_61_0_2": {
-    "fake": true,
     "id": "DOUBLE_61_0_2",
-    "name": "",
     "type": "standard",
     "start": "2025-05-08 04:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4048_doroth", "char_4026_vulpis"]
+        "chars": ["char_4048_doroth", "char_300_phenxi"]
       },
       {
         "rarity": 5,
-        "chars": []
+        "chars": ["char_488_buildr", "char_464_cement", "char_4006_melnte"]
       }
     ],
-    "color": []
+    "color": ["#f2482e"]
   },
   "LIMITED_61_0_1": {
     "id": "LIMITED_61_0_1",

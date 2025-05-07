@@ -59,7 +59,7 @@
             <div class="pr-4 text-right" style="flex: 1.5 50px">
               {{ line.speaker }}
             </div>
-            <div style="flex: 6 300px">{{ line.text }}</div>
+            <reader-text style="flex: 6 300px" :text="line.text"> </reader-text>
           </div>
         </div>
       </div>
@@ -223,6 +223,7 @@ onBeforeMount(async () => {
     if (list[id].actType !== 'NONE') {
       switches[storyType[list[id].actType]].eps[id] = {
         id,
+        type: storyType[list[id].actType],
         title: list[id].name,
         stages: list[id].infoUnlockDatas
       }
@@ -236,19 +237,12 @@ onBeforeMount(async () => {
 //   // activities/act13side/level_act13side_09_beg.txt
 //   // activities\act12d0\level_act12d0_01_beg.txt
 //   // act18side_level_act18side_st03
-//   formatStory('act18side_level_act18side_st03')
+//   // act42side_level_act42side_01_beg
+//   // act18side_level_act18side_st01
+//   // act37side_level_act37side_07_end
+//   selectStage('act37side_level_act37side_07_end')
 // }
 async function formatStory(stage) {
-  if (typeof stage === 'string') {
-    const epid = stage.split('_')[0]
-    const allStages = [
-      ...Object.values(switches.main.eps),
-      ...Object.values(switches.side.eps),
-      ...Object.values(switches.mini.eps)
-    ]
-    const ep = allStages.find((v) => v.id === epid)
-    stage = ep.stages.find((v) => v.storyId === stage)
-  }
   story.title = `${stage.storyCode} ${stage.storyName} ${stage.avgTag}`
   const txt = await getTEXT(`${dbSource}/gamedata/story/${stage.storyTxt}.txt`)
   const lines = txt.matchAll(/^(\[[^\]]+])?(.*)?$/gim)
@@ -324,7 +318,17 @@ async function formatStory(stage) {
       cgitem = ''
     }
     if (cmd === 'Subtitle') {
-      addText(args.text)
+      if (args.text) addText(args.text)
+    }
+    if (cmd === 'Sticker') {
+      if (args.text) addText(args.text)
+    }
+    if (cmd === 'animtext') {
+      if (args.name === 'group_location_stamp') {
+        const title = line[2].match(/<p=1>(.*?)<\/>/)
+        const content = line[2].match(/<p=2>(.*?)<\/>/)
+        addText(`${title[1]}\n${content[1]}`)
+      }
     }
     if (cmd === 'Decision') {
       const options = args.options.split(';')
@@ -372,6 +376,8 @@ async function formatStory(stage) {
     function addText(text, speaker = '') {
       let rid = 0
       // text = text.replace('{@nickname}', '少年海豹')
+      // console.log(text)
+      text = text.replace(/\\n/g, '\n')
       if (story.contents[index - 1]) {
         rid = story.contents[index - 1].texts.length
         story.contents[index - 1].texts.push({
@@ -513,7 +519,7 @@ const siblings = computed(() => {
 })
 function selectLine(line, type) {
   selection[0].title = line.title
-  selection[0].value = type
+  selection[0].value = [type]
   selection[0].type = type
   selection[0].eps = line.eps
   if (!selection[1]) {
@@ -525,7 +531,7 @@ function selectLine(line, type) {
 }
 function selectEpisode(ep) {
   selection[1].title = ep.title
-  selection[1].value = ep.id
+  selection[1].value = [ep.id]
   selection[1].stages = ep.stages
   if (!selection[2]) {
     selection.push({
@@ -535,6 +541,19 @@ function selectEpisode(ep) {
   }
 }
 function selectStage(stage, order) {
+  if (typeof stage === 'string') {
+    const epid = stage.split('_')[0]
+    const allStages = [
+      ...Object.values(switches.main.eps),
+      ...Object.values(switches.side.eps),
+      ...Object.values(switches.mini.eps)
+    ]
+    const ep = allStages.find((v) => v.id === epid)
+    selectLine(switches[ep.type], ep.type)
+    selectEpisode(ep)
+    order = ep.stages.findIndex((v) => v.storyId === stage)
+    stage = ep.stages[order]
+  }
   selection[2].value = [stage.storyId]
   selection[2].order = order
   selection[2].stage = stage

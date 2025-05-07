@@ -266,6 +266,7 @@
     "timeline": 0
   },
   {
+    "fake": true,
     "id": "kuiyingcollection",
     "name": "傀影与猩红孤钻 N15",
     "type": "COLLECTION",
