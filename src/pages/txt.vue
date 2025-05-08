@@ -672,12 +672,14 @@ function optAll(prev) {
   if (prev) {
     if (page.value > 0) {
       page.value--
+      reset()
     } else if (siblings.value.prev) {
       selectStage(siblings.value.prev, selection[2].order - 1)
     }
   } else {
     if (page.value + 1 < story.contents.length) {
       page.value++
+      reset()
     } else if (siblings.value.next) {
       selectStage(siblings.value.next, selection[2].order + 1)
     }
