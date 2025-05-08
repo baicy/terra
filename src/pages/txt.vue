@@ -1,16 +1,22 @@
 <template>
   <v-sheet class="w-100 h-100 d-flex flex-column pa-4 position-relative">
     <div
-      class="b1 px-8 py-4 position-relative text-white"
-      style="height: calc(100% - 50px); font-size: 24px; background-size: cover"
+      class="b1 px-8 py-4 position-relative text-white d-flex justify-center align-center"
+      style="height: calc(100% - 50px); background-size: cover"
       :style="{
         backgroundImage: `url(${AVG_SOURCE}${(story.contents[page] ? story.contents[page].bg.toLowerCase() : '') || 'backgrounds/bg_black'}.png)`,
+        fontSize: `${terraReader.fontSize}px`,
         ...(story.contents[page] ? story.contents[page].bgStyle : {})
       }"
     >
       <div
-        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center"
+        class="position-absolute top-0 left-0 w-100 h-100"
         style="z-index: 2"
+        :style="{ backgroundColor: blockerColor }"
+      ></div>
+      <div
+        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center"
+        style="z-index: 3"
       >
         <img
           v-if="story.contents[page] && story.contents[page].cgitem"
@@ -24,13 +30,13 @@
           story.contents[page] && story.contents[page].texts.length && !hideText
         "
         ref="modalRef"
-        class="d-flex flex-column ga-3 overflow-auto py-4 position-relative"
-        style="
-          height: calc(100% - 16px);
-          background-color: #00000099;
-          z-index: 10;
-        "
+        class="d-flex flex-column ga-3 overflow-auto py-6 position-relative"
+        style="width: calc(100% - 16px); height: calc(100% - 16px); z-index: 10"
+        :style="{
+          backgroundColor: `rgba(0,0,0,${terraReader.modalAlpha / 100})`
+        }"
       >
+        <!-- <div>{{ story.contents[page] }}</div> -->
         <div
           v-for="(line, index) in story.contents[page].texts.filter(
             (v) => !hiddenRows.has(v.rid)
@@ -51,8 +57,23 @@
                 style="background-color: #00000099"
                 @click="decide(decision, line.decisions)"
               >
-                {{ decision.option }}
+                <reader-text :text="decision.option"></reader-text>
               </div>
+            </div>
+          </div>
+          <div
+            v-else-if="line.type === 'sticker'"
+            class="d-flex justify-center"
+          >
+            <div
+              :class="[`text-${line.info.align}`]"
+              style="max-width: 100%"
+              :style="{
+                width: `${line.info.width}px`,
+                fontSize: `${(line.info.size || 24) / 24}em`
+              }"
+            >
+              <reader-text :text="line.text"></reader-text>
             </div>
           </div>
           <div v-else class="d-flex">
@@ -63,6 +84,16 @@
           </div>
         </div>
       </div>
+      <div
+        class="h-100 position-absolute left-0"
+        style="z-index: 20; width: 15%"
+        @click="optAll(true)"
+      ></div>
+      <div
+        class="h-100 position-absolute right-0"
+        style="z-index: 20; width: 15%"
+        @click="optAll(false)"
+      ></div>
     </div>
     <div
       class="w-100 d-flex justify-center align-center h50"
@@ -148,16 +179,53 @@
         <!-- <v-btn icon="mdi-volume-high" :size="36"></v-btn> -->
         <v-btn id="setting-btn" icon="mdi-cog" :size="36"></v-btn>
         <v-btn to="/" icon="mdi-home" :size="36"></v-btn>
-        <v-dialog activator="#setting-btn" max-width="400px">
+        <v-dialog activator="#setting-btn" max-width="400px" opacity="0">
           <v-sheet class="pa-4">
-            <div>
-              <div>ID信息</div>
-              <v-text-field v-model="terraReader.nickname"></v-text-field>
-            </div>
+            <div>ID信息</div>
+            <v-text-field v-model="terraReader.nickname"></v-text-field>
+            <div>对话框透明度</div>
+            <v-slider v-model="terraReader.modalAlpha" step="1">
+              <template #append>
+                <v-text-field
+                  v-model="terraReader.modalAlpha"
+                  :min-width="60"
+                  hide-details
+                  density="compact"
+                >
+                  <template #append>%</template>
+                </v-text-field>
+                <v-btn
+                  size="xsmall"
+                  class="ml-2"
+                  icon="mdi-restart"
+                  variant="text"
+                  @click="terraReader.modalAlpha = 40"
+                ></v-btn>
+              </template>
+            </v-slider>
+            <div>字体大小</div>
+            <v-slider v-model="terraReader.fontSize" step="1" min="12" max="72">
+              <template #append>
+                <v-text-field
+                  v-model="terraReader.fontSize"
+                  :min-width="60"
+                  hide-details
+                  density="compact"
+                >
+                </v-text-field>
+                <v-btn
+                  size="xsmall"
+                  class="ml-2"
+                  icon="mdi-restart"
+                  variant="text"
+                  @click="terraReader.fontSize = 24"
+                ></v-btn>
+              </template>
+            </v-slider>
           </v-sheet>
         </v-dialog>
       </div>
-      <div class="position-absolute d-flex">
+      <div v-if="!mobile" class="position-absolute d-flex">
         <!-- <v-btn v-if="selection[0].type === 'main'">上一章</v-btn>
         <v-div v-else class="w100"></v-div> -->
         <v-btn
@@ -197,15 +265,13 @@
   </v-sheet>
 </template>
 <script setup>
+import { useDisplay } from 'vuetify'
 import { getJSON, getTEXT } from '@/utils/utils'
 import { useSystemStore } from '@/stores/system'
 const system = useSystemStore()
 const terraReader = computed(() => system.terraReader)
 system.$subscribe(() => {
-  localStorage.setItem(
-    'btr',
-    JSON.stringify({ nickname: terraReader.value.nickname.trim() })
-  )
+  localStorage.setItem('btr', JSON.stringify(terraReader.value))
 })
 const page = ref(0)
 const LANG = 'zh_CN'
@@ -224,9 +290,24 @@ const story = reactive({
   title: '',
   contents: []
 })
+const blockerColor = computed(() => {
+  let r = 0
+  let g = 0
+  let b = 0
+  let a = 0
+  const blocker = (story.contents[page.value] || { blocker: { a: 0 } }).blocker
+  if (blocker.a != 0) {
+    r = blocker.r
+    g = blocker.g
+    b = blocker.b
+    a = blocker.a
+  }
+  return `rgba(${255 * r},${255 * g},${255 * b},${a})`
+})
 const hideText = ref(false)
 const hiddenRows = ref(new Set())
 const shownRows = ref(new Set())
+const { mobile } = useDisplay()
 onBeforeMount(async () => {
   const list = await getJSON(
     `${dbSource}/gamedata/excel/story_review_table.json`
@@ -242,7 +323,11 @@ onBeforeMount(async () => {
         id,
         type: storyType[list[id].actType],
         title: list[id].name,
-        stages: list[id].infoUnlockDatas
+        stages: list[id].infoUnlockDatas.map((v, k) => ({
+          ...v,
+          type: storyType[list[id].actType],
+          order: k
+        }))
       }
     }
   }
@@ -257,7 +342,15 @@ onBeforeMount(async () => {
 //   // act42side_level_act42side_01_beg
 //   // act18side_level_act18side_st01
 //   // act37side_level_act37side_07_end
-//   selectStage('act37side_level_act37side_07_end')
+//   // act14side_level_act14side_st01
+//   // act3d0_ui_act3d0_campselect
+//   // main_15_level_main_15-14_end
+//   // const stage = switches['main'].eps['main_15'].stages.find(
+//   //   (v) => v.storyId === 'main_15_level_main_15-14_end'
+//   // )
+//   // act33side_level_act33side_st03
+//   // act33side_level_act33side_01_end
+//   selectStage('act33side_level_act33side_01_end')
 // }
 async function formatStory(stage) {
   story.title = `${stage.storyCode} ${stage.storyName} ${stage.avgTag}`
@@ -267,8 +360,11 @@ async function formatStory(stage) {
   story.contents = []
   page.value = 0
   let index = 0
+  let bg = ''
   let bgGray = 0
+  let blocker = { a: 0 }
   let cgitem = ''
+  let stickerHolder = false
   let decisionStack = []
   let decisionStatus = []
   for (const line of lines) {
@@ -295,7 +391,7 @@ async function formatStory(stage) {
       !cmd
     ) {
       speakers.add(args.name)
-      addText(line[2], args.name)
+      addText(line[2], { speaker: args.name })
     } else if (line[1] && cmd) {
       //
     }
@@ -314,17 +410,36 @@ async function formatStory(stage) {
         }
       }
     }
-    if (['Background', 'Image'].includes(cmd)) {
-      if (args.image) {
-        story.contents.push({
-          bg: `${cmd.toLowerCase()}s/${args.image}`,
-          bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
-          cgitem,
-          texts: []
-        })
-        index++
-        decisionStatus = []
-        decisionStack = []
+    if (['Background', 'Image', 'gridbg'].includes(cmd)) {
+      if (args.image || args.imagegroup) {
+        bg =
+          cmd === 'gridbg'
+            ? `backgrounds/${args.imagegroup.split('/')[0]}`
+            : `${cmd.toLowerCase()}s/${args.image}`
+        if (
+          (story.contents[index - 1] &&
+            story.contents[index - 1].blocker.a == 1 &&
+            !story.contents[index - 1].texts.length) ||
+          stickerHolder
+        ) {
+          Object.assign(story.contents[index - 1], {
+            bg,
+            bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+            cgitem,
+            blocker
+          })
+        } else {
+          story.contents.push({
+            bg,
+            bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+            cgitem,
+            blocker,
+            texts: []
+          })
+          index++
+          decisionStatus = []
+          decisionStack = []
+        }
       }
     }
     if (cmd === 'cgitem') {
@@ -334,11 +449,37 @@ async function formatStory(stage) {
     if (cmd === 'hidecgitem') {
       cgitem = ''
     }
+    if (cmd === 'Blocker') {
+      const { a, r, g, b } = args
+      blocker = { a, r, g, b }
+      if (
+        a == 1 &&
+        (story.contents[index - 1] || { texts: [] }).texts.length &&
+        !stickerHolder
+      ) {
+        story.contents.push({
+          bg,
+          bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+          cgitem,
+          blocker,
+          texts: []
+        })
+        index++
+        decisionStatus = []
+        decisionStack = []
+      }
+    }
     if (cmd === 'Subtitle') {
       if (args.text) addText(args.text)
     }
     if (cmd === 'Sticker') {
-      if (args.text) addText(args.text)
+      if (args.text || args.id === 'st1') {
+        addText(args.text || '', {
+          type: 'sticker',
+          force: args.id === 'st1' && !args.multi,
+          info: { align: args.alignment, width: args.width, size: args.size }
+        })
+      }
     }
     if (cmd === 'animtext') {
       if (args.name === 'group_location_stamp') {
@@ -376,45 +517,55 @@ async function formatStory(stage) {
       })
       addToDecision(rid)
       decisionStack = [...newStack]
-
-      // decisionStack = [...newStack]
-      // story.contents[index - 1].texts[rid].dicisions = decisions
     }
     if (cmd === 'Predicate') {
       decisionStatus = args.references.split(';')
     }
     if (cmd == 'Dialog') {
-      // decisionStatus = []
-      // decisionStack = []
     }
     if (!line[1]) {
       addText(line[0])
     }
-    function addText(text, speaker = '') {
+    function addText(text, params = {}) {
       let rid = 0
+      const { speaker, type, force, info } = params
       text = text.replace(/\\n/g, '\n')
-      if (story.contents[index - 1]) {
-        rid = story.contents[index - 1].texts.length
-        story.contents[index - 1].texts.push({
-          rid,
-          text,
-          speaker
-        })
-      } else {
+      if (
+        !story.contents[index - 1] ||
+        (story.contents[index - 1].texts.length &&
+          !stickerHolder &&
+          (force || story.contents[index - 1].type !== type))
+      ) {
         story.contents.push({
-          bg: '',
+          bg,
+          blocker,
+          type,
           texts: [
             {
               rid,
               text,
-              speaker
+              speaker,
+              type,
+              info
             }
           ]
         })
         index++
         decisionStatus = []
         decisionStack = []
+      } else {
+        rid = story.contents[index - 1].texts.length
+        story.contents[index - 1].blocker = blocker
+        story.contents[index - 1].type = type
+        story.contents[index - 1].texts.push({
+          rid,
+          text,
+          speaker,
+          type,
+          info
+        })
       }
+      stickerHolder = !text
       addToDecision(rid)
     }
     function addToDecision(rid) {
@@ -422,9 +573,6 @@ async function formatStory(stage) {
       if (decisionStatus.length) {
         decisionStatus.forEach((d) => {
           const decision = decisionStack.find((v) => v.value === d)
-          // if (decision.pid === 3) {
-          //   console.log(rid, decision)
-          // }
           if (decision && decision.rid !== rid) {
             story.contents[decision.pid].texts[decision.rid].decisions
               .find((v) => v.value === d)
@@ -434,7 +582,12 @@ async function formatStory(stage) {
       }
     }
   }
-  // console.log(story)
+  const lastPage = story.contents[story.contents.length - 1]
+  if (lastPage) {
+    if (!lastPage.texts.length || stickerHolder) {
+      story.contents.pop()
+    }
+  }
   reset()
 }
 function reset() {
@@ -515,6 +668,21 @@ function optStage(prev) {
     }
   }
 }
+function optAll(prev) {
+  if (prev) {
+    if (page.value > 0) {
+      page.value--
+    } else if (siblings.value.prev) {
+      selectStage(siblings.value.prev, selection[2].order - 1)
+    }
+  } else {
+    if (page.value + 1 < story.contents.length) {
+      page.value++
+    } else if (siblings.value.next) {
+      selectStage(siblings.value.next, selection[2].order + 1)
+    }
+  }
+}
 const siblings = computed(() => {
   let prev = null
   let next = null
@@ -568,6 +736,11 @@ function selectStage(stage, order) {
     selectEpisode(ep)
     order = ep.stages.findIndex((v) => v.storyId === stage)
     stage = ep.stages[order]
+  }
+  if (!selection[2]) {
+    selectLine(switches[stage.type], stage.type)
+    selectEpisode(switches[stage.type].eps[stage.storyGroup])
+    order = stage.order
   }
   selection[2].value = [stage.storyId]
   selection[2].order = order
