@@ -1,0 +1,648 @@
+<template>
+  <v-sheet class="w-100 h-100 d-flex flex-column pa-4 position-relative">
+    <div
+      ref="readerRef"
+      class="b1 px-8 py-4 position-relative text-white d-flex justify-center align-center"
+      style="height: calc(100% - 50px); background-size: cover"
+      :style="{
+        backgroundImage: `url(${AVG_SOURCE}${(story.scenes[page] ? story.scenes[page].bg.toLowerCase() : '') || 'backgrounds/bg_black'}.png)`,
+        fontSize: `${terraReader.fontSize}px`,
+        ...(story.scenes[page] ? story.scenes[page].bgStyle : {})
+      }"
+      @click="optAll($event)"
+    >
+      <div
+        class="position-absolute top-0 left-0 w-100 h-100"
+        style="z-index: 2"
+        :style="{ backgroundColor: blockerColor }"
+      ></div>
+      <div
+        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center"
+        style="z-index: 3"
+      >
+        <img
+          v-if="story.scenes[page] && story.scenes[page].cgitem"
+          :src="`${AVG_SOURCE}items/${story.scenes[page].cgitem}.png`"
+          class="position-absolute bottom-0"
+          style="max-height: 100%"
+        />
+      </div>
+      <div
+        v-if="
+          story.scenes[page] && story.scenes[page].texts.length && !hideText
+        "
+        ref="modalRef"
+        class="d-flex flex-column ga-3 overflow-auto px-2 py-6 position-relative"
+        style="width: calc(100% - 16px); height: calc(100% - 16px); z-index: 10"
+        :style="{
+          backgroundColor: `rgba(0,0,0,${terraReader.modalAlpha / 100})`
+        }"
+      >
+        <div
+          v-for="(line, index) in story.scenes[page].texts.filter(
+            (v) => !hiddenRows.has(v.rid)
+          )"
+          :key="index"
+          class="d-flex flex-column"
+        >
+          <div v-if="line.decisions" class="text-center w-100 px-4">
+            <div
+              class="d-flex flex-column ga-1 align-center py-2"
+              style="background-color: #ffffff33"
+            >
+              <div
+                v-for="decision in line.decisions"
+                :key="decision.value"
+                class="b1 px-2 w600 cursor-pointer"
+                :class="{ 'text-primary': decision.selected }"
+                style="background-color: #00000099"
+                @click="decide(decision, line.decisions)"
+              >
+                <reader-text :text="decision.option"></reader-text>
+              </div>
+            </div>
+          </div>
+          <div
+            v-else-if="line.type === 'sticker'"
+            class="d-flex justify-center"
+          >
+            <div
+              :class="[`text-${line.info.align}`]"
+              style="max-width: 100%"
+              :style="{
+                width: `${line.info.width}px`,
+                fontSize: `${(line.info.size || 24) / 24}em`
+              }"
+            >
+              <reader-text :text="line.text"></reader-text>
+            </div>
+          </div>
+          <div v-else class="d-flex">
+            <div class="pr-4 text-right" style="flex: 1.5 50px">
+              {{ line.speaker }}
+            </div>
+            <reader-text style="flex: 6 300px" :text="line.text"> </reader-text>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-100 d-flex justify-center align-center h50"
+      style="z-index: 20"
+    >
+      <reader-switch
+        v-if="allStages"
+        :all-stages="allStages"
+        :selected-stage="readerStage"
+        @stages="switchStages"
+        @stage="switchStage"
+      ></reader-switch>
+      <v-spacer></v-spacer>
+      <div class="d-flex ga-1">
+        <!-- <v-btn>CN</v-btn> -->
+        <v-btn
+          :icon="hideText ? 'mdi-eye-off' : 'mdi-eye'"
+          :size="36"
+          @click="hideText = !hideText"
+        ></v-btn>
+        <!-- <v-btn icon="mdi-volume-high" :size="36"></v-btn> -->
+        <v-btn id="setting-btn" icon="mdi-cog" :size="36"></v-btn>
+        <v-btn to="/" icon="mdi-home" :size="36"></v-btn>
+        <v-dialog activator="#setting-btn" max-width="400px" opacity="0">
+          <v-sheet class="pa-4">
+            <div>ID信息</div>
+            <v-text-field v-model="terraReader.nickname"></v-text-field>
+            <div>对话框透明度</div>
+            <v-slider v-model="terraReader.modalAlpha" step="1">
+              <template #append>
+                <v-text-field
+                  v-model="terraReader.modalAlpha"
+                  :min-width="60"
+                  hide-details
+                  density="compact"
+                >
+                  <template #append>%</template>
+                </v-text-field>
+                <v-btn
+                  size="xsmall"
+                  class="ml-2"
+                  icon="mdi-restart"
+                  variant="text"
+                  @click="terraReader.modalAlpha = 40"
+                ></v-btn>
+              </template>
+            </v-slider>
+            <div>字体大小</div>
+            <v-slider v-model="terraReader.fontSize" step="1" min="12" max="72">
+              <template #append>
+                <v-text-field
+                  v-model="terraReader.fontSize"
+                  :min-width="60"
+                  hide-details
+                  density="compact"
+                >
+                </v-text-field>
+                <v-btn
+                  size="xsmall"
+                  class="ml-2"
+                  icon="mdi-restart"
+                  variant="text"
+                  @click="terraReader.fontSize = 24"
+                ></v-btn>
+              </template>
+            </v-slider>
+            <div>两侧可翻页占比</div>
+            <v-slider v-model="terraReader.optPercent" step="1" max="50">
+              <template #append>
+                {{ terraReader.optPercent }}%
+                <v-btn
+                  size="xsmall"
+                  class="ml-2"
+                  icon="mdi-restart"
+                  variant="text"
+                  @click="terraReader.optPercent = 15"
+                ></v-btn>
+              </template>
+            </v-slider>
+          </v-sheet>
+        </v-dialog>
+      </div>
+      <div v-if="!mobile" class="position-absolute d-flex">
+        <!-- <v-btn v-if="selection[0].type === 'main'">上一章</v-btn>
+        <v-div v-else class="w100"></v-div> -->
+        <v-btn
+          v-if="siblings.prev"
+          class="w100"
+          color="warning"
+          @click="optStage(true)"
+        >
+          上一节
+        </v-btn>
+        <v-div v-else class="w100"></v-div>
+        <v-btn v-if="page > 0" class="w100" @click="optPage(true)">
+          上一页
+        </v-btn>
+        <v-div v-else class="w100"></v-div>
+        <v-btn
+          v-if="page + 1 < story.scenes.length"
+          class="w100"
+          @click="optPage(false)"
+        >
+          下一页
+        </v-btn>
+        <v-div v-else class="w100"></v-div>
+        <v-btn
+          v-if="siblings.next"
+          class="w100"
+          color="warning"
+          @click="optStage(false)"
+        >
+          下一节
+        </v-btn>
+        <v-div v-else class="w100"></v-div>
+        <!-- <v-btn v-if="selection[0].type === 'main'">下一章</v-btn>
+        <v-div v-else class="w100"></v-div> -->
+      </div>
+    </div>
+  </v-sheet>
+</template>
+<script setup>
+import { useDisplay } from 'vuetify'
+import { getTEXT } from '@/utils/utils'
+import { useSystemStore } from '@/stores/system'
+
+const DATA_SOURCE =
+  'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/'
+const LANG = 'zh_CN'
+const dbSource = `${DATA_SOURCE}${LANG}`
+const AVG_SOURCE =
+  'https://raw.githubusercontent.com/akgcc/arkdata/main/assets/torappu/dynamicassets/avg/'
+
+const { readerStage, allStages } = defineProps({
+  readerStage: {
+    type: Object,
+    default() {
+      return {}
+    }
+  },
+  allStages: {
+    type: Object,
+    default() {
+      return {}
+    }
+  }
+})
+
+const story = reactive({
+  title: '',
+  scenes: []
+})
+const page = ref(0)
+const selection = reactive({ stages: [] })
+
+const storyId = computed(() => readerStage.storyId)
+watch(storyId, (_, oldValue) => {
+  if (!oldValue) formatStory(readerStage)
+})
+
+function switchStages(stages) {
+  selection.stages = stages
+}
+function switchStage(stage) {
+  selectStage(stage)
+}
+const emit = defineEmits(['change'])
+function selectStage(stage) {
+  formatStory(stage)
+  let str = stage.storyId.split('_level_')[1]
+  if (stage.type !== 'main') {
+    str = str.substring(
+      str.indexOf(stage.storyGroup) + stage.storyGroup.length + 1
+    )
+  }
+  emit('change', [stage.type, stage.storyGroup, str])
+}
+
+const system = useSystemStore()
+const terraReader = computed(() => system.terraReader)
+system.$subscribe(() => {
+  localStorage.setItem('btr', JSON.stringify(terraReader.value))
+})
+
+const readerRef = ref()
+const modalRef = ref()
+const readerScreen = reactive({ width: 0, height: 0 })
+const { mobile } = useDisplay()
+onMounted(() => {
+  setReader()
+})
+window.onresize = () => {
+  setReader()
+}
+function setReader() {
+  const screen = getComputedStyle(readerRef.value)
+  readerScreen.width = Number(screen.width.match(/(.*)px/)[1])
+  readerScreen.height = Number(screen.height.match(/(.*)px/)[1])
+}
+const siblings = computed(() => {
+  let prev = null
+  let next = null
+  const stages = selection.stages
+  const pos = readerStage.order
+  if (pos > 0) {
+    prev = stages[pos - 1]
+  }
+  if (pos + 1 < stages.length) {
+    next = stages[pos + 1]
+  }
+  return { prev, next }
+})
+function optAll(e) {
+  const optPercent = terraReader.value.optPercent / 100
+  if (e.layerX < readerScreen.width * optPercent) {
+    if (!optPage(true)) {
+      optStage(true)
+    }
+  } else if (e.layerX > readerScreen.width * (1 - optPercent)) {
+    if (!optPage(false)) {
+      optStage(false)
+    }
+  }
+}
+function optPage(prev) {
+  let res = false
+  if (prev) {
+    if (page.value > 0) {
+      page.value--
+      res = true
+    }
+  } else {
+    if (page.value + 1 < story.scenes.length) {
+      page.value++
+      res = true
+    }
+  }
+  reset()
+  return res
+}
+function optStage(prev) {
+  if (prev) {
+    if (siblings.value.prev) {
+      selectStage(siblings.value.prev)
+    }
+  } else {
+    if (siblings.value.next) {
+      selectStage(siblings.value.next)
+    }
+  }
+}
+
+const blockerColor = computed(() => {
+  let r = 0
+  let g = 0
+  let b = 0
+  let a = 0
+  const blocker = (story.scenes[page.value] || { blocker: { a: 0 } }).blocker
+  if (blocker.a != 0) {
+    r = blocker.r
+    g = blocker.g
+    b = blocker.b
+    a = blocker.a
+  }
+  return `rgba(${255 * r},${255 * g},${255 * b},${a})`
+})
+const hideText = ref(false)
+const hiddenRows = ref(new Set())
+const shownRows = ref(new Set())
+
+function reset() {
+  if (modalRef.value) modalRef.value.scrollTop = 0
+  calDecisions()
+}
+function calDecisions() {
+  if (!story.scenes.length) return
+  hiddenRows.value.clear()
+  shownRows.value.clear()
+  for (const t in story.scenes[page.value].texts) {
+    const text = story.scenes[page.value].texts[t]
+    if (text.decisions) {
+      if (hiddenRows.value.has(text.rid)) {
+        text.decisions.forEach((d) => {
+          d.refers.forEach((r) => {
+            hiddenRows.value.add(r)
+          })
+        })
+      } else {
+        let d = text.decisions.findIndex((v) => v.selected)
+        if (d === -1) {
+          text.decisions[0].selected = true
+          d = 0
+        }
+        const shows = new Set(text.decisions[d].refers)
+        const hiddens = new Set()
+        text.decisions.forEach((v, k) => {
+          if (k != d) {
+            v.refers.forEach((r) => {
+              if (!shows.has(r)) {
+                hiddens.add(r)
+                shows.delete(r)
+              }
+            })
+          }
+        })
+        shownRows.value = new Set([...shownRows.value, ...shows])
+        hiddenRows.value = new Set([...hiddenRows.value, ...hiddens])
+      }
+      shownRows.value.forEach((v) => {
+        if (hiddenRows.value.has(v)) {
+          hiddenRows.value.delete(v)
+        }
+      })
+    }
+  }
+}
+function decide(d, ds) {
+  ds.forEach((v) => {
+    v.selected = v.value === d.value
+  })
+  calDecisions()
+}
+async function formatStory(stage) {
+  story.title = `${stage.storyCode} ${stage.storyName} ${stage.avgTag}`
+  story.scenes = []
+  const txt = await getTEXT(`${dbSource}/gamedata/story/${stage.storyTxt}.txt`)
+  const lines = txt.matchAll(/^(\[[^\]]+])?(.*)?$/gim)
+  const speakers = new Set()
+  page.value = 0
+  let index = 0
+  let bg = ''
+  let bgGray = 0
+  let blocker = { a: 0 }
+  let cgitem = ''
+  let stickerHolder = false
+  let decisionStack = []
+  let decisionStatus = []
+  for (const line of lines) {
+    let cmd = ''
+    let args = ''
+    if (line[1]) {
+      ;[, cmd, args] =
+        /\[\s*?(?:([^=(\]]+)(?=[(\]])\(?)?([^\]]*?)\)?\s*?\]/.exec(line[1])
+      // console.log(cmd, ':', args)
+      if (args) {
+        const tmp = {}
+        Array.from(
+          args.matchAll(/("?[^=", ]+"?)\s*=\s*"?((?<=")[^"]*|[^,]*)/gim)
+        ).forEach((l) => (tmp[l[1].toLowerCase()] = l[2]))
+        args = tmp
+      }
+    }
+    if (
+      line[1] &&
+      args &&
+      'name' in args &&
+      line[2] &&
+      line[2].trim() &&
+      !cmd
+    ) {
+      speakers.add(args.name)
+      addText(line[2], { speaker: args.name })
+    } else if (line[1] && cmd) {
+      //
+    }
+    if (cmd === 'CameraEffect') {
+      if (args.effect === 'Grayscale') {
+        if (!args.initamount) {
+          bgGray = args.amount
+          if (
+            story.scenes[index - 1] &&
+            !story.scenes[index - 1].texts.length
+          ) {
+            story.scenes[index - 1].bgStyle = {
+              filter: `grayscale(${args.amount})`
+            }
+          }
+        }
+      }
+    }
+    if (['Background', 'Image', 'image', 'gridbg'].includes(cmd)) {
+      if (args.image || args.imagegroup) {
+        bg =
+          cmd === 'gridbg'
+            ? `backgrounds/${args.imagegroup.split('/')[0]}`
+            : `${cmd.toLowerCase()}s/${args.image}`
+        if (
+          (story.scenes[index - 1] &&
+            story.scenes[index - 1].blocker.a == 1 &&
+            !story.scenes[index - 1].texts.length) ||
+          stickerHolder
+        ) {
+          Object.assign(story.scenes[index - 1], {
+            bg,
+            bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+            cgitem,
+            blocker
+          })
+        } else {
+          story.scenes.push({
+            bg,
+            bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+            cgitem,
+            blocker,
+            texts: []
+          })
+          index++
+          decisionStatus = []
+          decisionStack = []
+        }
+      }
+    }
+    if (cmd === 'cgitem') {
+      cgitem = args.image
+      story.scenes[index - 1].cgitem = cgitem
+    }
+    if (cmd === 'hidecgitem') {
+      cgitem = ''
+    }
+    if (cmd === 'Blocker') {
+      const { a, r, g, b } = args
+      blocker = { a, r, g, b }
+      if (
+        a == 1 &&
+        (story.scenes[index - 1] || { texts: [] }).texts.length &&
+        !stickerHolder
+      ) {
+        story.scenes.push({
+          bg,
+          bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+          cgitem,
+          blocker,
+          texts: []
+        })
+        index++
+        decisionStatus = []
+        decisionStack = []
+      }
+    }
+    if (cmd === 'Subtitle') {
+      if (args.text) addText(args.text)
+    }
+    if (cmd === 'Sticker') {
+      if (args.text || args.id === 'st1') {
+        addText(args.text || '', {
+          type: 'sticker',
+          force: args.id === 'st1' && !args.multi,
+          info: { align: args.alignment, width: args.width, size: args.size }
+        })
+      }
+    }
+    if (cmd === 'animtext') {
+      if (args.name === 'group_location_stamp') {
+        const title = line[2].match(/<p=1>(.*?)<\/>/)
+        const content = line[2].match(/<p=2>(.*?)<\/>/)
+        addText(`${title[1]}\n${content[1]}`)
+      }
+    }
+    if (cmd === 'Decision') {
+      const options = args.options.split(';')
+      const values = args.values.split(';')
+      const decisions = []
+      const newStack = []
+      decisionStack.forEach((d) => {
+        newStack.push({ ...d })
+      })
+      values.forEach((v, k) => {
+        decisions.push({ option: options[k], value: v, refers: [] })
+        const d = newStack.find((d) => d.value === v)
+        if (d) {
+          d.pid = index - 1
+          d.rid = story.scenes[index - 1].texts.length
+        } else {
+          newStack.push({
+            value: v,
+            pid: index - 1,
+            rid: story.scenes[index - 1].texts.length
+          })
+        }
+      })
+      const rid = story.scenes[index - 1].texts.length
+      story.scenes[index - 1].texts.push({
+        rid,
+        decisions
+      })
+      addToDecision(rid)
+      decisionStack = [...newStack]
+    }
+    if (cmd === 'Predicate') {
+      decisionStatus = args.references.split(';')
+    }
+    if (cmd == 'Dialog') {
+    }
+    if (!line[1]) {
+      addText(line[0])
+    }
+    function addText(text, params = {}) {
+      let rid = 0
+      const { speaker, type, force, info } = params
+      text = text.replace(/\\n/g, '\n')
+      if (
+        !story.scenes[index - 1] ||
+        (story.scenes[index - 1].texts.length &&
+          !stickerHolder &&
+          (force || story.scenes[index - 1].type !== type))
+      ) {
+        story.scenes.push({
+          bg,
+          blocker,
+          type,
+          texts: [
+            {
+              rid,
+              text,
+              speaker,
+              type,
+              info
+            }
+          ]
+        })
+        index++
+        decisionStatus = []
+        decisionStack = []
+      } else {
+        rid = story.scenes[index - 1].texts.length
+        story.scenes[index - 1].blocker = blocker
+        story.scenes[index - 1].type = type
+        story.scenes[index - 1].texts.push({
+          rid,
+          text,
+          speaker,
+          type,
+          info
+        })
+      }
+      stickerHolder = !text
+      addToDecision(rid)
+    }
+    function addToDecision(rid) {
+      // console.log(rid, decisionStatus, decisionStack)
+      if (decisionStatus.length) {
+        decisionStatus.forEach((d) => {
+          const decision = decisionStack.find((v) => v.value === d)
+          if (decision && decision.rid !== rid) {
+            story.scenes[decision.pid].texts[decision.rid].decisions
+              .find((v) => v.value === d)
+              .refers.push(rid)
+          }
+        })
+      }
+    }
+  }
+  const lastPage = story.scenes[story.scenes.length - 1]
+  if (lastPage) {
+    if (!lastPage.texts.length || stickerHolder) {
+      story.scenes.pop()
+    }
+  }
+  reset()
+}
+</script>

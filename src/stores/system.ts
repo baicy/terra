@@ -8,7 +8,8 @@ export const useSystemStore = defineStore('system', () => {
   const terraReader = reactive({
     nickname: '{@nickname}',
     modalAlpha: 40,
-    fontSize: 24
+    fontSize: 24,
+    optPercent: 15
   })
 
   const btrData = localStorage.getItem('btr') || JSON.stringify(terraReader)

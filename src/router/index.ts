@@ -9,9 +9,12 @@ import { createRouter, createWebHashHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
 
+const autoRoutes = setupLayouts(routes)
+autoRoutes.find((v) => v.path == '/txt')!.path = '/txt/:chapters*'
+
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
-  routes: setupLayouts(routes),
+  routes: autoRoutes
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804

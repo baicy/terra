@@ -45,7 +45,7 @@ const items = [
   },
   {
     id: 'txt',
-    title: '剧情',
+    title: '曲谱',
     href: '/txt'
   },
   {
