@@ -10,11 +10,11 @@
           <v-menu activator="parent" open-on-hover open-on-click>
             <v-list v-model:selected="item.value" active-color="primary">
               <v-list-item
-                v-for="(line, type) in allStages"
-                :key="line.type"
+                v-for="line in allStages"
+                :key="line.id"
                 link
-                :value="type"
-                @click="selectLine(type)"
+                :value="line.id"
+                @click="selectLine(line.id)"
               >
                 {{ line.title }}
               </v-list-item>
@@ -30,7 +30,7 @@
                 :key="episode.id"
                 link
                 :value="episode.id"
-                @click="selectEpisode(episode.id)"
+                @click="selectEpisode(episode)"
               >
                 {{ episode.title }}
               </v-list-item>
@@ -82,8 +82,6 @@ const selections = reactive({
 })
 const breadcrumbs = computed(() => {
   const crumbs = []
-
-  // console.log(selectedStage.storyId)
   if (selectedStage.storyId) {
     selectStage(selectedStage, true)
   }
@@ -96,11 +94,9 @@ const breadcrumbs = computed(() => {
   })
   if (selections.episodes) {
     crumbs.push({
-      title: selections.episode
-        ? selections.episodes[selections.episode].title
-        : '—— 选择章节 ——',
+      title: selections.episode ? selections.episode.title : '—— 选择章节 ——',
       disabled: false,
-      value: [selections.episode]
+      value: [selections.episode.id]
     })
   }
   if (selections.stages.length) {
@@ -121,7 +117,7 @@ function selectLine(line) {
 }
 function selectEpisode(episode) {
   selections.episode = episode
-  selections.stages = selections.episodes[episode].stages
+  selections.stages = episode.stages
   emit('stages', selections.stages)
 }
 function selectStage(stage, init = false) {
@@ -129,7 +125,7 @@ function selectStage(stage, init = false) {
     selectLine(stage.type)
   }
   if (!selections.episode) {
-    selectEpisode(stage.storyGroup)
+    selectEpisode(allStages[stage.type].eps[stage.storyGroup])
   }
   if (!init) emit('stage', stage)
 }
