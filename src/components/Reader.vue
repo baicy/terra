@@ -3,34 +3,66 @@
     <div
       ref="readerRef"
       class="b1 px-8 py-4 position-relative text-white d-flex justify-center align-center"
-      style="height: calc(100% - 50px); background-size: cover"
+      style="height: calc(100% - 50px); background-color: black"
       :style="{
-        backgroundImage: `url(${AVG_SOURCE}${(story.scenes[page] ? story.scenes[page].bg.toLowerCase() : '') || 'backgrounds/bg_black'}.png)`,
-        fontSize: `${terraReader.fontSize}px`,
-        ...(story.scenes[page] ? story.scenes[page].bgStyle : {})
+        fontSize: `${terraReader.fontSize}px`
       }"
       @click="optAll($event)"
     >
+      <!-- bg layer -->
       <div
+        v-if="scene"
+        class="position-absolute top-0 left-0 w-100 h-100 overflow-hidden text-center"
+        style="z-index: 1"
+      >
+        <div
+          v-if="scene.bg.split('/').length > 1"
+          class="d-flex flex-wrap position-absolute bottom-0"
+        >
+          <img
+            v-for="(bg, index) in scene.bg.split('/')"
+            :key="index"
+            :src="`${AVG_SOURCE}${scene.bgFolder}/${bg}.png`"
+            :alt="`bg${index}`"
+            :style="{
+              width: '50%',
+              ...scene.bgStyle
+            }"
+          />
+        </div>
+        <img
+          v-else
+          :src="`${AVG_SOURCE}${scene.bgFolder}/${scene.bg}.png`"
+          alt="bg"
+          :style="{
+            width: scene.bgFolder === 'backgrounds' ? '100%' : 'auto',
+            height: scene.bgFolder === 'images' ? '100%' : 'auto',
+            ...scene.bgStyle
+          }"
+        />
+      </div>
+      <!-- blocker layer -->
+      <div
+        v-if="scene"
         class="position-absolute top-0 left-0 w-100 h-100"
         style="z-index: 2"
         :style="{ backgroundColor: blockerColor }"
       ></div>
+      <!-- cgitems layer -->
       <div
         class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center"
         style="z-index: 3"
       >
         <img
-          v-if="story.scenes[page] && story.scenes[page].cgitem"
-          :src="`${AVG_SOURCE}items/${story.scenes[page].cgitem}.png`"
+          v-if="scene && scene.cgitem"
+          :src="`${AVG_SOURCE}items/${scene.cgitem}.png`"
           class="position-absolute bottom-0"
           style="max-height: 100%"
         />
       </div>
+      <!-- modal layer -->
       <div
-        v-if="
-          story.scenes[page] && story.scenes[page].texts.length && !hideText
-        "
+        v-if="scene && scene.texts.length && !hideText"
         ref="modalRef"
         class="d-flex flex-column ga-3 overflow-auto px-2 py-6 position-relative"
         style="width: calc(100% - 16px); height: calc(100% - 16px); z-index: 10"
@@ -39,7 +71,7 @@
         }"
       >
         <div
-          v-for="(line, index) in story.scenes[page].texts.filter(
+          v-for="(line, index) in scene.texts.filter(
             (v) => !hiddenRows.has(v.rid)
           )"
           :key="index"
@@ -53,9 +85,13 @@
               <div
                 v-for="decision in line.decisions"
                 :key="decision.value"
-                class="b1 px-2 w600 cursor-pointer"
+                class="b1 px-2 cursor-pointer"
                 :class="{ 'text-primary': decision.selected }"
-                style="background-color: #00000099"
+                style="
+                  background-color: #00000099;
+                  min-width: 600px;
+                  max-width: calc(100% - 12px);
+                "
                 @click="decide(decision, line.decisions)"
               >
                 <reader-text :text="decision.option"></reader-text>
@@ -68,9 +104,8 @@
           >
             <div
               :class="[`text-${line.info.align}`]"
-              style="max-width: 100%"
+              style="max-width: calc(100% - 32px)"
               :style="{
-                width: `${line.info.width}px`,
                 fontSize: `${(line.info.size || 24) / 24}em`
               }"
             >
@@ -239,11 +274,16 @@ const story = reactive({
 })
 const page = ref(0)
 const selection = reactive({ stages: [] })
+const scene = computed(() =>
+  story.scenes.length ? story.scenes[page.value] : null
+)
 
-const storyId = computed(() => readerStage.storyId)
-watch(storyId, (_, oldValue) => {
-  if (!oldValue) formatStory(readerStage)
-})
+watch(
+  () => readerStage,
+  (_, oldValue) => {
+    if (!oldValue.storyId) formatStory(readerStage)
+  }
+)
 
 function switchStages(stages) {
   selection.stages = stages
@@ -342,7 +382,7 @@ const blockerColor = computed(() => {
   let g = 0
   let b = 0
   let a = 0
-  const blocker = (story.scenes[page.value] || { blocker: { a: 0 } }).blocker
+  const blocker = scene.value.blocker
   if (blocker.a != 0) {
     r = blocker.r
     g = blocker.g
@@ -415,7 +455,9 @@ async function formatStory(stage) {
   const speakers = new Set()
   page.value = 0
   let index = 0
-  let bg = ''
+  let row = 0
+  let bg = 'bg_black'
+  let bgFolder = 'backgrounds'
   let bgGray = 0
   let blocker = { a: 0 }
   let cgitem = ''
@@ -437,6 +479,10 @@ async function formatStory(stage) {
         args = tmp
       }
     }
+
+    cmd = typeof cmd === 'string' ? cmd.toLowerCase() : cmd
+    const prevScene = computed(() => story.scenes[index - 1])
+
     if (
       line[1] &&
       args &&
@@ -447,48 +493,58 @@ async function formatStory(stage) {
     ) {
       speakers.add(args.name)
       addText(line[2], { speaker: args.name })
-    } else if (line[1] && cmd) {
-      //
     }
-    if (cmd === 'CameraEffect') {
+    if (cmd === 'cameraeffect') {
       if (args.effect === 'Grayscale') {
-        if (!args.initamount) {
-          bgGray = args.amount
-          if (
-            story.scenes[index - 1] &&
-            !story.scenes[index - 1].texts.length
-          ) {
-            story.scenes[index - 1].bgStyle = {
-              filter: `grayscale(${args.amount})`
-            }
-          }
+        bgGray = args.amount
+        if (
+          prevScene.value &&
+          !prevScene.value.texts.length &&
+          !args.initamount
+        ) {
+          Object.assign(prevScene.value.bgStyle, {
+            filter: `grayscale(${bgGray})`
+          })
         }
       }
     }
-    if (['Background', 'Image', 'image', 'gridbg'].includes(cmd)) {
+    if (row === 238) {
+      console.log(row)
+    }
+    if (['background', 'image', 'gridbg'].includes(cmd)) {
       if (args.image || args.imagegroup) {
-        bg =
-          cmd === 'gridbg'
-            ? `backgrounds/${args.imagegroup.split('/')[0]}`
-            : `${cmd.toLowerCase()}s/${args.image}`
+        bg = (cmd === 'gridbg' ? args.imagegroup : args.image).toLowerCase()
+        bgFolder = `${cmd === 'gridbg' ? 'background' : cmd}s`
+        // 如果上一张是空白的blocker或者sticker，覆盖，否则新建scene
         if (
-          (story.scenes[index - 1] &&
-            story.scenes[index - 1].blocker.a == 1 &&
-            !story.scenes[index - 1].texts.length) ||
+          (prevScene.value &&
+            prevScene.value.type === 'blocker' &&
+            !prevScene.value.texts.length) ||
           stickerHolder
         ) {
-          Object.assign(story.scenes[index - 1], {
+          Object.assign(prevScene.value, {
+            type: '',
             bg,
-            bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+            bgFolder,
+            bgStyle: {
+              filter: `grayscale(${bgGray})`,
+              scale: args.xscale || 1
+            },
             cgitem,
-            blocker
+            blocker: { a: 0 },
+            texts: []
           })
         } else {
           story.scenes.push({
             bg,
-            bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+            bgFolder,
+            bgStyle: {
+              filter: `grayscale(${bgGray})`,
+              scale: args.xscale || 1
+            },
             cgitem,
-            blocker,
+            blocker:
+              cmd === 'background' && blocker.a != 1 ? blocker : { a: 0 },
             texts: []
           })
           index++
@@ -497,24 +553,24 @@ async function formatStory(stage) {
         }
       }
     }
-    if (cmd === 'cgitem') {
-      cgitem = args.image
-      story.scenes[index - 1].cgitem = cgitem
-    }
-    if (cmd === 'hidecgitem') {
-      cgitem = ''
-    }
-    if (cmd === 'Blocker') {
+    if (cmd === 'blocker') {
       const { a, r, g, b } = args
       blocker = { a, r, g, b }
+      // 如果透明度为1并且上一张不是空白blocker/sticker则新建scene
       if (
         a == 1 &&
-        (story.scenes[index - 1] || { texts: [] }).texts.length &&
+        !(
+          prevScene.value &&
+          prevScene.value.type === 'blocker' &&
+          !prevScene.value.texts.length
+        ) &&
         !stickerHolder
       ) {
         story.scenes.push({
+          type: 'blocker',
           bg,
-          bgStyle: bgGray ? { filter: `grayscale(${bgGray})` } : {},
+          bgFolder,
+          bgStyle: {},
           cgitem,
           blocker,
           texts: []
@@ -524,10 +580,17 @@ async function formatStory(stage) {
         decisionStack = []
       }
     }
-    if (cmd === 'Subtitle') {
+    if (cmd === 'cgitem') {
+      cgitem = args.image
+      prevScene.value.cgitem = cgitem
+    }
+    if (cmd === 'hidecgitem') {
+      cgitem = ''
+    }
+    if (cmd === 'subtitle') {
       if (args.text) addText(args.text)
     }
-    if (cmd === 'Sticker') {
+    if (cmd === 'sticker') {
       if (args.text || args.id === 'st1') {
         addText(args.text || '', {
           type: 'sticker',
@@ -543,7 +606,7 @@ async function formatStory(stage) {
         addText(`${title[1]}\n${content[1]}`)
       }
     }
-    if (cmd === 'Decision') {
+    if (cmd === 'decision') {
       const options = args.options.split(';')
       const values = args.values.split(';')
       const decisions = []
@@ -556,27 +619,28 @@ async function formatStory(stage) {
         const d = newStack.find((d) => d.value === v)
         if (d) {
           d.pid = index - 1
-          d.rid = story.scenes[index - 1].texts.length
+          d.rid = prevScene.value.texts.length
+          d.row = row
         } else {
           newStack.push({
             value: v,
             pid: index - 1,
-            rid: story.scenes[index - 1].texts.length
+            rid: prevScene.value.texts.length,
+            row
           })
         }
       })
-      const rid = story.scenes[index - 1].texts.length
-      story.scenes[index - 1].texts.push({
+      const rid = prevScene.value.texts.length
+      prevScene.value.texts.push({
         rid,
-        decisions
+        decisions,
+        row
       })
       addToDecision(rid)
       decisionStack = [...newStack]
     }
-    if (cmd === 'Predicate') {
+    if (cmd === 'predicate') {
       decisionStatus = args.references.split(';')
-    }
-    if (cmd == 'Dialog') {
     }
     if (!line[1]) {
       addText(line[0])
@@ -586,18 +650,20 @@ async function formatStory(stage) {
       const { speaker, type, force, info } = params
       text = text.replace(/\\n/g, '\n')
       if (
-        !story.scenes[index - 1] ||
-        (story.scenes[index - 1].texts.length &&
+        !prevScene.value ||
+        (prevScene.value.texts.length &&
           !stickerHolder &&
-          (force || story.scenes[index - 1].type !== type))
+          (force || prevScene.value.type !== type))
       ) {
         story.scenes.push({
           bg,
+          bgFolder,
           blocker,
           type,
           texts: [
             {
               rid,
+              row,
               text,
               speaker,
               type,
@@ -609,11 +675,12 @@ async function formatStory(stage) {
         decisionStatus = []
         decisionStack = []
       } else {
-        rid = story.scenes[index - 1].texts.length
-        story.scenes[index - 1].blocker = blocker
-        story.scenes[index - 1].type = type
-        story.scenes[index - 1].texts.push({
+        rid = prevScene.value.texts.length
+        prevScene.value.type = type
+        prevScene.value.blocker = blocker
+        prevScene.value.texts.push({
           rid,
+          row,
           text,
           speaker,
           type,
@@ -636,6 +703,7 @@ async function formatStory(stage) {
         })
       }
     }
+    row++
   }
   const lastPage = story.scenes[story.scenes.length - 1]
   if (lastPage) {

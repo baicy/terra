@@ -142,46 +142,32 @@ export type Material = {
   usage: string
 }
 
-// 合成小游戏
-export interface ChessboardCell {
+// 剧情 story_review_table.json
+export interface Line {
+  id: 'main' | 'side' | 'mini'
+  title: string
+  eps: Record<string, Episode>
+}
+export interface EpisodeOrigin {
   id: string
   name: string
-  rarity: number
-  profession: string
-  subProfession: string
-  elite: 1 | 2
+  actType: 'MAIN_STORY' | 'ACTIVITY_STORY' | 'MINI_STORY' | 'NONE'
+  infoUnlockDatas: Stage[]
 }
-
-export interface ChessboardSelected {
-  char: ChessboardCell
-  x: number
-  y: number
-}
-
-export interface ProfessionTerms {
-  profession?: string
-  subProfession?: string
-}
-
-export interface AlbumCell {
+export interface Episode {
   id: string
-  name: string
-  rarity: number
-  color1: string
-  color2: string
-  sp: number
-  unlock: boolean
-  product: number
-  elite: number
-  favor: number
+  title: string
+  type: 'main' | 'side' | 'mini'
+  total: number
+  stages: Stage[]
 }
-
-export interface Force {
-  id: string
-  name: string
-  color: string
-  chars: string[]
-  favor: number
-  allFavor: number
-  unlock: boolean
+interface Stage {
+  storyId: string
+  storyGroup: string
+  storySort: number
+  storyCode: string
+  storyName: string
+  avgTag: string
+  storyInfo: string
+  storyTxt: string
 }

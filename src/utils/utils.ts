@@ -6,21 +6,21 @@ export const ato = (arr: any[], key: string) => {
   }, {})
 }
 
+export const getTEXT = (url: string) => {
+  return getWebContents(url, 'text')
+}
 export const getJSON = (url: string) => {
-  return new Promise((resolve) => {
+  return getWebContents(url, 'json')
+}
+const getWebContents = (url: string, type: 'text' | 'json') => {
+  return new Promise((resolve, reject) => {
     fetch(url)
-      .then((res) => res.json())
+      .then((res) => res[type]())
       .then((res) => {
         resolve(res)
       })
-  })
-}
-export const getTEXT = (url: string) => {
-  return new Promise((resolve) => {
-    fetch(url)
-      .then((res) => res.text())
-      .then((res) => {
-        resolve(res)
+      .catch(() => {
+        reject(false)
       })
   })
 }
