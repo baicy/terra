@@ -288,11 +288,11 @@
   },
   {
     "id": "act2vecb",
-    "name": "矢量突破",
+    "name": "矢量突破#1 无机物",
     "type": "OTHER",
-    "color": ["#9250f6"],
+    "color": ["#fff211"],
     "start": "2025-05-15 16:00",
-    "days": 14,
+    "days": 21,
     "reward": {
       "type": "skin",
       "id": "火神"
@@ -346,7 +346,7 @@
     "days": 16,
     "reward": {
       "type": "avatar",
-      "id": "还我！"
+      "id": "头像：还我！"
     },
     "timeline": 3
   },

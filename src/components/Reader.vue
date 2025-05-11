@@ -509,7 +509,7 @@ async function formatStory(stage) {
       }
     }
     if (row === 238) {
-      console.log(row)
+      // console.log(row)
     }
     if (['background', 'image', 'gridbg'].includes(cmd)) {
       if (args.image || args.imagegroup) {

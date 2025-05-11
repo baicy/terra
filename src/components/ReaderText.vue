@@ -24,7 +24,7 @@ const nickname = computed(() => useSystemStore().terraReader.nickname)
 const outputs = computed(() => {
   const rows = []
   const str = text.replace(/{@nickname}/g, nickname.value)
-  const hasItalic = /(\s*)<i>(.*)<\/i>(\s*)/g.exec(str)
+  const hasItalic = /([\s\S]*)<i>([\s\S]*)<\/i>([\s\S]*)/g.exec(str)
   const hasColor = /<color=#/g.test(str)
   if (hasItalic) {
     const [, pre, content, append] = hasItalic
