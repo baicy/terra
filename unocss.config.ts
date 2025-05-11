@@ -3,7 +3,10 @@ import { defineConfig } from 'unocss'
 export default defineConfig({
   presets: [],
   rules: [
-    [/^w([.\d]+)$/, ([, num]) => ({ width: `${num}px`, 'min-width': `${num}px` })],
+    [
+      /^w([.\d]+)$/,
+      ([, num]) => ({ width: `${num}px`, 'min-width': `${num}px` })
+    ],
     [/^h([.\d]+)$/, ([, num]) => ({ height: `${num}px` })],
     [/^b([.\d]+)$/, ([, num]) => ({ border: `solid ${num}px` })],
     [
@@ -15,6 +18,8 @@ export default defineConfig({
         'text-align': 'center',
         'line-height': `${num}px`
       })
-    ]
+    ],
+    [/^z([.\d]+)$/, ([, num]) => ({ 'z-index': num })],
+    [/^ts([.\d]+)$/, ([, num]) => ({ 'font-size': `${num}px` })]
   ]
 })

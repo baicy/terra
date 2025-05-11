@@ -3,17 +3,16 @@
     <div
       ref="readerRef"
       class="b1 px-8 py-4 position-relative text-white d-flex justify-center align-center"
-      style="height: calc(100% - 50px); background-color: black"
+      style="height: 100%; background-color: black"
       :style="{
         fontSize: `${terraReader.fontSize}px`
       }"
       @click="optAll($event)"
     >
-      <!-- bg layer -->
+      <!-- bg layer: 1 -->
       <div
         v-if="scene"
-        class="position-absolute top-0 left-0 w-100 h-100 overflow-hidden text-center"
-        style="z-index: 1"
+        class="position-absolute top-0 left-0 w-100 h-100 overflow-hidden text-center z1"
       >
         <div
           v-if="scene.bg.split('/').length > 1"
@@ -41,17 +40,15 @@
           }"
         />
       </div>
-      <!-- blocker layer -->
+      <!-- blocker layer: 2 -->
       <div
         v-if="scene"
-        class="position-absolute top-0 left-0 w-100 h-100"
-        style="z-index: 2"
+        class="position-absolute top-0 left-0 w-100 h-100 z2"
         :style="{ backgroundColor: blockerColor }"
       ></div>
-      <!-- cgitems layer -->
+      <!-- cgitems layer: 3 -->
       <div
-        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center"
-        style="z-index: 3"
+        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center z3"
       >
         <img
           v-if="scene && scene.cgitem"
@@ -60,12 +57,12 @@
           style="max-height: 100%"
         />
       </div>
-      <!-- modal layer -->
+      <!-- modal layer: 10 -->
       <div
         v-if="scene && scene.texts.length && !hideText"
         ref="modalRef"
-        class="d-flex flex-column ga-3 overflow-auto px-2 py-6 position-relative"
-        style="width: calc(100% - 16px); height: calc(100% - 16px); z-index: 10"
+        class="d-flex flex-column ga-3 overflow-auto px-2 py-6 position-relative z10"
+        style="width: calc(100% - 16px); height: calc(100% - 16px)"
         :style="{
           backgroundColor: `rgba(0,0,0,${terraReader.modalAlpha / 100})`
         }"
@@ -120,123 +117,134 @@
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="w-100 d-flex justify-center align-center h50"
-      style="z-index: 20"
-    >
-      <reader-switch
-        v-if="allStages"
-        :all-stages="allStages"
-        :selected-stage="readerStage"
-        @stages="switchStages"
-        @stage="switchStage"
-      ></reader-switch>
-      <v-spacer></v-spacer>
-      <div class="d-flex ga-1">
-        <!-- <v-btn>CN</v-btn> -->
-        <v-btn
-          :icon="hideText ? 'mdi-eye-off' : 'mdi-eye'"
-          :size="36"
-          @click="hideText = !hideText"
-        ></v-btn>
-        <!-- <v-btn icon="mdi-volume-high" :size="36"></v-btn> -->
-        <v-btn id="setting-btn" icon="mdi-cog" :size="36"></v-btn>
-        <v-btn to="/" icon="mdi-home" :size="36"></v-btn>
-        <v-dialog activator="#setting-btn" max-width="400px" opacity="0">
-          <v-sheet class="pa-4">
-            <div>ID信息</div>
-            <v-text-field v-model="terraReader.nickname"></v-text-field>
-            <div>对话框透明度</div>
-            <v-slider v-model="terraReader.modalAlpha" step="1">
-              <template #append>
-                <v-text-field
-                  v-model="terraReader.modalAlpha"
-                  :min-width="60"
-                  hide-details
-                  density="compact"
-                >
-                  <template #append>%</template>
-                </v-text-field>
-                <v-btn
-                  size="xsmall"
-                  class="ml-2"
-                  icon="mdi-restart"
-                  variant="text"
-                  @click="terraReader.modalAlpha = 40"
-                ></v-btn>
-              </template>
-            </v-slider>
-            <div>字体大小</div>
-            <v-slider v-model="terraReader.fontSize" step="1" min="12" max="72">
-              <template #append>
-                <v-text-field
-                  v-model="terraReader.fontSize"
-                  :min-width="60"
-                  hide-details
-                  density="compact"
-                >
-                </v-text-field>
-                <v-btn
-                  size="xsmall"
-                  class="ml-2"
-                  icon="mdi-restart"
-                  variant="text"
-                  @click="terraReader.fontSize = 24"
-                ></v-btn>
-              </template>
-            </v-slider>
-            <div>两侧可翻页占比</div>
-            <v-slider v-model="terraReader.optPercent" step="1" max="50">
-              <template #append>
-                {{ terraReader.optPercent }}%
-                <v-btn
-                  size="xsmall"
-                  class="ml-2"
-                  icon="mdi-restart"
-                  variant="text"
-                  @click="terraReader.optPercent = 15"
-                ></v-btn>
-              </template>
-            </v-slider>
-          </v-sheet>
-        </v-dialog>
-      </div>
-      <div v-if="!mobile" class="position-absolute d-flex">
-        <!-- <v-btn v-if="selection[0].type === 'main'">上一章</v-btn>
+      <!-- options layer: 20, 21 -->
+      <div
+        v-if="optPanelOn"
+        class="w-100 d-flex justify-center align-center h50 position-absolute bottom-0 z20 ts18"
+      >
+        <div
+          class="w-100 h-100 bg-surface position-absolute opacity-40 z20"
+        ></div>
+        <div class="z21">
+          <reader-switch
+            v-if="allStages"
+            :all-stages="allStages"
+            :selected-stage="readerStage"
+            @stages="switchStages"
+            @stage="switchStage"
+          ></reader-switch>
+        </div>
+        <v-spacer></v-spacer>
+        <div class="d-flex ga-1 z21">
+          <!-- <v-btn>CN</v-btn> -->
+          <v-btn
+            :icon="hideText ? 'mdi-eye-off' : 'mdi-eye'"
+            :size="36"
+            @click.stop="hideText = !hideText"
+          ></v-btn>
+          <!-- <v-btn icon="mdi-volume-high" :size="36"></v-btn> -->
+          <v-btn id="setting-btn" icon="mdi-cog" :size="36"></v-btn>
+          <v-btn to="/" icon="mdi-home" :size="36"></v-btn>
+          <v-dialog activator="#setting-btn" max-width="400px" opacity="0">
+            <v-sheet class="pa-4">
+              <div>ID信息</div>
+              <v-text-field v-model="terraReader.nickname"></v-text-field>
+              <div>对话框透明度</div>
+              <v-slider v-model="terraReader.modalAlpha" step="1">
+                <template #append>
+                  <v-text-field
+                    v-model="terraReader.modalAlpha"
+                    :min-width="60"
+                    hide-details
+                    density="compact"
+                  >
+                    <template #append>%</template>
+                  </v-text-field>
+                  <v-btn
+                    size="xsmall"
+                    class="ml-2"
+                    icon="mdi-restart"
+                    variant="text"
+                    @click="terraReader.modalAlpha = 40"
+                  ></v-btn>
+                </template>
+              </v-slider>
+              <div>字体大小</div>
+              <v-slider
+                v-model="terraReader.fontSize"
+                step="1"
+                min="12"
+                max="72"
+              >
+                <template #append>
+                  <v-text-field
+                    v-model="terraReader.fontSize"
+                    :min-width="60"
+                    hide-details
+                    density="compact"
+                  >
+                  </v-text-field>
+                  <v-btn
+                    size="xsmall"
+                    class="ml-2"
+                    icon="mdi-restart"
+                    variant="text"
+                    @click="terraReader.fontSize = 24"
+                  ></v-btn>
+                </template>
+              </v-slider>
+              <div>两侧可翻页占比</div>
+              <v-slider v-model="terraReader.optPercent" step="1" max="50">
+                <template #append>
+                  {{ terraReader.optPercent }}%
+                  <v-btn
+                    size="xsmall"
+                    class="ml-2"
+                    icon="mdi-restart"
+                    variant="text"
+                    @click="terraReader.optPercent = 15"
+                  ></v-btn>
+                </template>
+              </v-slider>
+            </v-sheet>
+          </v-dialog>
+        </div>
+        <div v-if="!mobile" class="position-absolute d-flex z21">
+          <!-- <v-btn v-if="selection[0].type === 'main'">上一章</v-btn>
         <v-div v-else class="w100"></v-div> -->
-        <v-btn
-          v-if="siblings.prev"
-          class="w100"
-          color="warning"
-          @click="optStage(true)"
-        >
-          上一节
-        </v-btn>
-        <v-div v-else class="w100"></v-div>
-        <v-btn v-if="page > 0" class="w100" @click="optPage(true)">
-          上一页
-        </v-btn>
-        <v-div v-else class="w100"></v-div>
-        <v-btn
-          v-if="page + 1 < story.scenes.length"
-          class="w100"
-          @click="optPage(false)"
-        >
-          下一页
-        </v-btn>
-        <v-div v-else class="w100"></v-div>
-        <v-btn
-          v-if="siblings.next"
-          class="w100"
-          color="warning"
-          @click="optStage(false)"
-        >
-          下一节
-        </v-btn>
-        <v-div v-else class="w100"></v-div>
-        <!-- <v-btn v-if="selection[0].type === 'main'">下一章</v-btn>
+          <v-btn
+            v-if="siblings.prev"
+            class="w100"
+            color="warning"
+            @click.stop="optStage(true)"
+          >
+            上一节
+          </v-btn>
+          <v-div v-else class="w100"></v-div>
+          <v-btn v-if="page > 0" class="w100" @click.stop="optPage(true)">
+            上一页
+          </v-btn>
+          <v-div v-else class="w100"></v-div>
+          <v-btn
+            v-if="page + 1 < story.scenes.length"
+            class="w100"
+            @click.stop="optPage(false)"
+          >
+            下一页
+          </v-btn>
+          <v-div v-else class="w100"></v-div>
+          <v-btn
+            v-if="siblings.next"
+            class="w100"
+            color="warning"
+            @click.stop="optStage(false)"
+          >
+            下一节
+          </v-btn>
+          <v-div v-else class="w100"></v-div>
+          <!-- <v-btn v-if="selection[0].type === 'main'">下一章</v-btn>
         <v-div v-else class="w100"></v-div> -->
+        </div>
       </div>
     </div>
   </v-sheet>
@@ -311,7 +319,7 @@ system.$subscribe(() => {
 
 const readerRef = ref()
 const modalRef = ref()
-const readerScreen = reactive({ width: 0, height: 0 })
+const readerScreen = reactive({ width: 0, height: 0, x: 16, y: 16 })
 const { mobile } = useDisplay()
 onMounted(() => {
   setReader()
@@ -337,13 +345,24 @@ const siblings = computed(() => {
   }
   return { prev, next }
 })
+
+const optPanelOn = ref(true)
 function optAll(e) {
-  const optPercent = terraReader.value.optPercent / 100
-  if (e.layerX < readerScreen.width * optPercent) {
+  const { width, height, x: ox, y: oy } = readerScreen
+  const x = e.clientX - ox
+  const y = e.clientY - oy
+  const modalPercent = terraReader.value.optPercent / 100
+  const optHeight = 50
+  if (y > height - optHeight) {
+    // 按钮区
+    optPanelOn.value = !optPanelOn.value
+    return
+  }
+  if (x < width * modalPercent) {
     if (!optPage(true)) {
       optStage(true)
     }
-  } else if (e.layerX > readerScreen.width * (1 - optPercent)) {
+  } else if (x > width * (1 - modalPercent)) {
     if (!optPage(false)) {
       optStage(false)
     }
