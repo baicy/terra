@@ -6,11 +6,11 @@ export const ato = (arr: any[], key: string) => {
   }, {})
 }
 
-export const getTEXT = (url: string) => {
-  return getWebContents(url, 'text')
+export const getTEXT = async (url: string) => {
+  return (await getWebContents(url, 'text')) as unknown as string
 }
-export const getJSON = (url: string) => {
-  return getWebContents(url, 'json')
+export const getJSON = async (url: string) => {
+  return await getWebContents(url, 'json')
 }
 const getWebContents = (url: string, type: 'text' | 'json') => {
   return new Promise((resolve, reject) => {
@@ -20,7 +20,7 @@ const getWebContents = (url: string, type: 'text' | 'json') => {
         resolve(res)
       })
       .catch(() => {
-        reject(false)
+        reject('')
       })
   })
 }

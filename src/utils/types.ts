@@ -143,7 +143,7 @@ export type Material = {
 }
 
 // 剧情 story_review_table.json
-export interface Line {
+export interface Storyline {
   id: 'main' | 'side' | 'mini'
   title: string
   eps: Record<string, Episode>
@@ -161,7 +161,7 @@ export interface Episode {
   total: number
   stages: Stage[]
 }
-interface Stage {
+export interface Stage {
   storyId: string
   storyGroup: string
   storySort: number
@@ -170,4 +170,48 @@ interface Stage {
   avgTag: string
   storyInfo: string
   storyTxt: string
+}
+
+// Reader
+interface ReaderLine {
+  id: number
+  type: string
+  sid: number
+  // image
+  image: string
+  urls: string[]
+  scale: string
+  hide: boolean
+  // effect
+  effect: string
+  initamount: string
+  amount: string
+  //blocker
+  a: string
+  r: string
+  g: string
+  b: string
+  // text
+  text: string
+  speaker: string
+  // sticker
+  align: string
+  size: string
+  // decision
+  options: Record<string, string>
+  choice: string
+  // predicate
+  refs: string
+}
+export type Line = Partial<ReaderLine>
+export interface Scene {
+  id: number
+  bg: string
+  img: string
+  bgEffect: {
+    gray: number
+  }
+  blocker: { a: string; r: string; g: string; b: string }
+  item: string
+  texts: Line[]
 }

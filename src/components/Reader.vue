@@ -9,50 +9,75 @@
       }"
       @click="optAll($event)"
     >
-      <!-- bg layer: 1 -->
+      <!-- loading layer: 99 -->
+      <div
+        v-if="loading"
+        class="w-100 h-100 bg-black position-absolute z99 d-flex align-center justify-center"
+      >
+        加载中
+      </div>
+      <!-- bg/largebg layer: 1 -->
       <div
         v-if="scene"
-        class="position-absolute top-0 left-0 w-100 h-100 overflow-hidden text-center z1"
+        class="position-absolute top-0 left-0 w-100 h-100 overflow-hidden z1"
+        :class="{
+          'd-flex justify-center align-center':
+            story.resources[scene.bg].length > 1
+        }"
       >
         <div
-          v-if="scene.bg.split('/').length > 1"
-          class="d-flex flex-wrap position-absolute bottom-0"
+          :class="{
+            'd-flex flex-wrap': story.resources[scene.bg].length > 1
+          }"
         >
           <img
-            v-for="(bg, index) in scene.bg.split('/')"
+            v-for="(url, index) in story.resources[scene.bg]"
             :key="index"
-            :src="`${AVG_SOURCE}${scene.bgFolder}/${bg}.png`"
+            :src="url"
             :alt="`bg${index}`"
             :style="{
-              width: '50%',
-              ...scene.bgStyle
+              width: story.resources[scene.bg].length > 1 ? '50%' : '100%',
+              ...bgStyle
             }"
           />
         </div>
-        <img
-          v-else
-          :src="`${AVG_SOURCE}${scene.bgFolder}/${scene.bg}.png`"
-          alt="bg"
-          :style="{
-            width: scene.bgFolder === 'backgrounds' ? '100%' : 'auto',
-            height: scene.bgFolder === 'images' ? '100%' : 'auto',
-            ...scene.bgStyle
-          }"
-        />
       </div>
-      <!-- blocker layer: 2 -->
+      <!-- image/gridbg layer: 2 -->
+      <div
+        v-if="scene && scene.img"
+        class="position-absolute top-0 left-0 w-100 h-100 overflow-hidden text-center z2"
+      >
+        <div
+          :class="{
+            'd-flex flex-wrap position-absolute bottom-0':
+              story.resources[scene.img].length > 1
+          }"
+        >
+          <img
+            v-for="(url, index) in story.resources[scene.img]"
+            :key="index"
+            :src="url"
+            :alt="`img${index}`"
+            :style="{
+              width: story.resources[scene.img].length > 1 ? '50%' : '100%',
+              ...bgStyle
+            }"
+          />
+        </div>
+      </div>
+      <!-- blocker layer: 3 -->
       <div
         v-if="scene"
-        class="position-absolute top-0 left-0 w-100 h-100 z2"
+        class="position-absolute top-0 left-0 w-100 h-100 z3"
         :style="{ backgroundColor: blockerColor }"
       ></div>
-      <!-- cgitems layer: 3 -->
+      <!-- cgitems layer: 4 -->
       <div
-        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center z3"
+        v-if="scene && scene.item"
+        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center z4"
       >
         <img
-          v-if="scene && scene.cgitem"
-          :src="`${AVG_SOURCE}items/${scene.cgitem}.png`"
+          :src="story.resources[scene.item][0]"
           class="position-absolute bottom-0"
           style="max-height: 100%"
         />
@@ -69,29 +94,29 @@
       >
         <div
           v-for="(line, index) in scene.texts.filter(
-            (v) => !hiddenRows.has(v.rid)
+            (l) => !story.hiddens.has(l.id)
           )"
           :key="index"
           class="d-flex flex-column"
         >
-          <div v-if="line.decisions" class="text-center w-100 px-4">
+          <div v-if="line.type === 'decision'" class="text-center w-100 px-4">
             <div
               class="d-flex flex-column ga-1 align-center py-2"
               style="background-color: #ffffff33"
             >
               <div
-                v-for="decision in line.decisions"
-                :key="decision.value"
+                v-for="(option, value) in line.options"
+                :key="value"
                 class="b1 px-2 cursor-pointer"
-                :class="{ 'text-primary': decision.selected }"
+                :class="{ 'text-primary': line.choice === value }"
                 style="
                   background-color: #00000099;
                   min-width: 600px;
                   max-width: calc(100% - 12px);
                 "
-                @click="decide(decision, line.decisions)"
+                @click="decide(value, line)"
               >
-                <reader-text :text="decision.option"></reader-text>
+                <reader-text :text="option"></reader-text>
               </div>
             </div>
           </div>
@@ -100,10 +125,10 @@
             class="d-flex justify-center"
           >
             <div
-              :class="[`text-${line.info.align}`]"
+              :class="[`text-${line.align}`]"
               style="max-width: calc(100% - 32px)"
               :style="{
-                fontSize: `${(line.info.size || 24) / 24}em`
+                fontSize: `${(line.size || 24) / 24}em`
               }"
             >
               <reader-text :text="line.text"></reader-text>
@@ -113,7 +138,7 @@
             <div class="pr-4 text-right" style="flex: 1.5 50px">
               {{ line.speaker }}
             </div>
-            <reader-text style="flex: 6 300px" :text="line.text"> </reader-text>
+            <reader-text style="flex: 6 300px" :text="line.text"></reader-text>
           </div>
         </div>
       </div>
@@ -226,7 +251,7 @@
           </v-btn>
           <v-div v-else class="w100"></v-div>
           <v-btn
-            v-if="page + 1 < story.scenes.length"
+            v-if="page + 1 < scenes.length"
             class="w100"
             @click.stop="optPage(false)"
           >
@@ -251,15 +276,8 @@
 </template>
 <script setup>
 import { useDisplay } from 'vuetify'
-import { getTEXT } from '@/utils/utils'
 import { useSystemStore } from '@/stores/system'
-
-const DATA_SOURCE =
-  'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/'
-const LANG = 'zh_CN'
-const dbSource = `${DATA_SOURCE}${LANG}`
-const AVG_SOURCE =
-  'https://raw.githubusercontent.com/akgcc/arkdata/main/assets/torappu/dynamicassets/avg/'
+import { useStoryStore } from '@/stores/story'
 
 const { readerStage, allStages } = defineProps({
   readerStage: {
@@ -276,15 +294,52 @@ const { readerStage, allStages } = defineProps({
   }
 })
 
-const story = reactive({
-  title: '',
-  scenes: []
-})
+const loading = ref(false)
 const page = ref(0)
 const selection = reactive({ stages: [] })
-const scene = computed(() =>
-  story.scenes.length ? story.scenes[page.value] : null
+const storyStore = useStoryStore()
+const story = computed(() => storyStore.story)
+const scenes = computed(() =>
+  story.value.scenes.filter((s) => !story.value.hiddens.has(s.id))
 )
+const scene = computed(() =>
+  story
+    ? scenes.value[page.value]
+    : {
+        id: '',
+        bg: '',
+        img: '',
+        bgEffect: { gray: 0 },
+        blocker: { r: '0', b: '0', b: '0', a: '0' },
+        texts: []
+      }
+)
+const bgStyle = computed(() => {
+  const styles = {}
+  for (const i in scene.value.bgEffect) {
+    if (i === 'gray') {
+      styles.filter = `grayscale(${scene.value.bgEffect[i]})`
+    }
+    if (i === 'scale') {
+      styles.scale = scene.value.bgEffect[i]
+    }
+  }
+  return styles
+})
+const blockerColor = computed(() => {
+  let r = 0
+  let g = 0
+  let b = 0
+  let a = 0
+  const blocker = scene.value.blocker
+  if (blocker.a != 0) {
+    r = blocker.r
+    g = blocker.g
+    b = blocker.b
+    a = blocker.a
+  }
+  return `rgba(${255 * r},${255 * g},${255 * b},${a})`
+})
 
 watch(
   () => readerStage,
@@ -293,16 +348,31 @@ watch(
   }
 )
 
+async function formatStory(stage) {
+  loading.value = true
+  await storyStore.loadStage(stage)
+  loading.value = false
+}
+function decide(value, line) {
+  line.choice = value
+  storyStore.calHiddens(line)
+}
+
 function switchStages(stages) {
   selection.stages = stages
 }
-function switchStage(stage) {
-  selectStage(stage)
+async function switchStage(stage) {
+  await selectStage(stage)
+  if (modalRef.value)
+    modalRef.value.scrollTo({
+      top: 0
+    })
+  page.value = 0
 }
 const emit = defineEmits(['change'])
-function selectStage(stage) {
-  formatStory(stage)
-  let str = stage.storyId.split('_level_')[1]
+async function selectStage(stage) {
+  await formatStory(stage)
+  let str = stage.storyId.split('_level_')[1] || stage.storyId
   if (stage.type !== 'main') {
     str = str.substring(
       str.indexOf(stage.storyGroup) + stage.storyGroup.length + 1
@@ -310,6 +380,8 @@ function selectStage(stage) {
   }
   emit('change', [stage.type, stage.storyGroup, str])
 }
+
+const hideText = ref(false)
 
 const system = useSystemStore()
 const terraReader = computed(() => system.terraReader)
@@ -348,6 +420,7 @@ const siblings = computed(() => {
 
 const optPanelOn = ref(true)
 function optAll(e) {
+  if (loading.value) return
   const { width, height, x: ox, y: oy } = readerScreen
   const x = e.clientX - ox
   const y = e.clientY - oy
@@ -374,362 +447,41 @@ function optPage(prev) {
     if (page.value > 0) {
       page.value--
       res = true
+      nextTick(() => {
+        modalRef.value.scrollTo({
+          top: modalRef.value.scrollHeight
+        })
+      })
     }
   } else {
-    if (page.value + 1 < story.scenes.length) {
+    if (page.value + 1 < scenes.value.length) {
       page.value++
+      nextTick(() => {
+        modalRef.value.scrollTo({
+          top: 0
+        })
+      })
       res = true
     }
   }
-  reset()
   return res
 }
-function optStage(prev) {
+async function optStage(prev) {
   if (prev) {
     if (siblings.value.prev) {
-      selectStage(siblings.value.prev)
+      await selectStage(siblings.value.prev)
     }
   } else {
     if (siblings.value.next) {
-      selectStage(siblings.value.next)
+      await selectStage(siblings.value.next)
     }
   }
-}
-
-const blockerColor = computed(() => {
-  let r = 0
-  let g = 0
-  let b = 0
-  let a = 0
-  const blocker = scene.value.blocker
-  if (blocker.a != 0) {
-    r = blocker.r
-    g = blocker.g
-    b = blocker.b
-    a = blocker.a
-  }
-  return `rgba(${255 * r},${255 * g},${255 * b},${a})`
-})
-const hideText = ref(false)
-const hiddenRows = ref(new Set())
-const shownRows = ref(new Set())
-
-function reset() {
-  if (modalRef.value) modalRef.value.scrollTop = 0
-  calDecisions()
-}
-function calDecisions() {
-  if (!story.scenes.length) return
-  hiddenRows.value.clear()
-  shownRows.value.clear()
-  for (const t in story.scenes[page.value].texts) {
-    const text = story.scenes[page.value].texts[t]
-    if (text.decisions) {
-      if (hiddenRows.value.has(text.rid)) {
-        text.decisions.forEach((d) => {
-          d.refers.forEach((r) => {
-            hiddenRows.value.add(r)
-          })
-        })
-      } else {
-        let d = text.decisions.findIndex((v) => v.selected)
-        if (d === -1) {
-          text.decisions[0].selected = true
-          d = 0
-        }
-        const shows = new Set(text.decisions[d].refers)
-        const hiddens = new Set()
-        text.decisions.forEach((v, k) => {
-          if (k != d) {
-            v.refers.forEach((r) => {
-              if (!shows.has(r)) {
-                hiddens.add(r)
-                shows.delete(r)
-              }
-            })
-          }
-        })
-        shownRows.value = new Set([...shownRows.value, ...shows])
-        hiddenRows.value = new Set([...hiddenRows.value, ...hiddens])
-      }
-      shownRows.value.forEach((v) => {
-        if (hiddenRows.value.has(v)) {
-          hiddenRows.value.delete(v)
-        }
+  nextTick(() => {
+    if (modalRef.value)
+      modalRef.value.scrollTo({
+        top: 0
       })
-    }
-  }
-}
-function decide(d, ds) {
-  ds.forEach((v) => {
-    v.selected = v.value === d.value
+    page.value = 0
   })
-  calDecisions()
-}
-async function formatStory(stage) {
-  story.title = `${stage.storyCode} ${stage.storyName} ${stage.avgTag}`
-  story.scenes = []
-  const txt = await getTEXT(`${dbSource}/gamedata/story/${stage.storyTxt}.txt`)
-  const lines = txt.matchAll(/^(\[[^\]]+])?(.*)?$/gim)
-  const speakers = new Set()
-  page.value = 0
-  let index = 0
-  let row = 0
-  let bg = 'bg_black'
-  let bgFolder = 'backgrounds'
-  let bgGray = 0
-  let blocker = { a: 0 }
-  let cgitem = ''
-  let stickerHolder = false
-  let decisionStack = []
-  let decisionStatus = []
-  for (const line of lines) {
-    let cmd = ''
-    let args = ''
-    if (line[1]) {
-      ;[, cmd, args] =
-        /\[\s*?(?:([^=(\]]+)(?=[(\]])\(?)?([^\]]*?)\)?\s*?\]/.exec(line[1])
-      // console.log(cmd, ':', args)
-      if (args) {
-        const tmp = {}
-        Array.from(
-          args.matchAll(/("?[^=", ]+"?)\s*=\s*"?((?<=")[^"]*|[^,]*)/gim)
-        ).forEach((l) => (tmp[l[1].toLowerCase()] = l[2]))
-        args = tmp
-      }
-    }
-
-    cmd = typeof cmd === 'string' ? cmd.toLowerCase() : cmd
-    const prevScene = computed(() => story.scenes[index - 1])
-
-    if (
-      line[1] &&
-      args &&
-      'name' in args &&
-      line[2] &&
-      line[2].trim() &&
-      !cmd
-    ) {
-      speakers.add(args.name)
-      addText(line[2], { speaker: args.name })
-    }
-    if (cmd === 'cameraeffect') {
-      if (args.effect === 'Grayscale') {
-        bgGray = args.amount
-        if (
-          prevScene.value &&
-          !prevScene.value.texts.length &&
-          !args.initamount
-        ) {
-          Object.assign(prevScene.value.bgStyle, {
-            filter: `grayscale(${bgGray})`
-          })
-        }
-      }
-    }
-    if (row === 238) {
-      // console.log(row)
-    }
-    if (['background', 'image', 'gridbg'].includes(cmd)) {
-      if (args.image || args.imagegroup) {
-        bg = (cmd === 'gridbg' ? args.imagegroup : args.image).toLowerCase()
-        bgFolder = `${cmd === 'gridbg' ? 'background' : cmd}s`
-        // 如果上一张是空白的blocker或者sticker，覆盖，否则新建scene
-        if (
-          (prevScene.value &&
-            prevScene.value.type === 'blocker' &&
-            !prevScene.value.texts.length) ||
-          stickerHolder
-        ) {
-          Object.assign(prevScene.value, {
-            type: '',
-            bg,
-            bgFolder,
-            bgStyle: {
-              filter: `grayscale(${bgGray})`,
-              scale: args.xscale || 1
-            },
-            cgitem,
-            blocker: { a: 0 },
-            texts: []
-          })
-        } else {
-          story.scenes.push({
-            bg,
-            bgFolder,
-            bgStyle: {
-              filter: `grayscale(${bgGray})`,
-              scale: args.xscale || 1
-            },
-            cgitem,
-            blocker:
-              cmd === 'background' && blocker.a != 1 ? blocker : { a: 0 },
-            texts: []
-          })
-          index++
-          decisionStatus = []
-          decisionStack = []
-        }
-      }
-    }
-    if (cmd === 'blocker') {
-      const { a, r, g, b } = args
-      blocker = { a, r, g, b }
-      // 如果透明度为1并且上一张不是空白blocker/sticker则新建scene
-      if (
-        a == 1 &&
-        !(
-          prevScene.value &&
-          prevScene.value.type === 'blocker' &&
-          !prevScene.value.texts.length
-        ) &&
-        !stickerHolder
-      ) {
-        story.scenes.push({
-          type: 'blocker',
-          bg,
-          bgFolder,
-          bgStyle: {},
-          cgitem,
-          blocker,
-          texts: []
-        })
-        index++
-        decisionStatus = []
-        decisionStack = []
-      }
-    }
-    if (cmd === 'cgitem') {
-      cgitem = args.image
-      prevScene.value.cgitem = cgitem
-    }
-    if (cmd === 'hidecgitem') {
-      cgitem = ''
-    }
-    if (cmd === 'subtitle') {
-      if (args.text) addText(args.text)
-    }
-    if (cmd === 'sticker') {
-      if (args.text || args.id === 'st1') {
-        addText(args.text || '', {
-          type: 'sticker',
-          force: args.id === 'st1' && !args.multi,
-          info: { align: args.alignment, width: args.width, size: args.size }
-        })
-      }
-    }
-    if (cmd === 'animtext') {
-      if (args.name === 'group_location_stamp') {
-        const title = line[2].match(/<p=1>(.*?)<\/>/)
-        const content = line[2].match(/<p=2>(.*?)<\/>/)
-        addText(`${title[1]}\n${content[1]}`)
-      }
-    }
-    if (cmd === 'decision') {
-      const options = args.options.split(';')
-      const values = args.values.split(';')
-      const decisions = []
-      const newStack = []
-      decisionStack.forEach((d) => {
-        newStack.push({ ...d })
-      })
-      values.forEach((v, k) => {
-        decisions.push({ option: options[k], value: v, refers: [] })
-        const d = newStack.find((d) => d.value === v)
-        if (d) {
-          d.pid = index - 1
-          d.rid = prevScene.value.texts.length
-          d.row = row
-        } else {
-          newStack.push({
-            value: v,
-            pid: index - 1,
-            rid: prevScene.value.texts.length,
-            row
-          })
-        }
-      })
-      const rid = prevScene.value.texts.length
-      prevScene.value.texts.push({
-        rid,
-        decisions,
-        row
-      })
-      addToDecision(rid)
-      decisionStack = [...newStack]
-    }
-    if (cmd === 'predicate') {
-      decisionStatus = args.references.split(';')
-    }
-    if (!line[1]) {
-      addText(line[0])
-    }
-    function addText(text, params = {}) {
-      let rid = 0
-      const { speaker, type, force, info } = params
-      text = text.replace(/\\n/g, '\n')
-      if (
-        !prevScene.value ||
-        (prevScene.value.texts.length &&
-          !stickerHolder &&
-          (force || prevScene.value.type !== type))
-      ) {
-        story.scenes.push({
-          bg,
-          bgFolder,
-          blocker,
-          type,
-          texts: [
-            {
-              rid,
-              row,
-              text,
-              speaker,
-              type,
-              info
-            }
-          ]
-        })
-        index++
-        decisionStatus = []
-        decisionStack = []
-      } else {
-        rid = prevScene.value.texts.length
-        prevScene.value.type = type
-        prevScene.value.blocker = blocker
-        prevScene.value.texts.push({
-          rid,
-          row,
-          text,
-          speaker,
-          type,
-          info
-        })
-      }
-      stickerHolder = !text
-      addToDecision(rid)
-    }
-    function addToDecision(rid) {
-      // console.log(rid, decisionStatus, decisionStack)
-      if (decisionStatus.length) {
-        decisionStatus.forEach((d) => {
-          const decision = decisionStack.find((v) => v.value === d)
-          if (decision && decision.rid !== rid) {
-            story.scenes[decision.pid].texts[decision.rid].decisions
-              .find((v) => v.value === d)
-              .refers.push(rid)
-          }
-        })
-      }
-    }
-    row++
-  }
-  const lastPage = story.scenes[story.scenes.length - 1]
-  if (lastPage) {
-    if (!lastPage.texts.length || stickerHolder) {
-      story.scenes.pop()
-    }
-  }
-  reset()
 }
 </script>

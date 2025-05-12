@@ -6,17 +6,18 @@
   ></reader>
 </template>
 <script setup>
-import { useStoryStore } from '@/stores/story'
+import { useStorylineStore } from '@/stores/storyline'
 const router = useRouter()
 const route = useRoute()
 const readerStage = ref({})
 
-const storyStore = useStoryStore()
-const lines = storyStore.lines
-storyStore.$subscribe(() => {
+const storylineStore = useStorylineStore()
+const lines = storylineStore.storylines
+storylineStore.$subscribe(() => {
   router.push({ force: true })
 })
 watch(route, () => {
+  // console.log('watch...', route.params.chapters)
   const [c, e, s] = route.params.chapters
   let stage = null
   if (c && e) {
