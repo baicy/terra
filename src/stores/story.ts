@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { getTEXT } from '@/utils/utils'
 import type { Stage, Line, Scene } from '@/utils/types'
-// import testTxt from '@/data/readerTest.txt?raw'
 import { addLine } from '@/utils/reader'
 
 export const useStoryStore = defineStore('story', () => {
