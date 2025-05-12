@@ -242,5 +242,5 @@ export const useStoryStore = defineStore('story', () => {
     }
   }
 
-  return { story, loadStage, test, calHiddens }
+  return { story, loadStage, calHiddens }
 })
