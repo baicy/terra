@@ -26,9 +26,7 @@ export const useStoryStore = defineStore('story', () => {
     const lines = txt.matchAll(/^(\[[^\]]+])?(.*)?$/gim)
     format(lines)
   }
-  function test() {
-    format(testTxt.matchAll(/^(\[[^\]]+])?(.*)?$/gim))
-  }
+  
   let curChoice = ''
   let curRefs = ''
   function format(lines: RegExpStringIterator<RegExpExecArray>) {
