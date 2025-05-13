@@ -11,10 +11,17 @@ import { md1 } from 'vuetify/blueprints'
 
 // Composables
 import { createVuetify } from 'vuetify'
+import { VChip } from 'vuetify/components'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   blueprint: md1,
+  aliases: {
+    VChipKey: VChip
+  },
+  defaults: {
+    VChipKey: { size: 'small', class: 'mr-2' }
+  },
   theme: {
     defaultTheme: 'rhodes',
     themes: {
@@ -31,5 +38,5 @@ export default createVuetify({
         }
       }
     }
-  },
+  }
 })

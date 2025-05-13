@@ -80,7 +80,7 @@
       </div>
       <!-- modal layer: 10 -->
       <div
-        v-if="scene && scene.texts.length && !hideText"
+        v-if="scene && scene.texts.length && !hiding"
         ref="modalRef"
         class="d-flex flex-column ga-3 overflow-auto px-2 py-6 position-relative z10 btr-modal"
         style="width: calc(100% - 16px); height: calc(100% - 16px)"
@@ -138,117 +138,237 @@
           </div>
         </div>
       </div>
-      <!-- options layer: 20, 21 -->
+      <!-- gradient toolbar layer:19 -->
       <div
-        v-if="optPanelOn"
-        class="w-100 d-flex justify-center align-center position-absolute bottom-0 z20 ts18"
-      >
-        <div
-          class="w-100 h-100 bg-surface position-absolute opacity-40 z20"
-        ></div>
-        <div class="z21">
-          <reader-switch
-            v-if="allStages"
-            :all-stages="allStages"
-            :selected-stage="readerStage"
-            @stages="switchStages"
-            @stage="switchStage"
-          ></reader-switch>
-        </div>
-        <v-spacer></v-spacer>
-        <div class="d-flex ga-1 z21 mr-2">
-          <!-- <v-btn>CN</v-btn> -->
-          <v-btn
-            :icon="hideText ? 'mdi-eye-off' : 'mdi-eye'"
-            :size="36"
-            @click.stop="hideText = !hideText"
-          ></v-btn>
-          <!-- <v-btn icon="mdi-volume-high" :size="36"></v-btn> -->
-          <v-btn id="setting-btn" icon="mdi-cog" :size="36"></v-btn>
-          <v-btn to="/" icon="mdi-home" :size="36"></v-btn>
-          <v-dialog activator="#setting-btn" max-width="400px" opacity="0">
-            <v-sheet class="pa-4">
-              <div>ID信息</div>
-              <v-text-field v-model="terraReader.nickname"></v-text-field>
-              <div>对话框透明度</div>
-              <v-slider v-model="terraReader.modalAlpha" step="1">
-                <template #append>
-                  <v-text-field
-                    v-model="terraReader.modalAlpha"
-                    :min-width="60"
-                    hide-details
-                    density="compact"
-                  >
-                    <template #append>%</template>
-                  </v-text-field>
-                  <v-btn
-                    size="xsmall"
-                    class="ml-2"
-                    icon="mdi-restart"
-                    variant="text"
-                    @click="terraReader.modalAlpha = 40"
-                  ></v-btn>
-                </template>
-              </v-slider>
-              <div>字体大小</div>
-              <v-slider
-                v-model="terraReader.fontSize"
-                step="1"
-                min="12"
-                max="72"
-              >
-                <template #append>
-                  <v-text-field
-                    v-model="terraReader.fontSize"
-                    :min-width="60"
-                    hide-details
-                    density="compact"
-                  >
-                  </v-text-field>
-                  <v-btn
-                    size="xsmall"
-                    class="ml-2"
-                    icon="mdi-restart"
-                    variant="text"
-                    @click="terraReader.fontSize = 24"
-                  ></v-btn>
-                </template>
-              </v-slider>
-              <div>两侧可翻页占比</div>
-              <v-slider v-model="terraReader.optPercent" step="1" max="50">
-                <template #append>
-                  {{ terraReader.optPercent }}%
-                  <v-btn
-                    size="xsmall"
-                    class="ml-2"
-                    icon="mdi-restart"
-                    variant="text"
-                    @click="terraReader.optPercent = 15"
-                  ></v-btn>
-                </template>
-              </v-slider>
+        class="w-100 h60 position-absolute top-0 z19"
+        style="background: linear-gradient(#00000099 0%, transparent 100%)"
+        @click.stop
+      ></div>
+      <!-- setting buttons layer: 20 -->
+      <div class="position-absolute top-0 left-0 z20 d-flex ga-1 pa-2">
+        <v-btn
+          to="/"
+          icon="mdi-home"
+          size="medium"
+          title="首页"
+          color="white"
+          variant="text"
+        ></v-btn>
+        <v-btn
+          icon="mdi-cog"
+          size="medium"
+          title="设置(O)"
+          color="white"
+          variant="text"
+          @click.stop="setting = true"
+        ></v-btn>
+        <v-btn
+          id="btn-switch"
+          icon="mdi-book-sync-outline"
+          size="medium"
+          title="切换剧情(O)"
+          color="white"
+          variant="text"
+        ></v-btn>
+        <v-btn
+          :icon="hiding ? 'mdi-eye-off' : 'mdi-eye'"
+          size="medium"
+          title="隐藏对话框(H)"
+          color="white"
+          variant="text"
+          @click.stop="hiding = !hiding"
+        ></v-btn>
+        <v-dialog v-model="setting" max-width="800px" opacity="0">
+          <v-sheet class="d-flex">
+            <v-sheet class="pa-4" width="450px">
+              <div class="d-flex">
+                <v-text-field
+                  v-model="terraReader.nickname"
+                  hide-details
+                  placeholder="{@nickname}"
+                  density="compact"
+                >
+                  <template #prepend>
+                    <div class="text-medium-emphasis w150">ID信息</div>
+                  </template>
+                </v-text-field>
+              </div>
+              <div class="d-flex">
+                <v-slider
+                  v-model="terraReader.modalAlpha"
+                  step="1"
+                  density="compact"
+                  hide-details
+                >
+                  <template #append>
+                    <v-text-field
+                      v-model="terraReader.modalAlpha"
+                      :min-width="60"
+                      hide-details
+                      density="compact"
+                    >
+                      <template #append>%</template>
+                    </v-text-field>
+                    <v-btn
+                      size="xsmall"
+                      class="ml-2"
+                      icon="mdi-restart"
+                      variant="text"
+                      @click="system.resetTerraReader('modalAlpha')"
+                    ></v-btn>
+                  </template>
+                  <template #prepend>
+                    <div class="text-medium-emphasis w150 text-left">
+                      对话框透明度
+                    </div>
+                  </template>
+                </v-slider>
+              </div>
+              <div class="d-flex">
+                <v-slider
+                  v-model="terraReader.fontSize"
+                  step="1"
+                  min="12"
+                  max="72"
+                  density="compact"
+                  hide-details
+                >
+                  <template #append>
+                    <v-text-field
+                      v-model="terraReader.fontSize"
+                      :min-width="60"
+                      hide-details
+                      density="compact"
+                    >
+                    </v-text-field>
+                    <v-btn
+                      size="xsmall"
+                      class="ml-2"
+                      icon="mdi-restart"
+                      variant="text"
+                      @click="system.resetTerraReader('fontSize')"
+                    ></v-btn>
+                  </template>
+                  <template #prepend>
+                    <div class="text-medium-emphasis w150 text-left">
+                      字体大小
+                    </div>
+                  </template>
+                </v-slider>
+              </div>
+              <div class="d-flex">
+                <v-slider
+                  v-model="terraReader.pageOptionPercent"
+                  step="1"
+                  max="50"
+                  density="compact"
+                  hide-details
+                >
+                  <template #append>
+                    {{ terraReader.pageOptionPercent }} %
+                    <v-btn
+                      size="xsmall"
+                      class="ml-2"
+                      icon="mdi-restart"
+                      variant="text"
+                      @click="system.resetTerraReader('pageOptionPercent')"
+                    ></v-btn>
+                  </template>
+                  <template #prepend>
+                    <div class="text-medium-emphasis w150 text-left">
+                      两侧可翻页占比
+                    </div>
+                  </template>
+                </v-slider>
+              </div>
+              <div class="d-flex">
+                <v-switch
+                  v-model="terraReader.pageOptionPanelShown"
+                  color="primary"
+                  density="compact"
+                >
+                  <template #prepend>
+                    <div class="text-medium-emphasis w150">
+                      显示页面操作按钮
+                    </div>
+                  </template>
+                </v-switch>
+              </div>
             </v-sheet>
-          </v-dialog>
-        </div>
-        <div v-if="!mobile" class="position-absolute d-flex z21">
-          <!-- <v-btn v-if="selection[0].type === 'main'">上一章</v-btn>
-        <v-div v-else class="w100"></v-div> -->
-          <template v-for="btn in OPT_BUTTONS" :key="btn.id">
-            <v-btn
-              v-if="btn.show()"
-              :icon="btn.icon"
-              :size="36"
-              :title="btn.title"
-              @click.stop="btn.target"
-            ></v-btn>
-            <div v-else class="w36"></div>
-          </template>
-          <!-- <v-btn v-if="selection[0].type === 'main'">下一章</v-btn>
-        <v-div v-else class="w100"></v-div> -->
-        </div>
+            <v-divider vertical></v-divider>
+            <v-sheet class="pa-4 d-flex flex-column ga-1 text-body-2">
+              <div class="text-body-1">快捷键（不区分大小写）</div>
+              <div>
+                <v-chip-key>H</v-chip-key>
+                隐藏对话框
+              </div>
+              <div>
+                <v-chip-key>O</v-chip-key>
+                设置/帮助面板
+              </div>
+              <div>
+                <v-chip-key>W</v-chip-key>
+                <v-chip-key>S</v-chip-key>
+                上一节 / 下一节
+              </div>
+              <div>
+                <v-chip-key>A</v-chip-key>
+                <v-chip-key>D</v-chip-key>
+                上一页 / 下一页
+              </div>
+              <div>
+                <v-chip-key>Q</v-chip-key>
+                <v-chip-key>E</v-chip-key>
+                第一页 / 最后一页
+              </div>
+              <div>
+                <v-chip-key>J</v-chip-key>
+                <v-chip-key>K</v-chip-key>
+                往上一行 / 往下一行
+              </div>
+              <div>
+                <v-chip-key>N</v-chip-key>
+                <v-chip-key>L</v-chip-key>
+                回到顶部 / 滚到底部
+              </div>
+            </v-sheet>
+          </v-sheet>
+        </v-dialog>
+        <v-menu
+          v-model="switching"
+          activator="#btn-switch"
+          :close-on-content-click="false"
+        >
+          <v-sheet>
+            <reader-switch
+              v-if="allStages"
+              :all-stages="allStages"
+              :selected-stage="readerStage"
+              @stages="switchStages"
+              @stage="switchStage"
+            ></reader-switch
+          ></v-sheet>
+        </v-menu>
       </div>
-      <!-- info layer: 22 -->
-      <div class="position-absolute top-0 right-0 h20 z22 ts16 pa-1">
+      <!-- page option buttons layer: 20 -->
+      <div
+        v-if="terraReader.pageOptionPanelShown"
+        class="w-100 d-flex justify-center align-center position-absolute top-0 z20 pt-2"
+      >
+        <template v-for="btn in OPT_BUTTONS" :key="btn.id">
+          <v-btn
+            v-if="btn.show()"
+            :icon="btn.icon"
+            size="x-small"
+            class="w32"
+            :title="btn.title"
+            @click.stop="btn.target"
+          ></v-btn>
+          <div v-else class="w32"></div>
+        </template>
+      </div>
+      <!-- info layer: 20 -->
+      <div class="position-absolute top-0 right-0 z20 ts16 pa-1">
         {{
           `${story.title} ${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
         }}
@@ -257,7 +377,6 @@
   </v-sheet>
 </template>
 <script setup>
-import { useDisplay } from 'vuetify'
 import { useSystemStore } from '@/stores/system'
 import { useStoryStore } from '@/stores/story'
 
@@ -277,6 +396,10 @@ const { readerStage, allStages } = defineProps({
 })
 
 const loading = ref(false)
+const hiding = ref(false)
+const setting = ref(false)
+const switching = ref(false)
+
 const page = ref(0)
 const selection = reactive({ stages: [] })
 const storyStore = useStoryStore()
@@ -360,8 +483,6 @@ async function selectStage(stage) {
   emit('change', [stage.type, stage.storyGroup, str])
 }
 
-const hideText = ref(false)
-
 const system = useSystemStore()
 const terraReader = computed(() => system.terraReader)
 system.$subscribe(() => {
@@ -371,7 +492,6 @@ system.$subscribe(() => {
 const readerRef = ref()
 const modalRef = ref()
 const readerScreen = reactive({ width: 0, height: 0, x: 0, y: 0 })
-const { mobile } = useDisplay()
 onMounted(() => {
   setReader()
 })
@@ -397,19 +517,11 @@ const siblings = computed(() => {
   return { prev, next }
 })
 
-const optPanelOn = ref(true)
 function optAll(e) {
   if (loading.value) return
-  const { width, height, x: ox, y: oy } = readerScreen
+  const { width, x: ox } = readerScreen
   const x = e.clientX - ox
-  const y = e.clientY - oy
-  const modalPercent = terraReader.value.optPercent / 100
-  const optHeight = 65
-  if (y > height - optHeight) {
-    // 按钮区
-    optPanelOn.value = !optPanelOn.value
-    return
-  }
+  const modalPercent = terraReader.value.pageOptionPercent / 100
   if (x < width * modalPercent) {
     if (!optPage(true)) {
       optStage(true)
@@ -424,42 +536,42 @@ function optAll(e) {
 const OPT_BUTTONS = [
   {
     id: 'ps',
-    title: '上一节',
+    title: '上一节(W)',
     icon: 'mdi-chevron-double-left',
     target: () => optStage(true),
     show: () => siblings.value.prev
   },
   {
     id: 'fp',
-    title: '第一页',
+    title: '第一页(Q)',
     icon: 'mdi-page-first',
     target: () => (page.value = 0),
     show: () => page.value
   },
   {
     id: 'pp',
-    title: '上一页',
+    title: '上一页(A)',
     icon: 'mdi-chevron-left',
     target: () => optPage(true),
     show: () => page.value > 0
   },
   {
     id: 'np',
-    title: '下一页',
+    title: '下一页(D)',
     icon: 'mdi-chevron-right',
     target: () => optPage(false),
     show: () => page.value + 1 < scenes.value.length
   },
   {
     id: 'lp',
-    title: '最后一页',
+    title: '最后一页(E)',
     icon: 'mdi-page-last',
     target: () => (page.value = scenes.value.length - 1),
     show: () => page.value !== scenes.value.length - 1
   },
   {
     id: 'ns',
-    title: '下一节',
+    title: '下一节(S)',
     icon: 'mdi-chevron-double-right',
     target: () => optStage(false),
     show: () => siblings.value.next
@@ -502,6 +614,39 @@ async function optStage(prev) {
     page.value = 0
   })
 }
+
+document.addEventListener('keydown', optKey)
+const KEYS = {
+  a: () => optPage(true),
+  d: () => optPage(false),
+  q: () => (page.value = 0),
+  e: () => (page.value = scenes.value.length - 1),
+  w: () => optStage(true),
+  s: () => optStage(false),
+  j: () => {
+    if (modalRef.value) modalRef.value.scrollTop += terraReader.value.fontSize
+  },
+  k: () => {
+    if (modalRef.value) modalRef.value.scrollTop -= terraReader.value.fontSize
+  },
+  n: () => {
+    if (modalRef.value) modalRef.value.scrollTop = 0
+  },
+  l: () => {
+    if (modalRef.value) modalRef.value.scrollTop = modalRef.value.scrollHeight
+  },
+  h: () => (hiding.value = !hiding.value),
+  o: () => (setting.value = !setting.value),
+  r: () => {
+    switching.value = !switching.value
+  },
+  t: () => {} // change stage
+}
+function optKey(e) {
+  // console.log(e)
+  const key = e.key.toLowerCase()
+  if (KEYS[key]) KEYS[key]()
+}
 </script>
 <style scoped lang="sass">
 .btr-modal
@@ -512,4 +657,6 @@ async function optStage(prev) {
       color: rgb(var(--v-theme-primary))
       position: relative
       right: -10px
+.v-slider.v-input--horizontal
+  margin: 0
 </style>
