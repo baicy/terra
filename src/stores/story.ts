@@ -25,8 +25,9 @@ export const useStoryStore = defineStore('story', () => {
     if (!txt) return story
     const lines = txt.matchAll(/^(\[[^\]]+])?(.*)?$/gim)
     format(lines)
+    loadResources()
   }
-  
+
   let curChoice = ''
   let curRefs = ''
   function format(lines: RegExpStringIterator<RegExpExecArray>) {
@@ -238,6 +239,15 @@ export const useStoryStore = defineStore('story', () => {
         if (!checkHidden(i)) {
           story.hiddens.delete(line.sid!)
         }
+      }
+    }
+  }
+  function loadResources() {
+    for (const i in story.resources) {
+      for (const j in story.resources[i]) {
+        const url = story.resources[i][j]
+        const img = new Image()
+        img.src = url
       }
     }
   }

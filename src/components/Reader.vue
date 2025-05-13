@@ -250,7 +250,7 @@
       <!-- info layer: 22 -->
       <div class="position-absolute top-0 right-0 h20 z22 ts16 pa-1">
         {{
-          `${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
+          `${story.title} ${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
         }}
       </div>
     </div>
@@ -292,7 +292,7 @@ const scene = computed(() =>
         bg: '',
         img: '',
         bgEffect: { gray: 0 },
-        blocker: { r: '0', b: '0', b: '0', a: '0' },
+        blocker: { r: '0', g: '0', b: '0', a: '0' },
         texts: []
       }
 )
@@ -434,7 +434,7 @@ const OPT_BUTTONS = [
     title: '第一页',
     icon: 'mdi-page-first',
     target: () => (page.value = 0),
-    show: () => true
+    show: () => page.value
   },
   {
     id: 'pp',
@@ -455,7 +455,7 @@ const OPT_BUTTONS = [
     title: '最后一页',
     icon: 'mdi-page-last',
     target: () => (page.value = scenes.value.length - 1),
-    show: () => true
+    show: () => page.value !== scenes.value.length - 1
   },
   {
     id: 'ns',
