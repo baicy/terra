@@ -1,5 +1,5 @@
 <template>
-  <div style="white-space: pre-wrap">
+  <div class="btr-modal-line-text" style="white-space: pre-wrap">
     <template v-for="(line, index) in outputs" :key="index">
       <i v-if="line.type === 'i'">{{ line.text }}</i>
       <span v-else-if="line.type === 'color'" :style="{ color: line.color }">

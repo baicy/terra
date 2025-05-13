@@ -1,8 +1,8 @@
 <template>
-  <v-sheet class="w-100 h-100 d-flex flex-column pa-4 position-relative">
+  <v-sheet class="w-100 h-100 d-flex flex-column position-absolute top-0">
     <div
       ref="readerRef"
-      class="b1 px-8 py-4 position-relative text-white d-flex justify-center align-center"
+      class="px-8 py-6 position-relative text-white d-flex justify-center align-center"
       style="height: 100%; background-color: black"
       :style="{
         fontSize: `${terraReader.fontSize}px`
@@ -74,19 +74,15 @@
       <!-- cgitems layer: 4 -->
       <div
         v-if="scene && scene.item"
-        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center z4"
+        class="position-absolute top-0 left-0 w-100 h-100 d-flex justify-center align-center z4"
       >
-        <img
-          :src="story.resources[scene.item][0]"
-          class="position-absolute bottom-0"
-          style="max-height: 100%"
-        />
+        <img :src="story.resources[scene.item][0]" style="max-height: 100%" />
       </div>
       <!-- modal layer: 10 -->
       <div
         v-if="scene && scene.texts.length && !hideText"
         ref="modalRef"
-        class="d-flex flex-column ga-3 overflow-auto px-2 py-6 position-relative z10"
+        class="d-flex flex-column ga-3 overflow-auto px-2 py-6 position-relative z10 btr-modal"
         style="width: calc(100% - 16px); height: calc(100% - 16px)"
         :style="{
           backgroundColor: `rgba(0,0,0,${terraReader.modalAlpha / 100})`
@@ -97,7 +93,7 @@
             (l) => !story.hiddens.has(l.id)
           )"
           :key="index"
-          class="d-flex flex-column"
+          class="d-flex flex-column btr-modal-line"
         >
           <div v-if="line.type === 'decision'" class="text-center w-100 px-4">
             <div
@@ -114,7 +110,7 @@
                   min-width: 600px;
                   max-width: calc(100% - 12px);
                 "
-                @click="decide(value, line)"
+                @click.stop="decide(value, line)"
               >
                 <reader-text :text="option"></reader-text>
               </div>
@@ -145,7 +141,7 @@
       <!-- options layer: 20, 21 -->
       <div
         v-if="optPanelOn"
-        class="w-100 d-flex justify-center align-center h50 position-absolute bottom-0 z20 ts18"
+        class="w-100 d-flex justify-center align-center position-absolute bottom-0 z20 ts18"
       >
         <div
           class="w-100 h-100 bg-surface position-absolute opacity-40 z20"
@@ -160,7 +156,7 @@
           ></reader-switch>
         </div>
         <v-spacer></v-spacer>
-        <div class="d-flex ga-1 z21">
+        <div class="d-flex ga-1 z21 mr-2">
           <!-- <v-btn>CN</v-btn> -->
           <v-btn
             :icon="hideText ? 'mdi-eye-off' : 'mdi-eye'"
@@ -237,39 +233,25 @@
         <div v-if="!mobile" class="position-absolute d-flex z21">
           <!-- <v-btn v-if="selection[0].type === 'main'">上一章</v-btn>
         <v-div v-else class="w100"></v-div> -->
-          <v-btn
-            v-if="siblings.prev"
-            class="w100"
-            color="warning"
-            @click.stop="optStage(true)"
-          >
-            上一节
-          </v-btn>
-          <v-div v-else class="w100"></v-div>
-          <v-btn v-if="page > 0" class="w100" @click.stop="optPage(true)">
-            上一页
-          </v-btn>
-          <v-div v-else class="w100"></v-div>
-          <v-btn
-            v-if="page + 1 < scenes.length"
-            class="w100"
-            @click.stop="optPage(false)"
-          >
-            下一页
-          </v-btn>
-          <v-div v-else class="w100"></v-div>
-          <v-btn
-            v-if="siblings.next"
-            class="w100"
-            color="warning"
-            @click.stop="optStage(false)"
-          >
-            下一节
-          </v-btn>
-          <v-div v-else class="w100"></v-div>
+          <template v-for="btn in OPT_BUTTONS" :key="btn.id">
+            <v-btn
+              v-if="btn.show()"
+              :icon="btn.icon"
+              :size="36"
+              :title="btn.title"
+              @click.stop="btn.target"
+            ></v-btn>
+            <div v-else class="w36"></div>
+          </template>
           <!-- <v-btn v-if="selection[0].type === 'main'">下一章</v-btn>
         <v-div v-else class="w100"></v-div> -->
         </div>
+      </div>
+      <!-- info layer: 22 -->
+      <div class="position-absolute top-0 right-0 h20 z22 ts16 pa-1">
+        {{
+          `${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
+        }}
       </div>
     </div>
   </v-sheet>
@@ -363,10 +345,7 @@ function switchStages(stages) {
 }
 async function switchStage(stage) {
   await selectStage(stage)
-  if (modalRef.value)
-    modalRef.value.scrollTo({
-      top: 0
-    })
+  if (modalRef.value) modalRef.value.scrollTop = 0
   page.value = 0
 }
 const emit = defineEmits(['change'])
@@ -391,7 +370,7 @@ system.$subscribe(() => {
 
 const readerRef = ref()
 const modalRef = ref()
-const readerScreen = reactive({ width: 0, height: 0, x: 16, y: 16 })
+const readerScreen = reactive({ width: 0, height: 0, x: 0, y: 0 })
 const { mobile } = useDisplay()
 onMounted(() => {
   setReader()
@@ -425,7 +404,7 @@ function optAll(e) {
   const x = e.clientX - ox
   const y = e.clientY - oy
   const modalPercent = terraReader.value.optPercent / 100
-  const optHeight = 50
+  const optHeight = 65
   if (y > height - optHeight) {
     // 按钮区
     optPanelOn.value = !optPanelOn.value
@@ -441,6 +420,51 @@ function optAll(e) {
     }
   }
 }
+
+const OPT_BUTTONS = [
+  {
+    id: 'ps',
+    title: '上一节',
+    icon: 'mdi-chevron-double-left',
+    target: () => optStage(true),
+    show: () => siblings.value.prev
+  },
+  {
+    id: 'fp',
+    title: '第一页',
+    icon: 'mdi-page-first',
+    target: () => (page.value = 0),
+    show: () => true
+  },
+  {
+    id: 'pp',
+    title: '上一页',
+    icon: 'mdi-chevron-left',
+    target: () => optPage(true),
+    show: () => page.value > 0
+  },
+  {
+    id: 'np',
+    title: '下一页',
+    icon: 'mdi-chevron-right',
+    target: () => optPage(false),
+    show: () => page.value + 1 < scenes.value.length
+  },
+  {
+    id: 'lp',
+    title: '最后一页',
+    icon: 'mdi-page-last',
+    target: () => (page.value = scenes.value.length - 1),
+    show: () => true
+  },
+  {
+    id: 'ns',
+    title: '下一节',
+    icon: 'mdi-chevron-double-right',
+    target: () => optStage(false),
+    show: () => siblings.value.next
+  }
+]
 function optPage(prev) {
   let res = false
   if (prev) {
@@ -448,18 +472,15 @@ function optPage(prev) {
       page.value--
       res = true
       nextTick(() => {
-        modalRef.value.scrollTo({
-          top: modalRef.value.scrollHeight
-        })
+        if (modalRef.value)
+          modalRef.value.scrollTop = modalRef.value.scrollHeight
       })
     }
   } else {
     if (page.value + 1 < scenes.value.length) {
       page.value++
       nextTick(() => {
-        modalRef.value.scrollTo({
-          top: 0
-        })
+        if (modalRef.value) modalRef.value.scrollTop = 0
       })
       res = true
     }
@@ -477,11 +498,18 @@ async function optStage(prev) {
     }
   }
   nextTick(() => {
-    if (modalRef.value)
-      modalRef.value.scrollTo({
-        top: 0
-      })
+    if (modalRef.value) modalRef.value.scrollTop = 0
     page.value = 0
   })
 }
 </script>
+<style scoped lang="sass">
+.btr-modal
+  &-line:last-child
+    :deep(.btr-modal-line-text::after)
+      font-family: "Material Design Icons"
+      content: '\F1C56'
+      color: rgb(var(--v-theme-primary))
+      position: relative
+      right: -10px
+</style>
