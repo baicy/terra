@@ -1,62 +1,44 @@
 <template>
-  <div class="d-flex align-center">
-    <v-breadcrumbs :items="breadcrumbs">
-      <template #divider>
-        <v-icon icon="mdi-chevron-right"></v-icon>
+  <!-- <div>
+    <v-text-field
+      v-model="searchTitle"
+      prepend-inner-icon="mdi-movie-search"
+      color="primary"
+      @update:model-value="searchAll"
+    ></v-text-field>
+    {{ searchTitle }}
+  </div> -->
+  <div class="d-flex">
+    <v-list v-model:selected="sels.storyline">
+      <v-list-item
+        v-for="l in allStages"
+        :key="l.id"
+        :value="l.id"
+        link
+        active-color="primary"
+        @click="selectStoryline(l.id)"
+      >
+        {{ l.title }}
+      </v-list-item>
+    </v-list>
+    <switch-list
+      v-if="sels.episodes"
+      :items="sels.episodes"
+      :selected="sels.episodeId"
+      @select="selectEpisode"
+    ></switch-list>
+    <switch-list
+      v-if="sels.stages"
+      :items="sels.stages"
+      :selected="selectedStage.storyId"
+      id-prop="storyId"
+      @select="selectStage"
+    >
+      <template #item="{ storyCode, storyName, avgTag }">
+        {{ storyCode }} {{ storyName }}
+        {{ avgTag === '幕间' ? '' : ` ${avgTag}` }}
       </template>
-      <template #title="{ item, index }">
-        <div v-if="index === 0" class="cursor-pointer">
-          {{ item.title }}
-          <v-menu activator="parent" open-on-hover open-on-click>
-            <v-list v-model:selected="item.value" active-color="primary">
-              <v-list-item
-                v-for="line in allStages"
-                :key="line.id"
-                link
-                :value="line.id"
-                @click="selectLine(line.id)"
-              >
-                {{ line.title }}
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </div>
-        <div v-else-if="index === 1">
-          {{ item.title }}
-          <v-menu activator="parent" open-on-hover open-on-click>
-            <v-list v-model:selected="item.value" active-color="primary">
-              <v-list-item
-                v-for="episode in selections.episodes"
-                :key="episode.id"
-                link
-                :value="episode.id"
-                @click="selectEpisode(episode)"
-              >
-                {{ episode.title }}
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </div>
-        <div v-else>
-          {{ item.title }}
-          <v-menu activator="parent" open-on-hover open-on-click>
-            <v-list v-model:selected="item.value" active-color="primary">
-              <v-list-item
-                v-for="stage in selections.stages"
-                :key="stage.storyId"
-                link
-                :value="stage.storyId"
-                @click="selectStage(stage)"
-              >
-                {{ stage.storyCode }}
-                {{ stage.storyName }}
-                {{ stage.avgTag }}
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </div>
-      </template>
-    </v-breadcrumbs>
+    </switch-list>
   </div>
 </template>
 <script setup>
@@ -74,59 +56,56 @@ const { allStages, selectedStage } = defineProps({
     }
   }
 })
-const selections = reactive({
-  line: '',
+const sels = reactive({
+  storyline: [],
   episodes: null,
-  episode: '',
-  stages: []
+  episodeId: '',
+  stages: [],
+  stageId: []
 })
-const breadcrumbs = computed(() => {
-  const crumbs = []
-  if (selectedStage.storyId) {
-    selectStage(selectedStage, true)
-  }
-  crumbs.push({
-    title: selections.line
-      ? allStages[selections.line].title
-      : '—— 选择曲谱 ——',
-    disabled: false,
-    value: [selections.line]
-  })
-  if (selections.episodes) {
-    crumbs.push({
-      title: selections.episode ? selections.episode.title : '—— 选择章节 ——',
-      disabled: false,
-      value: [selections.episode.id]
-    })
-  }
-  if (selections.stages.length) {
-    crumbs.push({
-      title: selectedStage.storyId
-        ? `${selectedStage.storyCode} ${selectedStage.storyName} ${selectedStage.avgTag}`
-        : '—— 选择章节 ——',
-      disabled: false,
-      value: [selectedStage.storyId]
-    })
-  }
-  return crumbs
+// const searchTitle = ref('')
+// const allTitles = computed(() => {
+//   const titles = []
+//   for (const l in allStages) {
+//     for (const e in allStages[l].eps) {
+//       allStages[l].eps[e].stages.forEach((s) => {
+//         titles.push({
+//           id: s.storyId,
+//           title: `${s.storyCode}${s.storyName}`,
+//           code: s.storyCode,
+//           name: s.storyName,
+//           tag: s.avgTag
+//         })
+//       })
+//     }
+//   }
+//   return titles
+// })
+onMounted(async () => {
+  if (selectedStage.storyId) selectStage(selectedStage, true)
 })
 const emit = defineEmits(['stages', 'stage'])
-function selectLine(line) {
-  selections.line = line
-  selections.episodes = allStages[line].eps
+function selectStoryline(slid) {
+  sels.storyline = [slid]
+  sels.episodes = allStages[slid].eps
 }
 function selectEpisode(episode) {
-  selections.episode = episode
-  selections.stages = episode.stages
-  emit('stages', selections.stages)
+  sels.episodeId = episode.id
+  sels.stages = episode.stages
+  emit('stages', sels.stages)
 }
 function selectStage(stage, init = false) {
-  if (!selections.line) {
-    selectLine(stage.type)
+  if (!sels.storyline.length) {
+    selectStoryline(stage.type)
   }
-  if (!selections.episode) {
-    selectEpisode(allStages[stage.type].eps[stage.storyGroup])
+  if (!sels.episodeId) {
+    selectEpisode(sels.episodes[stage.storyGroup])
   }
   if (!init) emit('stage', stage)
 }
+// function searchAll(str) {
+//   const a = allTitles.value.filter((t) => t.title.includes(str))
+//   console.log(a)
+//   return a
+// }
 </script>

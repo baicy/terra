@@ -107,44 +107,56 @@
     ],
     "color": []
   },
-  "FESCLASSIC_60_0_2": {
-    "fake": true,
-    "id": "FESCLASSIC_58_0_2",
+  "FESCLASSIC_61_0_1": {
+    "id": "FESCLASSIC_61_0_1",
     "name": "中坚甄选",
     "type": "classic",
     "start": "2025-05-15 04:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": []
+        "chars": [
+          "char_134_ifrit",
+          "char_291_aglina",
+          "char_179_cgbird",
+          "char_263_skadi",
+          "char_010_chen",
+          "char_2013_cerber",
+          "char_222_bpipe",
+          "char_350_surtr",
+          "char_311_mudrok",
+          "char_264_f12yin",
+          "char_479_sleach",
+          "char_206_gnosis"
+        ]
       },
       {
         "rarity": 5,
         "chars": [
-          "char_115_headbr",
-          "char_140_whitew",
-          "char_219_meteo",
-          "char_166_skfire",
-          "char_108_silent",
-          "char_171_bldsk",
-          "char_148_nearl",
-          "char_107_liskam",
-          "char_158_milu",
-          "char_173_slchan",
-          "char_174_slbell",
-          "char_101_sora",
-          "char_215_mantic",
-          "char_241_panda",
-          "char_308_swire",
-          "char_274_astesi",
-          "char_279_excu",
-          "char_367_swllow",
-          "char_226_hmau",
-          "char_379_sesa",
-          "char_343_tknogi",
-          "char_294_ayer",
-          "char_344_beewax",
-          "char_365_aprl"
+          "char_128_plosis",
+          "char_102_texas",
+          "char_204_platnm",
+          "char_242_otter",
+          "char_144_red",
+          "char_201_moeshd",
+          "char_195_glassb",
+          "char_326_glacus",
+          "char_243_waaifu",
+          "char_261_sddrag",
+          "char_356_broca",
+          "char_306_leizi",
+          "char_401_elysm",
+          "char_378_asbest",
+          "char_373_lionhd",
+          "char_349_chiave",
+          "char_415_flint",
+          "char_346_aosta",
+          "char_214_kafka",
+          "char_338_iris",
+          "char_455_nothin",
+          "char_363_toddi",
+          "char_475_akafyu",
+          "char_422_aurora"
         ]
       }
     ]

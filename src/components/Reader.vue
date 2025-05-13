@@ -187,6 +187,7 @@
                   hide-details
                   placeholder="{@nickname}"
                   density="compact"
+                  color="primary"
                 >
                   <template #prepend>
                     <div class="text-medium-emphasis w150">ID信息</div>
@@ -298,6 +299,10 @@
             <v-divider vertical></v-divider>
             <v-sheet class="pa-4 d-flex flex-column ga-1 text-body-2">
               <div class="text-body-1">快捷键（不区分大小写）</div>
+              <div>
+                <v-chip-key>R</v-chip-key>
+                切换剧情
+              </div>
               <div>
                 <v-chip-key>H</v-chip-key>
                 隐藏对话框
@@ -467,6 +472,7 @@ function switchStages(stages) {
   selection.stages = stages
 }
 async function switchStage(stage) {
+  switching.value = false
   await selectStage(stage)
   if (modalRef.value) modalRef.value.scrollTop = 0
   page.value = 0
@@ -518,7 +524,7 @@ const siblings = computed(() => {
 })
 
 function optAll(e) {
-  if (loading.value) return
+  if (loading.value || switching.value) return
   const { width, x: ox } = readerScreen
   const x = e.clientX - ox
   const modalPercent = terraReader.value.pageOptionPercent / 100
@@ -644,6 +650,7 @@ const KEYS = {
 }
 function optKey(e) {
   // console.log(e)
+  if (switching.value) return
   const key = e.key.toLowerCase()
   if (KEYS[key]) KEYS[key]()
 }

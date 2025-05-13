@@ -17,6 +17,7 @@ declare module 'vue' {
     ReaderText: typeof import('./components/ReaderText.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SwitchList: typeof import('./components/reader/SwitchList.vue')['default']
     TimelineInventory: typeof import('./components/TimelineInventory.vue')['default']
     TimelineItem: typeof import('./components/TimelineItem.vue')['default']
   }
