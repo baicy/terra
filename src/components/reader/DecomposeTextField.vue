@@ -1,6 +1,7 @@
 <template>
   <v-text-field
     v-model="text"
+    min-width="200px"
     :prepend-inner-icon="icon"
     color="primary"
     hide-details

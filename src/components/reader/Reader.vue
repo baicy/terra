@@ -308,6 +308,21 @@
             </template>
           </v-slider>
         </div>
+        <div class="d-flex align-center">
+          <div class="text-medium-emphasis w150 text-left">翻页模式</div>
+          <v-radio-group
+            v-model="terraReader.pageOptionType"
+            inline
+            class="d-flex"
+            hide-details
+            density="compact"
+            color="primary"
+          >
+            <v-radio label="双手" value="double"></v-radio>
+            <v-radio label="单手(左)" value="left"></v-radio>
+            <v-radio label="单手(右)" value="right"></v-radio>
+          </v-radio-group>
+        </div>
         <div class="d-flex">
           <v-switch
             v-model="terraReader.pageOptionPanelShown"
@@ -523,14 +538,35 @@ const siblings = computed(() => {
 
 function optAll(e) {
   if (loading.value || switching.value) return
-  const { width, x: ox } = readerScreen
-  const x = e.clientX - ox
   const modalPercent = terraReader.value.pageOptionPercent / 100
-  if (x < width * modalPercent) {
+  const { width, x: ox, height, y: oy } = readerScreen
+  const x = e.clientX - ox
+  const y = e.clientY - oy
+  const left = x < width * modalPercent
+  const right = x > width * (1 - modalPercent)
+  let status = 0
+  switch (terraReader.value.pageOptionType) {
+    case 'double':
+      status = left ? -1 : right ? 1 : 0
+      break
+    case 'left':
+      if (left) {
+        status = y < height / 2 ? -1 : 1
+      }
+      break
+    case 'right':
+      if (right) {
+        status = y < height / 2 ? -1 : 1
+      }
+      break
+    default:
+      break
+  }
+  if (status === -1) {
     if (!optPage(true)) {
       optStage(true)
     }
-  } else if (x > width * (1 - modalPercent)) {
+  } else if (status === 1) {
     if (!optPage(false)) {
       optStage(false)
     }
@@ -643,11 +679,9 @@ const KEYS = {
   o: () => (setting.value = !setting.value),
   r: () => {
     switching.value = !switching.value
-  },
-  t: () => {} // change stage
+  }
 }
 function optKey(e) {
-  // console.log(e)
   if (switching.value) return
   const key = e.key.toLowerCase()
   if (KEYS[key]) KEYS[key]()

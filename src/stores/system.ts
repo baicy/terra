@@ -11,6 +11,7 @@ export const useSystemStore = defineStore('system', () => {
     modalAlpha: 40,
     fontSize: 24,
     pageOptionPercent: 20,
+    pageOptionType: 'double',
     pageOptionPanelShown: false
   }
   const terraReader = reactive({ ...terraReaderDefault })
