@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { getTEXT } from '@/utils/utils'
 import type { Stage, Line, Scene } from '@/utils/types'
 import { addLine } from '@/utils/reader'
+import { useStorylineStore } from './storyline'
+const storyline = useStorylineStore().storylines
 
 export const useStoryStore = defineStore('story', () => {
   const DATA_SOURCE =
@@ -17,8 +19,8 @@ export const useStoryStore = defineStore('story', () => {
     resources: {}
   })
   async function loadStage(stage: Stage) {
-    const { storyCode, storyName, avgTag, storyTxt } = stage
-    story.title = `${storyCode} ${storyName} ${avgTag}`
+    const { storyCode, storyName, avgTag, storyTxt, storyGroup, type } = stage
+    story.title = `${storyline[type].eps[storyGroup].title} ${storyCode} ${storyName} ${avgTag === '幕间' ? '' : ` ${avgTag}`}`
     const txt: string = await getTEXT(
       `${dbSource}/gamedata/story/${storyTxt}.txt`
     )

@@ -170,6 +170,7 @@ export interface Stage {
   avgTag: string
   storyInfo: string
   storyTxt: string
+  type: string
 }
 
 // Reader

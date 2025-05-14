@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="px-2">
     <decompose-text-field
       icon="mdi-movie-search"
       @input="searchAll"
@@ -142,7 +142,7 @@ function searchAll(str) {
           })
         }
         res.push({
-          title: `${v.code} ${v.name}${v.tag ? ` ${v.tag}` : ''}`,
+          title: `${v.code} ${v.name}${v.tag === '幕间' ? '' : ` ${v.tag}`}`,
           value: v.id
         })
       })
