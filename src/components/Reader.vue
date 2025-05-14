@@ -145,7 +145,7 @@
         @click.stop
       ></div>
       <!-- setting buttons layer: 20 -->
-      <div class="position-absolute top-0 left-0 z20 d-flex ga-1 pa-2">
+      <div class="position-absolute top-0 left-0 z20 d-flex ga-1 pa-2 ts24">
         <v-btn
           to="/"
           icon="mdi-home"
@@ -178,199 +178,25 @@
           variant="text"
           @click.stop="hiding = !hiding"
         ></v-btn>
-        <v-dialog v-model="setting" max-width="800px" opacity="0">
-          <v-sheet class="d-flex">
-            <v-sheet class="pa-4" width="450px">
-              <div class="d-flex">
-                <v-text-field
-                  v-model="terraReader.nickname"
-                  hide-details
-                  placeholder="{@nickname}"
-                  density="compact"
-                  color="primary"
-                >
-                  <template #prepend>
-                    <div class="text-medium-emphasis w150">ID信息</div>
-                  </template>
-                </v-text-field>
-              </div>
-              <div class="d-flex">
-                <v-slider
-                  v-model="terraReader.modalAlpha"
-                  step="1"
-                  density="compact"
-                  hide-details
-                >
-                  <template #append>
-                    <v-text-field
-                      v-model="terraReader.modalAlpha"
-                      :min-width="60"
-                      hide-details
-                      density="compact"
-                    >
-                      <template #append>%</template>
-                    </v-text-field>
-                    <v-btn
-                      size="xsmall"
-                      class="ml-2"
-                      icon="mdi-restart"
-                      variant="text"
-                      @click="system.resetTerraReader('modalAlpha')"
-                    ></v-btn>
-                  </template>
-                  <template #prepend>
-                    <div class="text-medium-emphasis w150 text-left">
-                      对话框透明度
-                    </div>
-                  </template>
-                </v-slider>
-              </div>
-              <div class="d-flex">
-                <v-slider
-                  v-model="terraReader.fontSize"
-                  step="1"
-                  min="12"
-                  max="72"
-                  density="compact"
-                  hide-details
-                >
-                  <template #append>
-                    <v-text-field
-                      v-model="terraReader.fontSize"
-                      :min-width="60"
-                      hide-details
-                      density="compact"
-                    >
-                    </v-text-field>
-                    <v-btn
-                      size="xsmall"
-                      class="ml-2"
-                      icon="mdi-restart"
-                      variant="text"
-                      @click="system.resetTerraReader('fontSize')"
-                    ></v-btn>
-                  </template>
-                  <template #prepend>
-                    <div class="text-medium-emphasis w150 text-left">
-                      字体大小
-                    </div>
-                  </template>
-                </v-slider>
-              </div>
-              <div class="d-flex">
-                <v-slider
-                  v-model="terraReader.pageOptionPercent"
-                  step="1"
-                  max="50"
-                  density="compact"
-                  hide-details
-                >
-                  <template #append>
-                    {{ terraReader.pageOptionPercent }} %
-                    <v-btn
-                      size="xsmall"
-                      class="ml-2"
-                      icon="mdi-restart"
-                      variant="text"
-                      @click="system.resetTerraReader('pageOptionPercent')"
-                    ></v-btn>
-                  </template>
-                  <template #prepend>
-                    <div class="text-medium-emphasis w150 text-left">
-                      两侧可翻页占比
-                    </div>
-                  </template>
-                </v-slider>
-              </div>
-              <div class="d-flex">
-                <v-switch
-                  v-model="terraReader.pageOptionPanelShown"
-                  color="primary"
-                  density="compact"
-                >
-                  <template #prepend>
-                    <div class="text-medium-emphasis w150">
-                      显示页面操作按钮
-                    </div>
-                  </template>
-                </v-switch>
-              </div>
-            </v-sheet>
-            <v-divider vertical></v-divider>
-            <v-sheet class="pa-4 d-flex flex-column ga-1 text-body-2">
-              <div class="text-body-1">快捷键（不区分大小写）</div>
-              <div>
-                <v-chip-key>R</v-chip-key>
-                切换剧情
-              </div>
-              <div>
-                <v-chip-key>H</v-chip-key>
-                隐藏对话框
-              </div>
-              <div>
-                <v-chip-key>O</v-chip-key>
-                设置/帮助面板
-              </div>
-              <div>
-                <v-chip-key>W</v-chip-key>
-                <v-chip-key>S</v-chip-key>
-                上一节 / 下一节
-              </div>
-              <div>
-                <v-chip-key>A</v-chip-key>
-                <v-chip-key>D</v-chip-key>
-                上一页 / 下一页
-              </div>
-              <div>
-                <v-chip-key>Q</v-chip-key>
-                <v-chip-key>E</v-chip-key>
-                第一页 / 最后一页
-              </div>
-              <div>
-                <v-chip-key>J</v-chip-key>
-                <v-chip-key>K</v-chip-key>
-                往上一行 / 往下一行
-              </div>
-              <div>
-                <v-chip-key>N</v-chip-key>
-                <v-chip-key>L</v-chip-key>
-                回到顶部 / 滚到底部
-              </div>
-            </v-sheet>
-          </v-sheet>
-        </v-dialog>
-        <v-menu
-          v-model="switching"
-          activator="#btn-switch"
-          :close-on-content-click="false"
-        >
-          <v-sheet>
-            <reader-switch
-              v-if="allStages"
-              :all-stages="allStages"
-              :selected-stage="readerStage"
-              @stages="switchStages"
-              @stage="switchStage"
-            ></reader-switch
-          ></v-sheet>
-        </v-menu>
       </div>
       <!-- page option buttons layer: 20 -->
       <div
         v-if="terraReader.pageOptionPanelShown"
-        class="w-100 d-flex justify-center align-center position-absolute top-0 z20 pt-2"
+        class="w-100 d-flex justify-center align-center position-absolute top-0"
       >
-        <template v-for="btn in OPT_BUTTONS" :key="btn.id">
-          <v-btn
-            v-if="btn.show()"
-            :icon="btn.icon"
-            size="x-small"
-            class="w32"
-            :title="btn.title"
-            @click.stop="btn.target"
-          ></v-btn>
-          <div v-else class="w32"></div>
-        </template>
+        <div class="z20 pt-1 d-flex">
+          <template v-for="btn in OPT_BUTTONS" :key="btn.id">
+            <v-btn
+              v-if="btn.show()"
+              :icon="btn.icon"
+              size="x-small"
+              class="w32"
+              :title="btn.title"
+              @click.stop="btn.target"
+            ></v-btn>
+            <div v-else class="w32"></div>
+          </template>
+        </div>
       </div>
       <!-- info layer: 20 -->
       <div class="position-absolute top-0 right-0 z20 ts16 pa-1">
@@ -380,6 +206,178 @@
       </div>
     </div>
   </v-sheet>
+  <v-dialog v-model="setting" max-width="800px" opacity="0">
+    <v-sheet class="d-flex">
+      <v-sheet class="pa-4" width="450px">
+        <div class="d-flex">
+          <v-text-field
+            v-model="terraReader.nickname"
+            hide-details
+            placeholder="{@nickname}"
+            density="compact"
+            color="primary"
+          >
+            <template #prepend>
+              <div class="text-medium-emphasis w150">ID信息</div>
+            </template>
+          </v-text-field>
+        </div>
+        <div class="d-flex">
+          <v-slider
+            v-model="terraReader.modalAlpha"
+            step="1"
+            density="compact"
+            hide-details
+          >
+            <template #append>
+              <v-text-field
+                v-model="terraReader.modalAlpha"
+                :min-width="60"
+                hide-details
+                density="compact"
+              >
+                <template #append>%</template>
+              </v-text-field>
+              <v-btn
+                size="xsmall"
+                class="ml-2"
+                icon="mdi-restart"
+                variant="text"
+                @click="system.resetTerraReader('modalAlpha')"
+              ></v-btn>
+            </template>
+            <template #prepend>
+              <div class="text-medium-emphasis w150 text-left">
+                对话框透明度
+              </div>
+            </template>
+          </v-slider>
+        </div>
+        <div class="d-flex">
+          <v-slider
+            v-model="terraReader.fontSize"
+            step="1"
+            min="12"
+            max="72"
+            density="compact"
+            hide-details
+          >
+            <template #append>
+              <v-text-field
+                v-model="terraReader.fontSize"
+                :min-width="60"
+                hide-details
+                density="compact"
+              >
+              </v-text-field>
+              <v-btn
+                size="xsmall"
+                class="ml-2"
+                icon="mdi-restart"
+                variant="text"
+                @click="system.resetTerraReader('fontSize')"
+              ></v-btn>
+            </template>
+            <template #prepend>
+              <div class="text-medium-emphasis w150 text-left">字体大小</div>
+            </template>
+          </v-slider>
+        </div>
+        <div class="d-flex">
+          <v-slider
+            v-model="terraReader.pageOptionPercent"
+            step="1"
+            max="50"
+            density="compact"
+            hide-details
+          >
+            <template #append>
+              {{ terraReader.pageOptionPercent }} %
+              <v-btn
+                size="xsmall"
+                class="ml-2"
+                icon="mdi-restart"
+                variant="text"
+                @click="system.resetTerraReader('pageOptionPercent')"
+              ></v-btn>
+            </template>
+            <template #prepend>
+              <div class="text-medium-emphasis w150 text-left">
+                两侧可翻页占比
+              </div>
+            </template>
+          </v-slider>
+        </div>
+        <div class="d-flex">
+          <v-switch
+            v-model="terraReader.pageOptionPanelShown"
+            color="primary"
+            density="compact"
+          >
+            <template #prepend>
+              <div class="text-medium-emphasis w150">显示页面操作按钮</div>
+            </template>
+          </v-switch>
+        </div>
+      </v-sheet>
+      <v-divider vertical></v-divider>
+      <v-sheet class="pa-4 d-flex flex-column ga-1 text-body-2">
+        <div class="text-body-1">快捷键（不区分大小写）</div>
+        <div>
+          <v-chip-key>R</v-chip-key>
+          切换剧情
+        </div>
+        <div>
+          <v-chip-key>H</v-chip-key>
+          隐藏对话框
+        </div>
+        <div>
+          <v-chip-key>O</v-chip-key>
+          设置/帮助面板
+        </div>
+        <div>
+          <v-chip-key>W</v-chip-key>
+          <v-chip-key>S</v-chip-key>
+          上一节 / 下一节
+        </div>
+        <div>
+          <v-chip-key>A</v-chip-key>
+          <v-chip-key>D</v-chip-key>
+          上一页 / 下一页
+        </div>
+        <div>
+          <v-chip-key>Q</v-chip-key>
+          <v-chip-key>E</v-chip-key>
+          第一页 / 最后一页
+        </div>
+        <div>
+          <v-chip-key>J</v-chip-key>
+          <v-chip-key>K</v-chip-key>
+          往上一行 / 往下一行
+        </div>
+        <div>
+          <v-chip-key>N</v-chip-key>
+          <v-chip-key>L</v-chip-key>
+          回到顶部 / 滚到底部
+        </div>
+      </v-sheet>
+    </v-sheet>
+  </v-dialog>
+  <v-menu
+    v-model="switching"
+    activator="#btn-switch"
+    :close-on-content-click="false"
+  >
+    <v-sheet>
+      <reader-switch
+        v-if="allStages"
+        :all-stages="allStages"
+        :selected-stage="readerStage"
+        @stages="switchStages"
+        @stage="switchStage"
+      ></reader-switch
+    ></v-sheet>
+  </v-menu>
 </template>
 <script setup>
 import { useSystemStore } from '@/stores/system'
