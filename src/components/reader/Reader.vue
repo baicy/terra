@@ -177,11 +177,13 @@
         </div>
         <div class="ts16 pa-1 d-flex z20">
           <div class="cursor-pointer" @click.stop="switching = !switching">
-            {{ story.title }}
+            {{ story.title || '--选择章节--' }}
           </div>
           <div @click.stop>
             {{
-              `${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
+              readerStage.storyId
+                ? `${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
+                : ''
             }}
           </div>
         </div>
