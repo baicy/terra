@@ -2,6 +2,7 @@
   <div class="px-2">
     <decompose-text-field
       icon="mdi-movie-search"
+      placeholder="输入剧情标题跳转"
       @input="searchAll"
     ></decompose-text-field>
     <div v-if="resAll.length">
@@ -20,7 +21,7 @@
     </div>
   </div>
   <div class="d-flex">
-    <v-list v-model:selected="sels.storyline">
+    <v-list v-model:selected="sels.storyline" width="120px">
       <v-list-item
         v-for="l in allStages"
         :key="l.id"

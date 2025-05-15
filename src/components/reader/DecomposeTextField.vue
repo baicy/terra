@@ -3,6 +3,7 @@
     v-model="text"
     min-width="200px"
     :prepend-inner-icon="icon"
+    :placeholder="placeholder"
     color="primary"
     hide-details
     density="compact"
@@ -12,7 +13,10 @@
   ></v-text-field>
 </template>
 <script setup>
-const { icon } = defineProps({ icon: { type: String, default: () => '' } })
+const { icon, placeholder } = defineProps({
+  icon: { type: String, default: () => '' },
+  placeholder: { type: String, default: () => '' }
+})
 const text = ref('')
 const composing = ref(false)
 

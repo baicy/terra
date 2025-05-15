@@ -80,7 +80,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4055_bgsnow"]
+        "chars": ["char_1032_excu2", "char_4055_bgsnow"]
       },
       {
         "rarity": 5,
@@ -98,11 +98,11 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_1032_excu2", "char_4026_vulpis"]
+        "chars": ["char_4064_mlynar", "char_4026_vulpis"]
       },
       {
         "rarity": 5,
-        "chars": []
+        "chars": ["char_4105_almond"]
       }
     ],
     "color": []

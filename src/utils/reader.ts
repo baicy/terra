@@ -99,8 +99,8 @@ class AddLocation implements AddLine {
     const where = text.match(/<p=1>(.*?)<\/>/)
     const when = text.match(/<p=2>(.*?)<\/>/)
     return {
-      type: 'location',
-      text: `${where![1]}${when ? `\n${when[1]}` : ''}`
+      type: 'text',
+      text: `${where ? where[1] : ''}${when ? `${where ? '\n' : ''}${when[1]}` : ''}`
     }
   }
 }

@@ -160,15 +160,15 @@
           title="设置(O)"
           color="white"
           variant="text"
-          @click.stop="setting = true"
+          @click.stop="setting = !setting"
         ></v-btn>
         <v-btn
-          id="btn-switch"
           icon="mdi-book-sync-outline"
           size="medium"
           title="切换剧情(O)"
           color="white"
           variant="text"
+          @click.stop="switching = !switching"
         ></v-btn>
         <v-btn
           :icon="hiding ? 'mdi-eye-off' : 'mdi-eye'"
@@ -199,14 +199,23 @@
         </div>
       </div>
       <!-- info layer: 20 -->
-      <div class="position-absolute top-0 right-0 z20 ts16 pa-1">
-        {{
-          `${story.title} ${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
-        }}
+      <div class="position-absolute top-0 right-0 z20 ts16 pa-1 d-flex">
+        <div class="cursor-pointer" @click.stop="switching = !switching">
+          {{ story.title }}
+        </div>
+        <div @click.stop>
+          {{
+            `${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
+          }}
+        </div>
       </div>
     </div>
   </v-sheet>
-  <v-dialog v-model="setting" max-width="800px" opacity="0">
+  <v-dialog
+    v-model="setting"
+    :max-width="`${mobile ? 450 : 800}px`"
+    opacity="0"
+  >
     <v-sheet class="d-flex">
       <v-sheet class="pa-4" width="450px">
         <div class="d-flex">
@@ -335,8 +344,8 @@
           </v-switch>
         </div>
       </v-sheet>
-      <v-divider vertical></v-divider>
-      <v-sheet class="pa-4 d-flex flex-column ga-1 text-body-2">
+      <v-divider v-if="!mobile" vertical></v-divider>
+      <v-sheet v-if="!mobile" class="pa-4 d-flex flex-column ga-1 text-body-2">
         <div class="text-body-1">快捷键（不区分大小写）</div>
         <div>
           <v-chip-key>R</v-chip-key>
@@ -353,7 +362,7 @@
         <div>
           <v-chip-key>W</v-chip-key>
           <v-chip-key>S</v-chip-key>
-          上一节 / 下一节
+          往上一行 / 往下一行
         </div>
         <div>
           <v-chip-key>A</v-chip-key>
@@ -363,26 +372,22 @@
         <div>
           <v-chip-key>Q</v-chip-key>
           <v-chip-key>E</v-chip-key>
+          上一节 / 下一节
+        </div>
+        <div>
+          <v-chip-key>Z</v-chip-key>
+          <v-chip-key>X</v-chip-key>
           第一页 / 最后一页
         </div>
         <div>
-          <v-chip-key>J</v-chip-key>
-          <v-chip-key>K</v-chip-key>
-          往上一行 / 往下一行
-        </div>
-        <div>
-          <v-chip-key>N</v-chip-key>
-          <v-chip-key>L</v-chip-key>
+          <v-chip-key>C</v-chip-key>
+          <v-chip-key>V</v-chip-key>
           回到顶部 / 滚到底部
         </div>
       </v-sheet>
     </v-sheet>
   </v-dialog>
-  <v-menu
-    v-model="switching"
-    activator="#btn-switch"
-    :close-on-content-click="false"
-  >
+  <v-dialog v-model="switching" max-width="500px">
     <v-sheet>
       <reader-switch
         v-if="allStages"
@@ -392,11 +397,12 @@
         @stage="switchStage"
       ></reader-switch
     ></v-sheet>
-  </v-menu>
+  </v-dialog>
 </template>
 <script setup>
 import { useSystemStore } from '@/stores/system'
 import { useStoryStore } from '@/stores/story'
+import { useDisplay } from 'vuetify'
 
 const { readerStage, allStages } = defineProps({
   readerStage: {
@@ -417,6 +423,7 @@ const loading = ref(false)
 const hiding = ref(false)
 const setting = ref(false)
 const switching = ref(false)
+const { mobile } = useDisplay()
 
 const page = ref(0)
 const selection = reactive({ stages: [] })
@@ -659,20 +666,20 @@ document.addEventListener('keydown', optKey)
 const KEYS = {
   a: () => optPage(true),
   d: () => optPage(false),
-  q: () => (page.value = 0),
-  e: () => (page.value = scenes.value.length - 1),
-  w: () => optStage(true),
-  s: () => optStage(false),
-  j: () => {
+  z: () => (page.value = 0),
+  x: () => (page.value = scenes.value.length - 1),
+  q: () => optStage(true),
+  e: () => optStage(false),
+  s: () => {
     if (modalRef.value) modalRef.value.scrollTop += terraReader.value.fontSize
   },
-  k: () => {
+  w: () => {
     if (modalRef.value) modalRef.value.scrollTop -= terraReader.value.fontSize
   },
-  n: () => {
+  c: () => {
     if (modalRef.value) modalRef.value.scrollTop = 0
   },
-  l: () => {
+  v: () => {
     if (modalRef.value) modalRef.value.scrollTop = modalRef.value.scrollHeight
   },
   h: () => (hiding.value = !hiding.value),
@@ -686,6 +693,9 @@ function optKey(e) {
   const key = e.key.toLowerCase()
   if (KEYS[key]) KEYS[key]()
 }
+onUnmounted(() => {
+  document.removeEventListener('keydown', optKey)
+})
 </script>
 <style scoped lang="sass">
 .btr-modal
