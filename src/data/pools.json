@@ -4,11 +4,29 @@
     "id": "DOUBLE_59_0_4",
     "name": "",
     "type": "standard",
-    "start": "2025-07-17 04:00",
+    "start": "2025-07-31 04:00",
     "pickup": [
       {
         "rarity": 6,
         "chars": ["char_1033_swire2"]
+      },
+      {
+        "rarity": 5,
+        "chars": []
+      }
+    ],
+    "color": []
+  },
+  "DOUBLE_63_0_3": {
+    "fake": true,
+    "id": "DOUBLE_59_0_4",
+    "name": "",
+    "type": "standard",
+    "start": "2025-07-17 04:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": [""]
       },
       {
         "rarity": 5,
@@ -26,7 +44,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4064_mlynar"]
+        "chars": ["char_2012_typhon", "char_1039_thorn2"]
       },
       {
         "rarity": 5,
@@ -62,7 +80,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_2012_typhon", "char_1039_thorn2"]
+        "chars": []
       },
       {
         "rarity": 5,
@@ -71,7 +89,7 @@
     ],
     "color": []
   },
-  "DOUBLE_61_0_4": {
+  "DOUBLE_62_0_4": {
     "fake": true,
     "id": "DOUBLE_59_0_4",
     "name": "",
@@ -89,9 +107,8 @@
     ],
     "color": []
   },
-  "DOUBLE_61_0_3": {
-    "fake": true,
-    "id": "DOUBLE_59_0_4",
+  "DOUBLE_61_0_4": {
+    "id": "DOUBLE_61_0_4",
     "name": "",
     "type": "standard",
     "start": "2025-05-22 04:00",
@@ -102,10 +119,10 @@
       },
       {
         "rarity": 5,
-        "chars": ["char_4105_almond"]
+        "chars": ["char_4105_almond", "char_4155_talr", "char_4147_mitm"]
       }
     ],
-    "color": []
+    "color": ["#415aa3"]
   },
   "FESCLASSIC_61_0_1": {
     "id": "FESCLASSIC_61_0_1",
@@ -162,7 +179,7 @@
     ]
   },
   "SPECIAL_61_0_3": {
-    "id": "SPECIAL_59_0_3",
+    "id": "SPECIAL_61_0_3",
     "name": "定向甄选",
     "type": "special",
     "timeline": 1,

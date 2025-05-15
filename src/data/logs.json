@@ -179,7 +179,7 @@
   },
   {
     "id": "actsummerside",
-    "name": "东国夏活",
+    "name": "夏活",
     "type": "SIDESTORY",
     "color": ["#8f45d6"],
     "fake": true,
@@ -287,9 +287,9 @@
     "timeline": 0
   },
   {
-    "id": "act2vecb",
+    "id": "act1break",
     "name": "矢量突破#1 无机物",
-    "type": "OTHER",
+    "type": "VEC_BREAK_V2",
     "color": ["#fff211"],
     "start": "2025-05-15 16:00",
     "days": 21,
