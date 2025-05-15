@@ -2,14 +2,14 @@ import { defineStore } from 'pinia'
 import { getTEXT } from '@/utils/utils'
 import type { Stage, Line, Scene } from '@/utils/types'
 import { addLine } from '@/utils/reader'
+import { DATA_SOURCE } from '@/utils/constants'
 import { useStorylineStore } from './storyline'
+
 const storyline = useStorylineStore().storylines
 
 export const useStoryStore = defineStore('story', () => {
-  const DATA_SOURCE =
-    'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/'
-  const LANG = 'zh_CN'
-  const dbSource = `${DATA_SOURCE}${LANG}`
+  const lang = 'cn'
+  const dbSource = DATA_SOURCE[lang]
 
   const story = reactive({
     title: '',

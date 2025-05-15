@@ -1,7 +1,5 @@
 import type { Line } from './types'
-
-const AVG_SOURCE =
-  'https://raw.githubusercontent.com/akgcc/arkdata/main/assets/torappu/dynamicassets/avg/'
+import { AVG_SOURCE } from './constants'
 
 interface AddLine {
   add(args: Record<string, string>): Line

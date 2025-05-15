@@ -144,42 +144,49 @@
         style="background: linear-gradient(#00000099 0%, transparent 100%)"
         @click.stop
       ></div>
-      <!-- setting buttons layer: 20 -->
-      <div class="position-absolute top-0 left-0 z20 d-flex ga-1 pa-2 ts24">
-        <v-btn
-          to="/"
-          icon="mdi-home"
-          size="medium"
-          title="首页"
-          color="white"
-          variant="text"
-        ></v-btn>
-        <v-btn
-          icon="mdi-cog"
-          size="medium"
-          title="设置(O)"
-          color="white"
-          variant="text"
-          @click.stop="setting = !setting"
-        ></v-btn>
-        <v-btn
-          icon="mdi-book-sync-outline"
-          size="medium"
-          title="切换剧情(O)"
-          color="white"
-          variant="text"
-          @click.stop="switching = !switching"
-        ></v-btn>
-        <v-btn
-          :icon="hiding ? 'mdi-eye-off' : 'mdi-eye'"
-          size="medium"
-          title="隐藏对话框(H)"
-          color="white"
-          variant="text"
-          @click.stop="hiding = !hiding"
-        ></v-btn>
+      <!-- menu layer: 20 -->
+      <div
+        class="position-absolute top-0 right-0 w-100 d-flex justify-space-between"
+        :class="{ 'flex-row-reverse': terraReader.pageOptionType === 'right' }"
+      >
+        <div class="d-flex ga-1 pa-2 ts24 z20">
+          <v-btn
+            to="/"
+            icon="mdi-home"
+            size="medium"
+            title="首页"
+            color="white"
+            variant="text"
+          ></v-btn>
+          <v-btn
+            icon="mdi-cog"
+            size="medium"
+            title="设置(O)"
+            color="white"
+            variant="text"
+            @click.stop="setting = !setting"
+          ></v-btn>
+          <v-btn
+            :icon="hiding ? 'mdi-eye-off' : 'mdi-eye'"
+            size="medium"
+            title="隐藏对话框(H)"
+            color="white"
+            variant="text"
+            @click.stop="hiding = !hiding"
+          ></v-btn>
+        </div>
+        <div class="ts16 pa-1 d-flex z20">
+          <div class="cursor-pointer" @click.stop="switching = !switching">
+            {{ story.title }}
+          </div>
+          <div @click.stop>
+            {{
+              `${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
+            }}
+          </div>
+        </div>
       </div>
-      <!-- page option buttons layer: 20 -->
+      <!-- page option panel layer: 20 -->
       <div
         v-if="terraReader.pageOptionPanelShown"
         class="w-100 d-flex justify-center align-center position-absolute top-0"
@@ -196,17 +203,6 @@
             ></v-btn>
             <div v-else class="w32"></div>
           </template>
-        </div>
-      </div>
-      <!-- info layer: 20 -->
-      <div class="position-absolute top-0 right-0 z20 ts16 pa-1 d-flex">
-        <div class="cursor-pointer" @click.stop="switching = !switching">
-          {{ story.title }}
-        </div>
-        <div @click.stop>
-          {{
-            `${page < 9 ? '&nbsp;' : ''}${page + 1} / ${scenes.length < 9 ? '&nbsp;' : ''}${scenes.length}`
-          }}
         </div>
       </div>
     </div>

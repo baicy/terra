@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import { getJSON } from '@/utils/utils'
 import type { Storyline, Episode, EpisodeOrigin } from '@/utils/types'
+import { DATA_SOURCE } from '@/utils/constants'
 
 export const useStorylineStore = defineStore('storyline', () => {
-  const DATA_SOURCE =
-    'https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/'
-  const LANG = 'zh_CN'
-  const dbSource = `${DATA_SOURCE}${LANG}`
+  const lang = 'cn'
+  const dbSource = DATA_SOURCE[lang]
 
   const storylines: Record<string, Storyline> = reactive({})
   async function loadStories() {
