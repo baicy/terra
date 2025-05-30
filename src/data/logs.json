@@ -2,7 +2,7 @@
   {
     "fake": true,
     "id": "act42sre",
-    "name": "众生行记",
+    "name": "众生行记·复刻",
     "type": "SIDESTORY",
     "color": ["#004fd4"],
     "start": "2026-05-22 16:00",
@@ -227,19 +227,7 @@
     "timeline": 0
   },
   {
-    "id": "act5bossrush",
-    "name": "引航者试炼#04",
-    "type": "BOSSRUSH",
-    "color": ["#f4c430"],
-    "start": "2025-07-05 16:00",
-    "days": 14,
-    "reward": {
-      "type": "skin",
-      "id": "希腊奶"
-    },
-    "timeline": 2
-  },
-  {
+    "fake": true,
     "id": "actanime3login",
     "name": "《明日方舟：焰烬曙明》开播纪念",
     "type": "LOGIN",
@@ -247,6 +235,20 @@
     "start": "2025-07-04 04:00",
     "days": 20,
     "timeline": 4
+  },
+  {
+    "fake": true,
+    "id": "act5bossrush",
+    "name": "引航者试炼#05",
+    "type": "BOSSRUSH",
+    "color": ["#f4c430"],
+    "start": "2025-06-29 16:00",
+    "days": 14,
+    "reward": {
+      "type": "skin",
+      "id": "摩根"
+    },
+    "timeline": 2
   },
   {
     "id": "act34sre",
@@ -266,9 +268,9 @@
     "timeline": 0
   },
   {
-    "fake": true,
     "id": "kuiyingcollection",
-    "name": "傀影与猩红孤钻 N15",
+    "name": "集成回顾 傀影与猩红孤钻 重返古堡",
+    "title": "难度更改·~ N15",
     "type": "COLLECTION",
     "color": ["#b4382f"],
     "start": "2025-06-05 16:00",
@@ -277,20 +279,32 @@
   },
   {
     "id": "act6yueside",
-    "name": "6月SS",
+    "name": "红丝绒",
     "type": "SIDESTORY",
-    "color": [],
-    "fake": true,
+    "color": ["#941b38"],
     "start": "2025-06-05 16:00",
     "days": 14,
+    "reward": {
+      "type": "char",
+      "id": "char__chiristine"
+    },
     "infinity": ["meng", "chun"],
     "timeline": 0
+  },
+  {
+    "id": "act3signvs",
+    "name": "端阳正午签到",
+    "type": "LUNAR",
+    "color": ["#6a8029"],
+    "start": "2025-05-29 04:00",
+    "days": 10,
+    "timeline": 4
   },
   {
     "id": "act1break",
     "name": "矢量突破#1 无机物",
     "type": "VEC_BREAK_V2",
-    "color": ["#fff211"],
+    "color": ["#fff000"],
     "start": "2025-05-15 16:00",
     "days": 21,
     "reward": {
@@ -300,7 +314,7 @@
     "timeline": 2
   },
   {
-    "id": "act6ysign",
+    "id": "act49sign",
     "name": "「六周年庆典」限时签到",
     "type": "CHECKIN",
     "color": ["#519ba4"],
@@ -316,7 +330,7 @@
     "id": "act42side",
     "name": "众生行记",
     "type": "SIDESTORY",
-    "color": ["#004fd4"],
+    "color": ["#0050d5"],
     "start": "2025-05-01 16:00",
     "retro": "act42side",
     "days": 21,

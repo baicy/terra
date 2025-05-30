@@ -71,7 +71,7 @@
     ],
     "color": ["#bb0f47"]
   },
-  "DOUBLE_61_0_5": {
+  "DOUBLE_62_0_1": {
     "fake": true,
     "id": "DOUBLE_59_0_4",
     "name": "",
@@ -80,7 +80,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": []
+        "chars": ["char_1032_excu2"]
       },
       {
         "rarity": 5,
@@ -89,23 +89,69 @@
     ],
     "color": []
   },
-  "DOUBLE_62_0_4": {
+  "CLASSIC_DOUBLE_62_0_2": {
     "fake": true,
-    "id": "DOUBLE_59_0_4",
-    "name": "",
-    "type": "standard",
-    "start": "2025-06-05 04:00",
+    "id": "CLASSIC_DOUBLE_61_0_2",
+    "type": "classic",
+    "start": "2025-06-12 04:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_1032_excu2", "char_4055_bgsnow"]
+        "chars": []
       },
       {
         "rarity": 5,
         "chars": []
       }
+    ]
+  },
+  "SINGLE_62_0_1": {
+    "id": "SINGLE_51_0_1",
+    "name": "永不落幕",
+    "type": "single",
+    "start": "2025-06-05 16:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": ["char__phatom2"]
+      },
+      {
+        "rarity": 5,
+        "chars": ["char__dibi", "char_4140_lasher"]
+      }
+    ],
+    "color": ["#1f37e2"]
+  },
+  "DOUBLE_61_0_5": {
+    "id": "DOUBLE_61_0_5",
+    "type": "standard",
+    "start": "2025-06-05 04:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": ["char_4055_bgsnow", "char_4080_lin"]
+      },
+      {
+        "rarity": 5,
+        "chars": ["char_4032_provs", "char_4173_nowell", "char_4052_surfer"]
+      }
     ],
     "color": []
+  },
+  "CLASSIC_DOUBLE_61_0_2": {
+    "id": "CLASSIC_DOUBLE_61_0_2",
+    "type": "classic",
+    "start": "2025-05-29 04:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": ["char_250_phatom", "char_136_hsguma"]
+      },
+      {
+        "rarity": 5,
+        "chars": ["char_436_whispr", "char_254_vodfox", "char_129_bluep"]
+      }
+    ]
   },
   "DOUBLE_61_0_4": {
     "id": "DOUBLE_61_0_4",
@@ -122,7 +168,7 @@
         "chars": ["char_4105_almond", "char_4155_talr", "char_4147_mitm"]
       }
     ],
-    "color": ["#415aa3"]
+    "color": ["#415fb2"]
   },
   "FESCLASSIC_61_0_1": {
     "id": "FESCLASSIC_61_0_1",

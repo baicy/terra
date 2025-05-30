@@ -6,8 +6,6 @@ import dayjs from 'dayjs'
 import { useCharacterStore } from '@/stores/character'
 import { useSystemStore } from '@/stores/system'
 
-const dev = import.meta.env.DEV
-
 const operators = useCharacterStore().list
 const system = useSystemStore()
 
@@ -179,7 +177,6 @@ const tab = ref(route.hash.substring(1) || 'list')
           <div class="d-flex h40">
             <v-checkbox v-model="infoType" label="无时装" value="skin" />
             <v-checkbox
-              v-if="dev"
               v-model="infoType"
               label="无123罗德岛!?"
               value="comic"
