@@ -1,6 +1,23 @@
 [
   {
     "fake": true,
+    "id": "act43sre",
+    "name": "红丝绒·复刻",
+    "type": "SIDESTORY",
+    "color": ["#941b38"],
+    "start": "2026-06-15 16:00",
+    "retro": "act43side",
+    "days": 10,
+    "reward": {
+      "type": "char",
+      "id": "char_4198_christ"
+    },
+    "drop": ["zhi", "hejin", "device"],
+    "infinity": ["meng", "chun"],
+    "timeline": 0
+  },
+  {
+    "fake": true,
     "id": "act42sre",
     "name": "众生行记·复刻",
     "type": "SIDESTORY",
@@ -268,7 +285,7 @@
     "timeline": 0
   },
   {
-    "id": "kuiyingcollection",
+    "id": "act4collection",
     "name": "集成回顾 傀影与猩红孤钻 重返古堡",
     "title": "难度更改·~ N15",
     "type": "COLLECTION",
@@ -278,16 +295,18 @@
     "timeline": 2
   },
   {
-    "id": "act6yueside",
+    "id": "act43side",
     "name": "红丝绒",
     "type": "SIDESTORY",
     "color": ["#941b38"],
     "start": "2025-06-05 16:00",
+    "retro": "act43side",
     "days": 14,
     "reward": {
       "type": "char",
-      "id": "char__chiristine"
+      "id": "char_4198_christ"
     },
+    "drop": ["zhi", "hejin", "device"],
     "infinity": ["meng", "chun"],
     "timeline": 0
   },

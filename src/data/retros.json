@@ -1,5 +1,18 @@
 [
   {
+    "id": "act43side",
+    "name": "红丝绒",
+    "type": "SIDESTORY",
+    "first": "2025-06-05 16:00",
+    "rerun": "",
+    "reid": "",
+    "trail": "",
+    "reward": {
+      "type": "char",
+      "id": "char_4198_christ"
+    }
+  },
+  {
     "id": "act42side",
     "name": "众生行记",
     "type": "SIDESTORY",
@@ -281,7 +294,8 @@
     "reward": {
       "type": "char",
       "id": "char_1031_slent2"
-    }
+    },
+    "color": "#d36234"
   },
   {
     "id": "act24side",

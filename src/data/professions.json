@@ -350,10 +350,10 @@
       },
       "soulcaster": {
         "name": "塑灵术师",
-        "code": "",
+        "code": "soc",
         "equiped": {
-          "x": "red",
-          "y": "red"
+          "x": "grey",
+          "y": "grey"
         }
       }
     }

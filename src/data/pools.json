@@ -89,38 +89,37 @@
     ],
     "color": []
   },
-  "CLASSIC_DOUBLE_62_0_2": {
-    "fake": true,
-    "id": "CLASSIC_DOUBLE_61_0_2",
+  "CLASSIC_DOUBLE_62_0_1": {
+    "id": "CLASSIC_DOUBLE_62_0_1",
     "type": "classic",
     "start": "2025-06-12 04:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": []
+        "chars": ["char_423_blemsh", "char_263_skadi"]
       },
       {
         "rarity": 5,
-        "chars": []
+        "chars": ["char_164_nightm", "char_101_sora", "char_115_headbr"]
       }
     ]
   },
   "SINGLE_62_0_1": {
-    "id": "SINGLE_51_0_1",
+    "id": "SINGLE_62_0_1",
     "name": "永不落幕",
     "type": "single",
     "start": "2025-06-05 16:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char__phatom2"]
+        "chars": ["char_1042_phatm2"]
       },
       {
         "rarity": 5,
-        "chars": ["char__dibi", "char_4140_lasher"]
+        "chars": ["char_4191_tippi", "char_4140_lasher"]
       }
     ],
-    "color": ["#1f37e2"]
+    "color": ["#3343e1"]
   },
   "DOUBLE_61_0_5": {
     "id": "DOUBLE_61_0_5",
