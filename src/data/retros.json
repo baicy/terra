@@ -199,7 +199,7 @@
     "name": "去咧嘴谷",
     "type": "MINISTORY",
     "first": "2024-01-09 16:00",
-    "trail": "",
+    "trail": "2025-07-03 16:00",
     "reward": {
       "type": "skin",
       "id": "char_183_skgoat@epoque#30"
@@ -277,11 +277,12 @@
     "first": "2023-06-08 16:00",
     "rerun": "2024-06-25 16:00",
     "reid": "act26sre",
-    "trail": "",
+    "trail": "2025-06-26 16:00",
     "reward": {
       "type": "char",
       "id": "char_498_inside"
-    }
+    },
+    "color": "#acdad8"
   },
   {
     "id": "act25side",

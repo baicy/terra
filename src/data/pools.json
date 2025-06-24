@@ -26,7 +26,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": [""]
+        "chars": ["char_2012_typhon"]
       },
       {
         "rarity": 5,
@@ -35,27 +35,59 @@
     ],
     "color": []
   },
-  "DOUBLE_62_0_5": {
+  "SINGLE_63_0_1": {
     "fake": true,
-    "id": "DOUBLE_59_0_4",
+    "id": "SINGLE_63_0_1",
+    "name": "炎",
+    "type": "single",
+    "start": "2025-07-08 16:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": ["惊蛰sp"]
+      },
+      {
+        "rarity": 5,
+        "chars": ["char_4191_tippi", "char_4140_lasher"]
+      }
+    ],
+    "color": ["#3343e1"]
+  },
+  "DOUBLE_62_0_4": {
+    "fake": true,
+    "id": "DOUBLE_62_0_4",
     "name": "",
     "type": "standard",
     "start": "2025-07-03 04:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_2012_typhon", "char_1039_thorn2"]
+        "chars": ["char_4072_ironmn", "char_1039_thorn2"]
       },
       {
         "rarity": 5,
-        "chars": []
+        "chars": ["char_494_vendla"]
       }
     ],
     "color": []
   },
-  "SINGLE_61_0_1": {
-    "fake": true,
-    "id": "SINGLE_51_0_1",
+  "CLASSIC_DOUBLE_62_0_2": {
+    "id": "CLASSIC_DOUBLE_62_0_2",
+    "type": "classic",
+    "start": "2025-06-26 04:00",
+    "pickup": [
+      {
+        "rarity": 6,
+        "chars": ["char_017_huang", "char_010_chen"]
+      },
+      {
+        "rarity": 5,
+        "chars": ["char_363_toddi", "char_173_slchan", "char_215_mantic"]
+      }
+    ]
+  },
+  "SINGLE_62_0_3": {
+    "id": "SINGLE_62_0_3",
     "name": "沉向深渊的锚",
     "type": "rerun",
     "start": "2025-06-19 16:00",
@@ -66,28 +98,27 @@
       },
       {
         "rarity": 5,
-        "chars": ["char_4079_haini"]
+        "chars": ["char_4079_haini", "char_4015_spuria"]
       }
     ],
     "color": ["#bb0f47"]
   },
-  "DOUBLE_62_0_1": {
-    "fake": true,
-    "id": "DOUBLE_59_0_4",
+  "DOUBLE_62_0_2": {
+    "id": "DOUBLE_62_0_2",
     "name": "",
     "type": "standard",
     "start": "2025-06-19 04:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_1032_excu2"]
+        "chars": ["char_1032_excu2", "char_4039_horn"]
       },
       {
         "rarity": 5,
-        "chars": []
+        "chars": ["char_4071_peper", "char_493_firwhl", "char_4171_wulfen"]
       }
     ],
-    "color": []
+    "color": ["#dcb452"]
   },
   "CLASSIC_DOUBLE_62_0_1": {
     "id": "CLASSIC_DOUBLE_62_0_1",

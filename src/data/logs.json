@@ -224,17 +224,17 @@
     "name": "集成战略#6 岁的界园志异",
     "type": "ROGUELIKE",
     "color": ["#e9b0d0"],
-    "start": "2025-07-16 16:00",
+    "start": "2025-07-15 16:00",
     "days": 14,
-    "timeline": 3
+    "timeline": 2
   },
   {
     "fake": true,
     "id": "act19mini",
-    "name": "大炎肉鸽故事集",
+    "name": "镜中集",
     "type": "MINISTORY",
-    "color": [],
-    "start": "2025-07-09 16:00",
+    "color": ["#ab263b"],
+    "start": "2025-07-08 16:00",
     "days": 7,
     "reward": {
       "type": "skin",
@@ -254,12 +254,20 @@
     "timeline": 4
   },
   {
-    "fake": true,
+    "id": "dev54",
+    "type": "DEV",
+    "color": ["#313131"],
+    "number": "54",
+    "start": "2025-06-24 17:00",
+    "days": 1,
+    "timeline": 3
+  },
+  {
     "id": "act5bossrush",
     "name": "引航者试炼#05",
     "type": "BOSSRUSH",
     "color": ["#f4c430"],
-    "start": "2025-06-29 16:00",
+    "start": "2025-06-24 16:00",
     "days": 14,
     "reward": {
       "type": "skin",
@@ -272,7 +280,6 @@
     "name": "生路·复刻",
     "type": "SIDESTORY",
     "color": ["#4d7b7d"],
-    "fake": true,
     "start": "2025-06-19 16:00",
     "retro": "act34side",
     "days": 10,
@@ -287,7 +294,7 @@
   {
     "id": "act4collection",
     "name": "集成回顾 傀影与猩红孤钻 重返古堡",
-    "title": "难度更改·~ N15",
+    "title": "难度更改· N15",
     "type": "COLLECTION",
     "color": ["#b4382f"],
     "start": "2025-06-05 16:00",
