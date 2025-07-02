@@ -26,7 +26,7 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_2012_typhon"]
+        "chars": ["char_2012_typhon", "char_1039_thorn2"]
       },
       {
         "rarity": 5,
@@ -36,25 +36,23 @@
     "color": []
   },
   "SINGLE_63_0_1": {
-    "fake": true,
     "id": "SINGLE_63_0_1",
-    "name": "炎",
+    "name": "青霆重明",
     "type": "single",
     "start": "2025-07-08 16:00",
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["惊蛰sp"]
+        "chars": ["char_1042_leizi2"]
       },
       {
         "rarity": 5,
-        "chars": ["char_4191_tippi", "char_4140_lasher"]
+        "chars": ["char_1042_luwuguan", "char_1036_fang2"]
       }
     ],
     "color": ["#3343e1"]
   },
   "DOUBLE_62_0_4": {
-    "fake": true,
     "id": "DOUBLE_62_0_4",
     "name": "",
     "type": "standard",
@@ -62,11 +60,11 @@
     "pickup": [
       {
         "rarity": 6,
-        "chars": ["char_4072_ironmn", "char_1039_thorn2"]
+        "chars": ["char_4072_ironmn", "char_4082_qiubai"]
       },
       {
         "rarity": 5,
-        "chars": ["char_494_vendla"]
+        "chars": ["char_494_vendla", "char_4083_chimes", "char_492_quercu"]
       }
     ],
     "color": []
